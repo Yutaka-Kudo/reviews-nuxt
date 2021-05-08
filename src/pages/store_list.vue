@@ -8,10 +8,10 @@
             :media_data_list_by_store="media_data_list_by_store"
             :content_list="content_list"
         />
-        <Pagination
+        <!-- <Pagination
             :page_length="pages.page_length"
             @page_change="page_change"
-        />
+        /> -->
     </div>
 </template>
 
@@ -50,18 +50,20 @@ export default {
                 // console.log("mount");
 
                 console.log(this.pages["page_length"]);
-                let sliced_store_list = this.store_list.slice(
-                    this.pages["page_size"] * (page_num - 1),
-                    this.pages["page_size"] * page_num
-                ); // 1ページ分のデータ
+                // let sliced_store_list = this.store_list.slice(
+                //     this.pages["page_size"] * (page_num - 1),
+                //     this.pages["page_size"] * page_num
+                // ); // 1ページ分のデータ
 
                 // media_data取得ーーーーーーー
                 this.media_data_list_by_store.splice(0);
-                for (var i in sliced_store_list) {
-                    var store_data = sliced_store_list[i];
+                // for (var i in sliced_store_list) {
+                //     var store_data = sliced_store_list[i];
+                for(var num = 1; num <=10 ; num++){
                     await this.$axios
                         .get(
-                            `http://127.0.0.1:8000/api/media_data/?store=${store_data.id}`
+                            // `http://127.0.0.1:8000/api/media_data/?store=${store_data.id}`
+                            `http://127.0.0.1:8000/api/media_data/?store=${num}`
                         )
                         .then(function (res) {
                             that.media_data_list_by_store.push(res.data);
@@ -191,21 +193,26 @@ export default {
         let that = this;
         // console.log("mount");
 
-        this.pages["page_length"] = Math.ceil(
-            this.store_list.length / this.pages["page_size"]
-        ); //ページ数、決定
-        console.log(this.pages["page_length"]);
-        let sliced_store_list = this.store_list.slice(
-            0,
-            this.pages["page_size"]
-        ); // 1ページ分のデータ
+        // this.pages["page_length"] = Math.ceil(
+        //     this.store_list.length / this.pages["page_size"]
+        // ); //ページ数、決定
+        this.pages["page_length"] = 2
+
+        // console.log(this.pages["page_length"]);
+        // let sliced_store_list = this.store_list.slice(
+        //     0,
+        //     this.pages["page_size"]
+        // ); // 1ページ分のデータ
 
         // media_data取得ーーーーーーー
-        for (var i in sliced_store_list) {
-            var store_data = sliced_store_list[i];
+        // for (var i in sliced_store_list) {
+        for(var num = 1; num <=10 ; num++){
+
+            // var store_data = sliced_store_list[i];
             await this.$axios
                 .get(
-                    `http://127.0.0.1:8000/api/media_data/?store=${store_data.id}`
+                    // `http://127.0.0.1:8000/api/media_data/?store=${store_data.id}`
+                    `http://127.0.0.1:8000/api/media_data/?store=${num}`
                 )
                 .then(function (res) {
                     that.media_data_list_by_store.push(res.data);

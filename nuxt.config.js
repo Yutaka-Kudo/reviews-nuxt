@@ -105,4 +105,14 @@ export default {
 	},
 	srcDir: 'src/',  //srcディレクトリにまとめて整理
 
+	// generate: {
+	// 	routes() {
+	// 		return axios.get('http://127.0.0.1:8000/api/stores/').then((res) => {
+	// 			return {
+	// 				payload:res.data,
+	// 			}
+	// 		})
+	// 	}
+	// }
+
 }
