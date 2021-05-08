@@ -1,85 +1,13 @@
 <template>
     <v-row justify="center" align="center">
         <v-col cols="12" sm="8" md="6">
-            <div class="text-center">
-                <logo />
-                <Te />
-                <p>{{data_list}}</p>
-                <!-- <p>{{data_list}}</p> -->
-                <!-- <p v-for="data in data_list">{{data.area_name}}</p> -->
-                <vuetify-logo />
-            </div>
-            <v-card>
-                <v-card-title class="headline">
-                    Welcome to the Vuetify + Nuxt.js template
-                </v-card-title>
-                <v-card-text>
-                    <p>
-                        Vuetify is a progressive Material Design component
-                        framework for Vue.js. It was designed to empower
-                        developers to create amazing applications.
-                    </p>
-                    <p>
-                        For more information on Vuetify, check out the
-                        <a
-                            href="https://vuetifyjs.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            documentation </a
-                        >.
-                    </p>
-                    <p>
-                        If you have questions, please join the official
-                        <a
-                            href="https://chat.vuetifyjs.com/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title="chat"
-                        >
-                            discord </a
-                        >.
-                    </p>
-                    <p>
-                        Find a bug? Report it on the github
-                        <a
-                            href="https://github.com/vuetifyjs/vuetify/issues"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title="contribute"
-                        >
-                            issue board </a
-                        >.
-                    </p>
-                    <p>
-                        Thank you for developing with Vuetify and I look forward
-                        to bringing more exciting features in the future.
-                    </p>
-                    <div class="text-xs-right">
-                        <em><small>&mdash; John Leider</small></em>
-                    </div>
-                    <hr class="my-3" />
-                    <a
-                        href="https://nuxtjs.org/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Nuxt Documentation
-                    </a>
-                    <br />
-                    <a
-                        href="https://github.com/nuxt/nuxt.js"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Nuxt GitHub
-                    </a>
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer />
-                    <v-btn color="primary" nuxt to="/inspire"> Continue </v-btn>
-                </v-card-actions>
-            </v-card>
+            <AreaSearch :area_list="area_list" @get_area_obj="get_area_obj" />
+            <StoreSearch :store_list="store_list" @get_ref="get_ref" />
+
+            <!-- <div class="text-center"> -->
+                <!-- <logo /> -->
+                <!-- <vuetify-logo /> -->
+            <!-- </div> -->
         </v-col>
     </v-row>
 </template>
@@ -87,46 +15,73 @@
 <script>
 import Logo from "~/components/Logo.vue";
 import VuetifyLogo from "~/components/VuetifyLogo.vue";
-import Te from "~/components/Te.vue";
+import AreaSearch from "~/components/AreaSearch.vue";
+import StoreSearch from "~/components/StoreSearch.vue";
 
 export default {
     components: {
         Logo,
         VuetifyLogo,
-        Te,
+        AreaSearch,
+        StoreSearch,
     },
     data() {
         return {
-            data_list: [],
+            area_list: [],
+            store_list: [],
+            review_obj_list: [],
+            ref: "",
         };
     },
-    // async asyncData({$axios}){
-    //   const that = this;
-    //   // console.log(this);
-    //   // const url = "https://qiita.com/api/v2/items";
-    //   // const response = await $axios.$get(url);
-    //   const response = await $axios.$get("http://127.0.0.1:8000/api/area/");
-    //   // .catch(function(error){
-        
-    //   // });
-    //   console.log(response);
-    //   // return{
-    //   //   data_list: response
-    //   // }
-    //   return{
-    //     data_list: response
-    //   }
-    // }
-    mounted: function () {
-        let that = this;
-        const d = this.$axios.$get("http://127.0.0.1:8000/api/area/")
-        .then(function(res){
-          console.log(res);
-          that.data_list = res
 
-        }
+    async fetch({ store, $axios }) {
+        const res = await $axios
+            .get("http://127.0.0.1:8000/api/area/")
+            .catch(function (e) {
+                console.log(e);
+            });
+        store.commit("set_area_list", res.data);
+    },
 
-        )
+    async asyncData({ $axios, $store }) {
+        console.log(
+            `I am rendered on the ${process.client ? "client" : "server"}`
+        );
+
+        // console.log(res.data);
+        // return { area_list: res.data };
+    },
+
+    created: function () {
+        this.area_list = this.$store.getters["area_list"];
+    },
+
+    mounted:function(){
+        this.store_list = this.$store.getters["store_list"].length ? this.$store.getters["store_list"] : [];
+    },
+
+    methods: {
+        // area_idからstoreのリストを取る
+        get_area_obj: function (obj) {
+            let that = this;
+            console.log(obj.id, obj.area_name);
+
+            // create_store_list
+            this.$axios
+                .get(`http://127.0.0.1:8000/api/stores/?area=${obj.id}`)
+                .then(function (res) {
+                    that.store_list = res.data;
+                })
+                .catch(function (e) {
+                    console.log(e);
+                });
+
+            this.ref.focus(); // 店名入力フォームにフォーカス
+        },
+
+        get_ref: function (obj) {
+            this.ref = obj;
+        },
     },
 };
 </script>
