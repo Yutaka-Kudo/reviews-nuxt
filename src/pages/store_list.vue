@@ -61,7 +61,7 @@ export default {
                     var store_data = sliced_store_list[i];
                     await this.$axios
                         .get(
-                            `http://127.0.0.1:8000/api/media_data/?store=${store_data.id}`
+                            `media_data/?store=${store_data.id}`
                         )
                         .then(function (res) {
                             that.media_data_list_by_store.push(res.data);
@@ -121,7 +121,7 @@ export default {
                     for (var media_data of media_data_by_store) {
                         await this.$axios
                             .get(
-                                `http://127.0.0.1:8000/api/reviews/?media=${media_data.id}`
+                                `reviews/?media=${media_data.id}`
                             )
                             .then(function (res) {
                                 that.review_obj_list.push(res.data.slice(0, 3)); // sliceで制限かける
@@ -205,7 +205,7 @@ export default {
             var store_data = sliced_store_list[i];
             await this.$axios
                 .get(
-                    `http://127.0.0.1:8000/api/media_data/?store=${store_data.id}`
+                    `media_data/?store=${store_data.id}`
                 )
                 .then(function (res) {
                     that.media_data_list_by_store.push(res.data);
@@ -262,7 +262,7 @@ export default {
             for (var media_data of media_data_by_store) {
                 await this.$axios
                     .get(
-                        `http://127.0.0.1:8000/api/reviews/?media=${media_data.id}`
+                        `reviews/?media=${media_data.id}`
                     )
                     .then(function (res) {
                         that.review_obj_list.push(res.data.slice(0, 3)); // sliceで制限かける

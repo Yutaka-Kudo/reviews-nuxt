@@ -36,7 +36,7 @@ export default {
 
     async fetch({ store, $axios }) {
         const res = await $axios
-            .get("http://127.0.0.1:8000/api/area/")
+            .get("area/")
             .catch(function (e) {
                 console.log(e);
             });
@@ -68,7 +68,7 @@ export default {
 
             // create_store_list
             this.$axios
-                .get(`http://127.0.0.1:8000/api/stores/?area=${obj.id}`)
+                .get(`stores/?area=${obj.id}`)
                 .then(function (res) {
                     that.store_list = res.data;
                 })

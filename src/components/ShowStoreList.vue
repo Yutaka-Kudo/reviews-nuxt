@@ -8,66 +8,78 @@
             outlines
             v-cloak
         >
-            <div class="card_head">
-                <v-card-title
-                    class="store_name text-h5"
-                >
+            <div class="card_head d-flex flex-column align-center flex-sm-row">
+                <v-card-title class="store_name text-h5 pb-1 pb-sm-0">
                     <span
                         v-if="media_data['uber_only']"
                         class="uber_limited"
                     ></span>
                     <Tooltips :store_name="media_data[0].store.store_name" />
                 </v-card-title>
-                <span class="rate_num_total">{{
-                    media_data.total_rate == "0.0"
-                        ? " -"
-                        : media_data.total_rate
-                }}</span>
-                <RateStar :value="media_data.total_rate" />
+                <span class="rate_num_total align-self-sm-end"
+                    >{{
+                        media_data.total_rate == "0.0"
+                            ? " -"
+                            : media_data.total_rate
+                    }}
+                    <RateStar :value="media_data.total_rate" />
+                </span>
             </div>
 
-            <v-card-subtitle
-                class="rate_by_media"
-                v-for="media_d in media_data"
-                :key="media_d.id"
-            >
-                <p class="media_link">
-                    <a :href="media_d['url']" target="_blank">{{
-                        media_d["media_type"]["official_name"]
-                    }}</a>
-                </p>
-                <p>
-                    <span
-                        v-if="
-                            media_d['media_type']['official_name'] ==
-                                'Google' ||
-                            media_d['media_type']['official_name'] ==
-                                '食べログ' ||
-                            media_d['media_type']['official_name'] == 'UberEats'
-                        "
-                        >{{ media_d["rate"] }}
-                        <RateStar class="star" :value="media_d['rate']"
-                    /></span>
-
-                    <span class="review_count">{{
-                        media_d["review_count"] | if_zero
-                    }}</span>
-                </p>
-            </v-card-subtitle>
+            <div class="d-flex flex-wrap justify-space-around justify-sm-start">
+                <v-card-subtitle
+                    class="rate_by_media pb-1"
+                    v-for="media_d in media_data"
+                    :key="media_d.id"
+                >
+                    <div class="d-flex flex-column">
+                        <div class="d-flex justify-center">
+                            <p class="media_link">
+                                <a :href="media_d['url']" target="_blank">{{
+                                    media_d["media_type"]["official_name"]
+                                }}</a>
+                            </p>
+                            <span class="review_count ml-2">{{
+                                media_d["review_count"] | if_zero
+                            }}</span>
+                        </div>
+                        <span
+                            v-if="
+                                media_d['media_type']['official_name'] ==
+                                    'Google' ||
+                                media_d['media_type']['official_name'] ==
+                                    '食べログ' ||
+                                media_d['media_type']['official_name'] ==
+                                    'UberEats'
+                            "
+                        >
+                            {{ media_d["rate"] }}
+                            <RateStar class="star" :value="media_d['rate']" />
+                        </span>
+                    </div>
+                </v-card-subtitle>
+            </div>
 
             <!-- <p>新規順</p> -->
             <div v-for="content in content_list" :key="content.id">
                 <v-divider></v-divider>
-                <v-card-text
+                <!-- <v-card-text
                     v-if="content['store_id'] === media_data[0]['store']['id']"
                     class="rev_item"
+                > -->
+                <v-card-text
+                    v-if="content['store_id'] === media_data[0]['store']['id']"
+                    class="rev_item d-flex flex-column align-center flex-sm-row justify-sm-space-between"
                 >
-                    <div class="rev_head">
+                    <v-chip
+                        class="rev_head d-sm-none mb-2 align-self-center"
+                        :class="{ rev_head_opened: content['seen'] == true }"
+                    >
                         <span class="review_date">{{
-                            content["review_date"]
+                            content["review_date"] | Ym
                         }}</span>
                         <span
-                            class="star"
+                            class="rate ml-3"
                             v-if="
                                 content['media_type'] == 'Google' ||
                                 content['media_type'] == '食べログ'
@@ -83,16 +95,46 @@
                         >
                             <RateStar :value="content['review_point']" />
                         </span>
-                    </div>
+                    </v-chip>
+                    <v-card
+                        class="rev_head d-none d-sm-flex flex-sm-column align-sm-center align-self-sm-start mr-3 flex-sm-shrink-0"
+                        :class="{
+                            'rev_head_opened mt-6': content['seen'] == true,
+                        }"
+                        height="auto"
+                        width="110"
+                        elevation="5"
+                    >
+                        <span class="review_date">{{
+                            content["review_date"] | Ym
+                        }}</span>
+                        <span
+                            class="rate ml-3"
+                            v-if="
+                                content['media_type'] == 'Google' ||
+                                content['media_type'] == '食べログ'
+                            "
+                            >{{ content["review_point"] | rate_for_star }}
+                        </span>
+                        <span
+                            class="star"
+                            v-if="
+                                content['media_type'] == 'Google' ||
+                                content['media_type'] == '食べログ'
+                            "
+                        >
+                            <RateStar :value="content['review_point']" />
+                        </span>
+                    </v-card>
 
                     <!-- 本文 -->
-                    <div class="rev_content">
+                    <div class="rev_content flex-sm-grow-1 flex-sm-shrink-1">
                         <div
                             class="rev_content_text"
                             @click="show_detail(content)"
                             v-if="!content['seen']"
                             :class="{
-                                continue: content['content'].length > 120,
+                                continue: content['content'].length > 100,
                             }"
                         >
                             {{ content["content"] | content_view }}
@@ -112,7 +154,9 @@
                         </v-expand-transition>
                     </div>
 
-                    <span class="media_type">{{ content["media_type"] }}</span>
+                    <span class="media_type align-self-end flex-sm-shrink-0">{{
+                        content["media_type"]
+                    }}</span>
                 </v-card-text>
             </div>
         </v-card>
@@ -155,7 +199,7 @@ export default {
         //     return text.length > 28 ? text.slice(0, 28) + "..." : text;
         // },
         content_view(text) {
-            return text.length > 120 ? text.slice(0, 120) + "..." : text;
+            return text.length > 100 ? text.slice(0, 100) + "..." : text;
         },
         rate_for_star(text) {
             return Number(text).toFixed(1);
@@ -205,34 +249,16 @@ export default {
     font-size: 13px;
 }
 
-.rev_item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-.rev_head {
-    flex-shrink: 0;
-    flex-basis: 110px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-self: flex-start;
-}
-.rev_head span {
-    /* display: block; */
-}
-.rev_content_text {
-    flex-grow: 1;
-    margin: 0 20px;
+.rev_head_opened {
+    position: sticky;
+    /* top: 100px; */
+    top: 65px;
 }
 .rev_content_text_detail {
     white-space: pre-line;
 }
 .media_type {
-    /* justify-self: flex-end; */
     flex-basis: auto;
-    align-self: flex-end;
-    flex-shrink: 0;
 }
 .continue:after {
     display: inline-block;
@@ -258,5 +284,10 @@ export default {
     margin-left: 5px;
     line-height: 13px;
     border-radius: 3px;
+}
+
+@media (max-width: 860px) {
+}
+@media screen and (max-width: 480px) {
 }
 </style>
