@@ -117,6 +117,7 @@ export default {
 
                 this.review_obj_list = [];
                 this.content_list = [];
+
                 for (var media_data_by_store of this.media_data_list_by_store) {
                     for (var media_data of media_data_by_store) {
                         await this.$axios
@@ -256,7 +257,8 @@ export default {
             });
         }
         // console.log(JSON.stringify(this.media_data_list_by_store));
-
+        console.log(this.media_data_list_by_store);
+        console.log("7777777777777");
         this.review_obj_list.splice(0);
         for (var media_data_by_store of this.media_data_list_by_store) {
             for (var media_data of media_data_by_store) {

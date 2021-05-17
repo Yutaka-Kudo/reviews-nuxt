@@ -45,12 +45,15 @@
                         </div>
                         <span
                             v-if="
-                                media_d['media_type']['official_name'] ==
+                                media_d['review_count'] &&
+                                (media_d['media_type']['official_name'] ==
                                     'Google' ||
                                 media_d['media_type']['official_name'] ==
                                     '食べログ' ||
                                 media_d['media_type']['official_name'] ==
-                                    'UberEats'
+                                    'UberEats' ||
+                                media_d['media_type']['official_name'] ==
+                                    'ぐるなび')
                             "
                         >
                             {{ media_d["rate"] }}
@@ -62,11 +65,10 @@
 
             <!-- <p>新規順</p> -->
             <div v-for="content in content_list" :key="content.id">
-                <v-divider></v-divider>
-                <!-- <v-card-text
+                <v-divider
+                    inset
                     v-if="content['store_id'] === media_data[0]['store']['id']"
-                    class="rev_item"
-                > -->
+                ></v-divider>
                 <v-card-text
                     v-if="content['store_id'] === media_data[0]['store']['id']"
                     class="rev_item d-flex flex-column align-center flex-sm-row justify-sm-space-between"
@@ -82,7 +84,8 @@
                             class="rate ml-3"
                             v-if="
                                 content['media_type'] == 'Google' ||
-                                content['media_type'] == '食べログ'
+                                content['media_type'] == '食べログ' ||
+                                content['media_type'] == 'ぐるなび'
                             "
                             >{{ content["review_point"] | rate_for_star }}
                         </span>
@@ -90,7 +93,8 @@
                             class="star"
                             v-if="
                                 content['media_type'] == 'Google' ||
-                                content['media_type'] == '食べログ'
+                                content['media_type'] == '食べログ' ||
+                                content['media_type'] == 'ぐるなび'
                             "
                         >
                             <RateStar :value="content['review_point']" />
@@ -112,7 +116,8 @@
                             class="rate ml-3"
                             v-if="
                                 content['media_type'] == 'Google' ||
-                                content['media_type'] == '食べログ'
+                                content['media_type'] == '食べログ' ||
+                                content['media_type'] == 'ぐるなび'
                             "
                             >{{ content["review_point"] | rate_for_star }}
                         </span>
@@ -120,7 +125,8 @@
                             class="star"
                             v-if="
                                 content['media_type'] == 'Google' ||
-                                content['media_type'] == '食べログ'
+                                content['media_type'] == '食べログ' ||
+                                content['media_type'] == 'ぐるなび'
                             "
                         >
                             <RateStar :value="content['review_point']" />

@@ -18,6 +18,11 @@ import VuetifyLogo from "~/components/VuetifyLogo.vue";
 import AreaSearch from "~/components/AreaSearch.vue";
 import StoreSearch from "~/components/StoreSearch.vue";
 
+import * as algoliasearch from "algoliasearch";
+import config from "/algolia.config.js"
+const client = algoliasearch(config.appId, config.apiKey)
+const index = client.initIndex("restaurant")
+
 export default {
     components: {
         Logo,

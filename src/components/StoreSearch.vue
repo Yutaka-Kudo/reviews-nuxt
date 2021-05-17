@@ -31,6 +31,7 @@
 
 
 <script>
+
 export default {
     data() {
         return {
@@ -55,6 +56,10 @@ export default {
         store_submit_by_incremental(store_obj) {
             this.$router.push({ path: "store_list/" });
             this.$store.commit("set_store_search_word", this.search_word);
+            // 選んだ店を消去 → 先頭に入れる
+            this.filterd_store.splice(this.filterd_store.indexOf(store_obj),1)
+            this.filterd_store.unshift(store_obj)
+
             this.$store.commit("set_store_list", this.filterd_store);
         },
     },
