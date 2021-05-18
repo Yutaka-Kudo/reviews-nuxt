@@ -61,6 +61,7 @@ export default {
         this.area_list = this.$store.getters["area_list"];
     },
 
+    // ページ帰還時にリストを保持 いらないかも
     mounted:function(){
         this.store_list = this.$store.getters["store_list"].length ? this.$store.getters["store_list"] : [];
     },
