@@ -1,17 +1,19 @@
 <template>
-    <div>
-        <div>
+    <div class="bg">
+        <v-container>
+            <!-- <div> -->
             <!-- <Tran/> -->
-            <ToTop />
-        </div>
-        <ShowStoreList
-            :media_data_list_by_store="media_data_list_by_store"
-            :content_list="content_list"
-        />
-        <Pagination
-            :page_length="pages.page_length"
-            @page_change="page_change"
-        />
+            <!-- </div> -->
+
+            <ShowStoreList
+                :media_data_list_by_store="media_data_list_by_store"
+                :content_list="content_list"
+            />
+            <Pagination
+                :page_length="pages.page_length"
+                @page_change="page_change"
+            />
+        </v-container>
     </div>
 </template>
 
@@ -60,9 +62,7 @@ export default {
                 for (var i in sliced_store_list) {
                     var store_data = sliced_store_list[i];
                     await this.$axios
-                        .get(
-                            `media_data/?store=${store_data.id}`
-                        )
+                        .get(`media_data/?store=${store_data.id}`)
                         .then(function (res) {
                             that.media_data_list_by_store.push(res.data);
                         })
@@ -121,9 +121,7 @@ export default {
                 for (var media_data_by_store of this.media_data_list_by_store) {
                     for (var media_data of media_data_by_store) {
                         await this.$axios
-                            .get(
-                                `reviews/?media=${media_data.id}`
-                            )
+                            .get(`reviews/?media=${media_data.id}`)
                             .then(function (res) {
                                 that.review_obj_list.push(res.data.slice(0, 3)); // sliceで制限かける
 
@@ -205,9 +203,7 @@ export default {
         for (var i in sliced_store_list) {
             var store_data = sliced_store_list[i];
             await this.$axios
-                .get(
-                    `media_data/?store=${store_data.id}`
-                )
+                .get(`media_data/?store=${store_data.id}`)
                 .then(function (res) {
                     that.media_data_list_by_store.push(res.data);
                 })
@@ -263,9 +259,7 @@ export default {
         for (var media_data_by_store of this.media_data_list_by_store) {
             for (var media_data of media_data_by_store) {
                 await this.$axios
-                    .get(
-                        `reviews/?media=${media_data.id}`
-                    )
+                    .get(`reviews/?media=${media_data.id}`)
                     .then(function (res) {
                         that.review_obj_list.push(res.data.slice(0, 3)); // sliceで制限かける
 
@@ -312,13 +306,51 @@ export default {
 
         // console.log(JSON.stringify(this.review_obj_list));
     },
-    // transition:{
-    //     name:"bounce"
-    // }
+    transition: {
+        // name:"bounce"
+        name: "blind",
+    },
 };
 </script>
 
 <style scoped>
+.bg {
+    /* background-image: url("@/static/img/salad2.jpg"); */
+    background-image: linear-gradient( #6c3 0 10%, rgba(0, 0, 0, 0) 10% 20%,#6c3 20% 30%,rgba(0, 0, 0, 0) 30% 40%,#6c3 40% 50%,rgba(0, 0, 0, 0) 50% 60%,#6c3 60% 70%,rgba(0, 0, 0, 0) 70% 80%,#6c3 80% 90%,rgba(0, 0, 0, 0) 90% 100%),url("@/static/img/salad2.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    height: 100%;
+}
+.bg:before {
+    /* background: inherit; */
+    content: "";
+    filter: blur(3px);
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.3);
+    /* z-index: 1; */
+}
+.blind-enter-active {
+    animation: blind-in 0.8s;
+    transform-origin: left;
+}
+.blind-leave-active {
+    animation: blind-out 0.5s;
+}
+@keyframes blind-in {
+    0% {
+        transform: scaleX(0);
+    }
+    50% {
+        transform: scaleX(0.5);
+    }
+    100% {
+        transform: scaleX(1);
+    }
+}
 .bounce-enter-active {
     animation: bounce-in 0.8s;
 }

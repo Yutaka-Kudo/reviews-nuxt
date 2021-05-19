@@ -21,7 +21,11 @@ export default {
 		],
 		link: [
 			{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-		]
+		],
+		script: [
+			// lodash
+			{src:"https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"}
+		],
 	},
 
 	// Global CSS: https://go.nuxtjs.dev/config-css
@@ -106,5 +110,13 @@ export default {
 		devtools: true,
 	},
 	srcDir: 'src/',  //srcディレクトリにまとめて整理
+	// pageTransition: {
+	// 	name: 'page',
+	// 	mode: 'out-in',
+	// 	appear: true,
+	// 	beforeEnter(el) {
+	// 		console.log('Before enter...');
+	// 	}
+	// },
 
 }

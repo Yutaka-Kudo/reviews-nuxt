@@ -3,18 +3,17 @@
         <v-card
             v-for="media_data in media_data_list_by_store"
             :key="media_data.id"
-            class="item"
+            class="item mb-15"
             elevation="3"
             outlines
             v-cloak
         >
             <div class="card_head d-flex flex-column align-center flex-sm-row">
                 <v-card-title class="store_name text-h5 pb-1 pb-sm-0">
-                    <span
-                        v-if="media_data['uber_only']"
-                        class="uber_limited"
-                    ></span>
-                    <Tooltips :store_name="media_data[0].store.store_name" />
+                    <Tooltips
+                        :store_name="media_data[0].store.store_name"
+                        :class="{ uber_limited: media_data['uber_only'] }"
+                    />
                 </v-card-title>
                 <span class="rate_num_total align-self-sm-end"
                     >{{
@@ -48,12 +47,12 @@
                                 media_d['review_count'] &&
                                 (media_d['media_type']['official_name'] ==
                                     'Google' ||
-                                media_d['media_type']['official_name'] ==
-                                    '食べログ' ||
-                                media_d['media_type']['official_name'] ==
-                                    'UberEats' ||
-                                media_d['media_type']['official_name'] ==
-                                    'ぐるなび')
+                                    media_d['media_type']['official_name'] ==
+                                        '食べログ' ||
+                                    media_d['media_type']['official_name'] ==
+                                        'UberEats' ||
+                                    media_d['media_type']['official_name'] ==
+                                        'ぐるなび')
                             "
                         >
                             {{ media_d["rate"] }}
@@ -224,6 +223,10 @@ export default {
 </script>
 
 <style scoped>
+.v-card__text {
+    background-color: rgba(250, 250, 250, .8);
+    /* color: white; */
+}
 .store_name {
     display: inline-block;
 }
@@ -235,7 +238,8 @@ export default {
     display: inline-block;
 }
 .item {
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
+    background-color: rgba(255, 255, 255, .85);
 }
 .media_type:before {
     content: "by ";
@@ -286,8 +290,8 @@ export default {
     font-size: 13px;
     background: #ff9f80;
     color: #fff;
-    padding: 1px 5px 1px;
-    margin-left: 5px;
+    padding: 1px 5px;
+    margin: 0 5px;
     line-height: 13px;
     border-radius: 3px;
 }

@@ -12,19 +12,23 @@
                 clear-icon="mdi-close-circle"
                 clearable
                 filled
+                dark
+                background-color="rgba(255, 255, 255, 0.2)"
             />
 
             <!-- インクリメンタルサーチ -->
-            <ul>
-                <li
+            <transition-group name="incre_search">
+                <v-card
                     v-for="(store_data, index) in filtered_store"
                     :key="store_data.id"
-                    :class="index % 2 == 1 ? `isEven` : `noEven`"
                     @click="store_submit_by_incremental(store_data)"
+                    hover
+                    class="list_item pr-2 pl-2 mb-2 ml-8"
                 >
+                    <!-- :class="index % 2 == 1 ? `isEven` : `noEven`" -->
                     <span v-html="store_data.store_name"></span>
-                </li>
-            </ul>
+                </v-card>
+            </transition-group>
         </v-form>
     </div>
 </template>
@@ -44,24 +48,28 @@ export default {
 
     methods: {
         store_submit(event) {
+            let store_obj = this.store_list.find(
+                (v) => v.id == this.filtered_store[0].id
+            );
+            console.log(store_obj);
             this.$router.push({ path: "store_list/" });
             this.$store.commit("set_store_search_word", this.search_word);
             this.$store.commit("set_store_list", this.filtered_store);
-            // 日本語入力中のkeycodeは229。そこで発火しないように
-            // if (event.keyCode !== 229) {
-            // }
-            // なぜかこれ付けなくてもいける！！！！！
         },
-        store_submit_by_incremental(store_obj) {
+        store_submit_by_incremental(selected) {
+            let store_obj = this.store_list.find(
+                (v) => (v.id == v.id) == selected.id
+            );
+            console.log(store_obj);
             this.$router.push({ path: "store_list/" });
             this.$store.commit("set_store_search_word", this.search_word);
 
             // 選んだ店を消去 → 先頭に入れる
             this.filtered_store.splice(
-                this.filtered_store.indexOf(store_obj),
+                this.filtered_store.indexOf(selected),
                 1
             );
-            this.filtered_store.unshift(store_obj);
+            this.filtered_store.unshift(selected);
 
             this.$store.commit("set_store_list", this.filtered_store);
         },
@@ -96,7 +104,7 @@ export default {
                         store_data.store_name = `${name.slice(
                             0,
                             hit_index
-                        )}<span class="highlight" style="background:yellow;" >${name.slice(
+                        )}<span class="highlight" style="background:rgba(255, 255, 0, .4);" >${name.slice(
                             hit_index,
                             hit_index_last + 1
                         )}</span>${name.slice(hit_index_last + 1)}`;
@@ -122,22 +130,37 @@ export default {
 </script>
 
 <style scoped>
-.isEven {
-    list-style: none;
-    /* color: white; */
-    /* background: #757575; */
-    background: #d6d4d4;
-    border-radius: 3px;
-    width: max-content;
+.v-input {
+    font-size: large;
+    font-weight: bolder;
 }
-.isEven:hover {
-    background: #fb8c00;
+.v-sheet.v-card {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    width: fit-content;
 }
-.noEven {
-    list-style: none;
-    width: max-content;
+.v-sheet:hover {
+    background: rgba(150, 150, 0, 1);
 }
-.noEven:hover {
-    background: #ffcc80;
+
+/* トランジションーーーーーーー */
+.list_item {
+    transition: transform 0.5s, opacity .4s;
+    /* transition-duration: .7s; */
+    display: inline-block;
 }
+.incre_search-enter,
+.incre_search-leave-to {
+    /* transform: scale(0); */
+    transform: translateX(50px);
+    opacity: 0;
+}
+/* .incre_search-enter-active,  */
+.incre_search-leave-active {
+    position: absolute;
+}
+/* これかけると少し変わる */
+/* .incre_search-move{
+    transition: transform .5s;
+} */
 </style>

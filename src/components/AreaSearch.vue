@@ -11,18 +11,24 @@
                 clear-icon="mdi-close-circle"
                 clearable
                 filled
+                dark
+                background-color="rgba(255, 255, 255, 0.3)"
+                autofocus
             />
+            <!-- rounded -->
 
             <!-- インクリメンタルサーチ -->
-            <ul v-for="(area_data, index) in filterd_area" :key="area_data.id">
-                <li
-                    class="kouho"
-                    :class="index % 2 == 1 ? `isEven` : `noEven`"
+            <transition-group name="incre_search">
+                <v-card
+                    v-for="(area_data, index) in filtered_area"
+                    :key="area_data.id"
                     @click="area_submit_by_incremental(area_data)"
+                    class="list_item pr-2 pl-2 mb-2 ml-8"
                 >
-                    {{ area_data["area_name"] }}
-                </li>
-            </ul>
+                    <!-- :class="index % 2 == 1 ? `isEven` : `noEven`" -->
+                    <span v-html="area_data.area_name"></span>
+                </v-card>
+            </transition-group>
         </v-form>
     </div>
 </template>
@@ -40,33 +46,59 @@ export default {
     },
     methods: {
         area_submit(event) {
-            this.$emit("get_area_obj", this.filterd_area[0]);
-            this.$store.commit(
-                "set_area_search_word",
-                this.filterd_area[0]["area_name"]
+            let area_obj = this.area_list.find(
+                (v) => v.id == this.filtered_area[0].id
             );
+            console.log(area_obj);
+            this.search_word = area_obj.area_name;
+            this.$emit("get_area_obj", area_obj);
+            this.$store.commit("set_area_search_word", area_obj.area_name);
             // 日本語入力中のkeycodeは229。そこで発火しないように
             // if (event.keyCode !== 229) {
             // }
             // なぜかこれ付けなくてもいける！！！！！
         },
-        area_submit_by_incremental(area_obj) {
+        area_submit_by_incremental(selected) {
+            let area_obj = this.area_list.find((v) => v.id == selected.id);
+            this.search_word = area_obj.area_name;
             this.$emit("get_area_obj", area_obj);
-            this.$store.commit(
-                "set_area_search_word",
-                this.filterd_area[0]["area_name"]
-            );
+            this.$store.commit("set_area_search_word", area_obj.area_name);
         },
     },
     computed: {
-        filterd_area: function () {
+        filtered_area: function () {
             var f_area_list = [];
             if (!this.search_word) {
                 return f_area_list;
             } else {
                 for (var i in this.area_list) {
-                    var area_data = this.area_list[i];
-                    if (area_data.area_name.indexOf(this.search_word) != -1) {
+                    let area_data = Object.assign({}, this.area_list[i]); // 複製
+                    let name = area_data.area_name;
+                    if (
+                        name
+                            .toLowerCase()
+                            .indexOf(this.search_word.toLowerCase()) != -1
+                    ) {
+                        // search_wordのstr.indexOf
+                        var hit_index = name
+                            .toLowerCase()
+                            .indexOf(this.search_word.toLowerCase());
+                        // search_wordの最後の文字で照合 indexOfの第2引数がミソ
+                        var hit_index_last = name
+                            .toLowerCase()
+                            .indexOf(
+                                this.search_word.slice(-1).toLowerCase(),
+                                hit_index + this.search_word.length - 1
+                            );
+
+                        area_data.area_name = `${name.slice(
+                            0,
+                            hit_index
+                        )}<span class="highlight" style="background:rgba(255, 255, 0, .3);" >${name.slice(
+                            hit_index,
+                            hit_index_last + 1
+                        )}</span>${name.slice(hit_index_last + 1)}`;
+
                         f_area_list.push(area_data);
                     }
                 }
@@ -85,23 +117,39 @@ export default {
 </script>
 
 <style scoped>
-.area_wrap{
+.area_wrap {
     margin-bottom: 40px;
 }
-.isEven {
+.v-input {
+    font-size: large;
+    font-weight: bolder;
+}
+.v-sheet.v-card {
+    background-color: rgba(0, 0, 0, 0.6);
     color: white;
-    /* background: #ddd; */
-    background: #757575;
-    border-radius: 3px;
-    width: max-content;
+    width: fit-content;
 }
-.isEven:hover {
-    background: #fb8c00;
+.v-sheet:hover {
+    background: rgba(150, 150, 0, 1);
 }
-.noEven {
-    width: max-content;
+
+/* トランジションーーーーーーー */
+.list_item {
+    transition: transform 0.5s, opacity .4s;
+    display: inline-block;
 }
-.noEven:hover {
-    background: #ffcc80;
+.incre_search-enter,
+.incre_search-leave-to {
+    /* transform: scale(0); */
+    transform: translateX(-50px);
+    opacity: 0;
 }
+/* .incre_search-enter-active,  */
+.incre_search-leave-active {
+    position: absolute;
+}
+/* これかけると少し変わる */
+/* .incre_search-move{
+    transition: transform .5s;
+} */
 </style>

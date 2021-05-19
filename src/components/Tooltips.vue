@@ -20,7 +20,7 @@ export default {
             return text.length > 32 ? text.slice(0, 32) + "..." : text;
         },
         store_name_view_sm(text) {
-            return text.length > 42 ? text.slice(0, 42) + "..." : text;
+            return text.length > 36 ? text.slice(0, 36) + "..." : text;
         },
     },
 };
