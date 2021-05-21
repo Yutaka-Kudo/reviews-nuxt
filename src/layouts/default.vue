@@ -44,7 +44,7 @@
             <nuxt-link to="/">
                 <v-icon>mdi-home</v-icon>
             </nuxt-link>
-        <nuxt-link to="/inspire">aaaaa</nuxt-link>
+            <nuxt-link to="/inspire">aaaaa</nuxt-link>
 
             <v-btn icon @click.stop="clipped = !clipped">
                 <v-icon>mdi-application</v-icon>
@@ -59,9 +59,9 @@
             </v-btn>
         </v-app-bar>
         <v-main>
-            <!-- <v-container> -->
-            <nuxt />
-            <!-- </v-container> -->
+            <v-container>
+                <nuxt />
+            </v-container>
         </v-main>
         <v-navigation-drawer
             v-model="rightDrawer"
@@ -115,7 +115,6 @@ export default {
 </script>
 
 <style scoped>
-
 .v-application {
     background-image: url("@/static/img/acquapazza.jpg");
     background-attachment: fixed;

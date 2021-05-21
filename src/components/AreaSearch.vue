@@ -13,8 +13,8 @@
                 filled
                 dark
                 background-color="rgba(255, 255, 255, 0.3)"
-                autofocus
             />
+                <!-- autofocus -->
             <!-- rounded -->
 
             <!-- インクリメンタルサーチ -->

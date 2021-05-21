@@ -39,6 +39,7 @@ export default {
     data() {
         return {
             search_word: "",
+            f_store_list:[],
         };
     },
 
@@ -49,12 +50,12 @@ export default {
     methods: {
         store_submit(event) {
             let store_obj = this.store_list.find(
-                (v) => v.id == this.filtered_store[0].id
+                (v) => v.id == this.f_store_list[0].id
             );
             console.log(store_obj);
             this.$router.push({ path: "store_list/" });
             this.$store.commit("set_store_search_word", this.search_word);
-            this.$store.commit("set_store_list", this.filtered_store);
+            this.$store.commit("set_store_list", this.f_store_list);
         },
         store_submit_by_incremental(selected) {
             let store_obj = this.store_list.find(
@@ -65,21 +66,21 @@ export default {
             this.$store.commit("set_store_search_word", this.search_word);
 
             // 選んだ店を消去 → 先頭に入れる
-            this.filtered_store.splice(
-                this.filtered_store.indexOf(selected),
+            this.f_store_list.splice(
+                this.f_store_list.indexOf(selected),
                 1
             );
-            this.filtered_store.unshift(selected);
+            this.f_store_list.unshift(selected);
 
-            this.$store.commit("set_store_list", this.filtered_store);
+            this.$store.commit("set_store_list", this.f_store_list);
         },
     },
 
     computed: {
         filtered_store: function () {
-            var f_store_list = [];
+            this.f_store_list = [];
             if (!this.search_word) {
-                return f_store_list;
+                return this.f_store_list;
             } else {
                 for (var i in this.store_list) {
                     let store_data = Object.assign({}, this.store_list[i]); // 複製
@@ -109,10 +110,10 @@ export default {
                             hit_index_last + 1
                         )}</span>${name.slice(hit_index_last + 1)}`;
 
-                        f_store_list.push(store_data);
+                        this.f_store_list.push(store_data);
                     }
                 }
-                return f_store_list;
+                return this.f_store_list.slice(0,20);
             }
         },
     },
@@ -160,7 +161,9 @@ export default {
     position: absolute;
 }
 /* これかけると少し変わる */
-/* .incre_search-move{
-    transition: transform .5s;
-} */
+.incre_search-move{
+    /* transition: transform .5s; */
+}
+
+
 </style>

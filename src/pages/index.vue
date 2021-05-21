@@ -1,8 +1,6 @@
 <template>
     <div class="bg">
-        <nuxt-link to="/store_list">aaaaa</nuxt-link>
-        <p class="hello">rrrrrrr</p>
-        <div class="pt-16 pr-5 pl-5 d-flex align-top">
+        <div class="pt-16 pr-5 pl-5 d-flex flex-column align-center flex-md-row align-md-start">
             <v-col cols="12" sm="8" md="6">
                 <AreaSearch
                     :area_list="area_list"
@@ -118,6 +116,7 @@ export default {
 <style scoped>
 .search_box {
     /* background-color: black; */
+    overflow: hidden;
 }
 
 .scroll-enter-active {
