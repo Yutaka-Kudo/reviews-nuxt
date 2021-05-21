@@ -24,7 +24,15 @@
                 </v-list-item>
             </v-list>
         </v-navigation-drawer> -->
-        <v-app-bar :clipped-left="clipped" fixed app hide-on-scroll scroll-threshold="60">
+        <v-app-bar
+            :clipped-left="clipped"
+            fixed
+            dark
+            app
+            hide-on-scroll
+            scroll-threshold="60"
+            height="40"
+        >
             <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" /> -->
             <!-- <v-btn icon @click.stop="miniVariant = !miniVariant">
                 <v-icon
@@ -36,6 +44,8 @@
             <nuxt-link to="/">
                 <v-icon>mdi-home</v-icon>
             </nuxt-link>
+        <nuxt-link to="/inspire">aaaaa</nuxt-link>
+
             <v-btn icon @click.stop="clipped = !clipped">
                 <v-icon>mdi-application</v-icon>
             </v-btn>
@@ -50,7 +60,7 @@
         </v-app-bar>
         <v-main>
             <!-- <v-container> -->
-                <nuxt />
+            <nuxt />
             <!-- </v-container> -->
         </v-main>
         <v-navigation-drawer
@@ -105,8 +115,29 @@ export default {
 </script>
 
 <style scoped>
-.v-application{
-	/* background-color: rgba(118, 118, 255, 0.2); */
-}
 
+.v-application {
+    background-image: url("@/static/img/acquapazza.jpg");
+    background-attachment: fixed;
+    background-position: top;
+
+    background-size: cover;
+    height: 100%;
+    /* opacity: 0.5; */
+    /* 必須 */
+    position: relative;
+    z-index: 0;
+}
+.v-application:before {
+    /* background: inherit; */
+    content: "";
+    /* filter: blur(5px); */
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: -1;
+}
 </style>

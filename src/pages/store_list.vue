@@ -308,49 +308,53 @@ export default {
     },
     transition: {
         // name:"bounce"
-        name: "blind",
+        // name: "blind",
+        name: "scroll",
+        // mode: "in-out",
+        // mode: "out-in",
+        mode: "",
     },
 };
 </script>
 
 <style scoped>
 .bg {
-    /* background-image: url("@/static/img/salad2.jpg"); */
-    background-image: linear-gradient( #6c3 0 10%, rgba(0, 0, 0, 0) 10% 20%,#6c3 20% 30%,rgba(0, 0, 0, 0) 30% 40%,#6c3 40% 50%,rgba(0, 0, 0, 0) 50% 60%,#6c3 60% 70%,rgba(0, 0, 0, 0) 70% 80%,#6c3 80% 90%,rgba(0, 0, 0, 0) 90% 100%),url("@/static/img/salad2.jpg");
+    background-color: rgba(0, 0, 0, 0);
+
     background-attachment: fixed;
-    background-size: cover;
+
     height: 100%;
+    /* 必須 */
+
+    animation: opaMove 3s 3s forwards;
 }
-.bg:before {
-    /* background: inherit; */
-    content: "";
-    filter: blur(3px);
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    background-color: rgba(0, 0, 0, 0.3);
-    /* z-index: 1; */
-}
-.blind-enter-active {
-    animation: blind-in 0.8s;
-    transform-origin: left;
-}
-.blind-leave-active {
-    animation: blind-out 0.5s;
-}
-@keyframes blind-in {
+@keyframes opaMove {
     0% {
-        transform: scaleX(0);
-    }
-    50% {
-        transform: scaleX(0.5);
+            background-color: rgba(0, 0, 0, .0);
     }
     100% {
-        transform: scaleX(1);
+            background-color: rgba(0, 0, 0, .5);
     }
 }
+.scroll-enter-active {
+    /* animation: scroll-in 0.8s; */
+    transition: all 1s 1s;
+}
+.scroll-leave-active {
+    /* animation: scroll-in 0.8s; */
+    transition: all 1s;
+    position: absolute;
+}
+.scroll-enter,
+.scroll-leave-to {
+    transform: translateX(120%);
+    /* opacity: 0; */
+}
+
+.scroll-leave {
+    /* transform: translateX(0,0); */
+}
+
 .bounce-enter-active {
     animation: bounce-in 0.8s;
 }

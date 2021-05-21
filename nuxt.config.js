@@ -24,12 +24,13 @@ export default {
 		],
 		script: [
 			// lodash
-			{src:"https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"}
+			{ src: "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js" }
 		],
 	},
 
 	// Global CSS: https://go.nuxtjs.dev/config-css
 	css: [
+		"animate.css/animate.compat.css"
 	],
 
 	// Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -105,6 +106,7 @@ export default {
 				]
 			]
 		},
+		transpile: ['gsap', 'gsap/Draggable'],
 	},
 	vue: {
 		devtools: true,

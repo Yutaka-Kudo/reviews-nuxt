@@ -1,6 +1,8 @@
 <template>
     <div class="bg">
-        <v-row class="pt-16 pr-5 pl-5 d-flex align-top">
+        <nuxt-link to="/store_list">aaaaa</nuxt-link>
+        <p class="hello">rrrrrrr</p>
+        <div class="pt-16 pr-5 pl-5 d-flex align-top">
             <v-col cols="12" sm="8" md="6">
                 <AreaSearch
                     :area_list="area_list"
@@ -14,10 +16,9 @@
                     @get_ref="get_ref"
                     class="search_box"
                 />
-
             </v-col>
-                <!-- <template> </template> -->
-        </v-row>
+            <!-- <template> </template> -->
+        </div>
     </div>
 </template>
 
@@ -26,6 +27,7 @@ import Logo from "~/components/Logo.vue";
 import VuetifyLogo from "~/components/VuetifyLogo.vue";
 import AreaSearch from "~/components/AreaSearch.vue";
 import StoreSearch from "~/components/StoreSearch.vue";
+import { gsap } from "gsap";
 
 export default {
     components: {
@@ -65,6 +67,11 @@ export default {
         this.area_list = this.$store.getters["area_list"];
     },
 
+    mounted() {
+        // gsap.to(".hello", { rotation: 27, x: 100, duration: 1 });
+        gsap.to(".hello", { x: 100, duration: 3 });
+    },
+
     // ページ帰還時にリストを保持 いらないかも
     // mounted: function () {
     //     this.store_list = this.$store.getters["basis_store_list"].length
@@ -97,35 +104,40 @@ export default {
             this.ref = obj;
         },
     },
+    transition: {
+        // name:"bounce"
+        // name: "blind",
+        name: "scroll",
+        // mode: "in-out",
+        // mode: "out-in",
+        mode: "",
+    },
 };
 </script>
 
 <style scoped>
-.bg {
-    background-image: url("@/static/img/acquapazza.jpg");
-    background-attachment: fixed;
-    /* background-position: center; */
-
-    background-size: cover;
-    height: 100%;
-    /* opacity: 0.5; */
-    /* z-index: 0; */
-}
-.bg:before {
-    /* background: inherit; */
-    content: "";
-    filter: blur(5px);
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    background-color: rgba(0, 0, 0, 0.3);
-    /* z-index: 1; */
-}
 .search_box {
     /* background-color: black; */
 }
 
+.scroll-enter-active {
+    /* animation: scroll-in 0.8s; */
+    /* transform-origin: left; */
+    transition: all 1s;
+}
 
+.scroll-leave-active {
+    /* animation: scroll-in 0.8s; */
+    /* transform-origin: left; */
+    transition: all 1s;
+    position: absolute;
+}
+.scroll-enter,
+.scroll-leave-to {
+    transform: translateX(-120%);
+}
+
+.scroll-leave {
+    /* transform: translateX(0px); */
+}
 </style>
