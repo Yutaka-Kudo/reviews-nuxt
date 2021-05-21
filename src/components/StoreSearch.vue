@@ -165,5 +165,12 @@ export default {
     /* transition: transform .5s; */
 }
 
-
+/* @media screen and (max-width:960px){
+    .incre_search-leave-active {
+        position: static;
+    }
+    .incre_search-move{
+        transition: transform .5s;
+    }
+} */
 </style>
