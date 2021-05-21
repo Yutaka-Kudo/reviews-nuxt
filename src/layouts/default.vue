@@ -1,7 +1,6 @@
 <template>
     <v-app dark>
-        <div class="bg_filter">
-            <!-- <v-navigation-drawer
+        <!-- <v-navigation-drawer
             v-model="drawer"
             :mini-variant="miniVariant"
             :clipped="clipped"
@@ -25,66 +24,65 @@
                 </v-list-item>
             </v-list>
         </v-navigation-drawer> -->
-            <v-app-bar
-                :clipped-left="clipped"
-                fixed
-                dark
-                app
-                hide-on-scroll
-                scroll-threshold="60"
-                height="40"
-            >
-                <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" /> -->
-                <!-- <v-btn icon @click.stop="miniVariant = !miniVariant">
+        <v-app-bar
+            :clipped-left="clipped"
+            fixed
+            dark
+            app
+            hide-on-scroll
+            scroll-threshold="60"
+            height="40"
+        >
+            <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" /> -->
+            <!-- <v-btn icon @click.stop="miniVariant = !miniVariant">
                 <v-icon
                     >mdi-{{
                         `chevron-${miniVariant ? "right" : "left"}`
                     }}</v-icon
                 >
             </v-btn> -->
-                <nuxt-link to="/">
-                    <v-icon>mdi-home</v-icon>
-                </nuxt-link>
-                <nuxt-link to="/inspire">aaaaa</nuxt-link>
+            <nuxt-link to="/">
+                <v-icon>mdi-home</v-icon>
+            </nuxt-link>
+            <nuxt-link to="/inspire">aaaaa</nuxt-link>
 
-                <v-btn icon @click.stop="clipped = !clipped">
-                    <v-icon>mdi-application</v-icon>
-                </v-btn>
-                <v-btn icon @click.stop="fixed = !fixed">
-                    <v-icon>mdi-minus</v-icon>
-                </v-btn>
-                <v-toolbar-title v-text="title" />
-                <v-spacer />
-                <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-                    <v-icon>mdi-menu</v-icon>
-                </v-btn>
-            </v-app-bar>
-            <v-main>
-                <v-container>
-                    <nuxt />
-                </v-container>
-            </v-main>
-            <v-navigation-drawer
-                v-model="rightDrawer"
-                :right="right"
-                temporary
-                fixed
-            >
-                <v-list>
-                    <v-list-item @click.native="right = !right">
-                        <v-list-item-action>
-                            <v-icon light> mdi-repeat </v-icon>
-                        </v-list-item-action>
-                        <v-list-item-title
-                            >Switch drawer (click me)</v-list-item-title
-                        >
-                    </v-list-item>
-                </v-list>
-            </v-navigation-drawer>
-            <v-footer :absolute="!fixed" app>
-                <span>&copy; {{ new Date().getFullYear() }}</span>
-            </v-footer>
-        </div>
+            <v-btn icon @click.stop="clipped = !clipped">
+                <v-icon>mdi-application</v-icon>
+            </v-btn>
+            <v-btn icon @click.stop="fixed = !fixed">
+                <v-icon>mdi-minus</v-icon>
+            </v-btn>
+            <v-toolbar-title v-text="title" />
+            <v-spacer />
+            <v-btn icon @click.stop="rightDrawer = !rightDrawer">
+                <v-icon>mdi-menu</v-icon>
+            </v-btn>
+        </v-app-bar>
+        <v-main>
+            <v-container>
+                <nuxt />
+            </v-container>
+        </v-main>
+        <v-navigation-drawer
+            v-model="rightDrawer"
+            :right="right"
+            temporary
+            fixed
+        >
+            <v-list>
+                <v-list-item @click.native="right = !right">
+                    <v-list-item-action>
+                        <v-icon light> mdi-repeat </v-icon>
+                    </v-list-item-action>
+                    <v-list-item-title
+                        >Switch drawer (click me)</v-list-item-title
+                    >
+                </v-list-item>
+            </v-list>
+        </v-navigation-drawer>
+        <v-footer :absolute="!fixed" app>
+            <span>&copy; {{ new Date().getFullYear() }}</span>
+        </v-footer>
     </v-app>
 </template>
 
@@ -129,17 +127,16 @@ export default {
     position: relative;
     z-index: 0;
 }
-.bg_filter {
+.v-application:before {
     /* background: inherit; */
-    /* content: ""; */
+    content: "";
     /* filter: blur(5px); */
-    /* position: absolute; */
-    /* top: 0px;
+    position: absolute;
+    top: 0px;
     right: 0px;
     bottom: 0px;
-    left: 0px; */
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 0;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: -1;
 }
 </style>
