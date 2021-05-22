@@ -136,7 +136,7 @@ export default {
     right: 0px;
     bottom: 0px;
     left: 0px;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.2);
     z-index: -1;
 }
 </style>
