@@ -39,7 +39,7 @@ export default {
     data() {
         return {
             search_word: "",
-            f_store_list:[],
+            f_store_list: [],
         };
     },
 
@@ -66,10 +66,7 @@ export default {
             this.$store.commit("set_store_search_word", this.search_word);
 
             // 選んだ店を消去 → 先頭に入れる
-            this.f_store_list.splice(
-                this.f_store_list.indexOf(selected),
-                1
-            );
+            this.f_store_list.splice(this.f_store_list.indexOf(selected), 1);
             this.f_store_list.unshift(selected);
 
             this.$store.commit("set_store_list", this.f_store_list);
@@ -82,24 +79,35 @@ export default {
             if (!this.search_word) {
                 return this.f_store_list;
             } else {
+                // カタカナ → ひらがな関数
+                function kanaToHira(str) {
+                    return str.replace(/[\u30a1-\u30f6]/g, function (match) {
+                        var chr = match.charCodeAt(0) - 0x60;
+                        return String.fromCharCode(chr);
+                    });
+                }
+
+                const search_word_hira = kanaToHira(this.search_word)
+                
                 for (var i in this.store_list) {
                     let store_data = Object.assign({}, this.store_list[i]); // 複製
                     let name = store_data.store_name;
+                    let hira_trans_name = kanaToHira(name)
                     if (
-                        name
+                        hira_trans_name
                             .toLowerCase()
-                            .indexOf(this.search_word.toLowerCase()) != -1
+                            .indexOf(search_word_hira.toLowerCase()) != -1
                     ) {
                         // search_wordのstr.indexOf
-                        var hit_index = name
+                        var hit_index = hira_trans_name
                             .toLowerCase()
-                            .indexOf(this.search_word.toLowerCase());
+                            .indexOf(search_word_hira.toLowerCase());
                         // search_wordの最後の文字で照合 indexOfの第2引数がミソ
-                        var hit_index_last = name
+                        var hit_index_last = hira_trans_name
                             .toLowerCase()
                             .indexOf(
-                                this.search_word.slice(-1).toLowerCase(),
-                                hit_index + this.search_word.length - 1
+                                search_word_hira.slice(-1).toLowerCase(),
+                                hit_index + search_word_hira.length - 1
                             );
 
                         store_data.store_name = `${name.slice(
@@ -113,7 +121,7 @@ export default {
                         this.f_store_list.push(store_data);
                     }
                 }
-                return this.f_store_list.slice(0,20);
+                return this.f_store_list.slice(0, 20);
             }
         },
     },
@@ -146,7 +154,7 @@ export default {
 
 /* トランジションーーーーーーー */
 .list_item {
-    transition: transform 0.5s, opacity .4s;
+    transition: transform 0.5s, opacity 0.4s;
     /* transition-duration: .7s; */
     display: inline-block;
 }
@@ -161,7 +169,7 @@ export default {
     position: absolute;
 }
 /* これかけると少し変わる */
-.incre_search-move{
+.incre_search-move {
     /* transition: transform .5s; */
 }
 

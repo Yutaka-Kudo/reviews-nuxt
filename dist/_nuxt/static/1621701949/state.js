@@ -1,1 +1,0 @@
-window.__NUXT__=(function(a,b){return {staticAssetsBase:"\u002F_nuxt\u002Fstatic\u002F1621701949",layout:"default",error:a,state:{area_search_word:[],store_search_word:[],area_list:[{id:1,area_name:"千葉県 船橋市"}],basis_store_list:[],store_list:[],review_obj_list:[]},serverRendered:true,routePath:b,config:{_app:{basePath:b,assetsPath:"\u002F_nuxt\u002F",cdnURL:a}}}}(null,"\u002F"));
