@@ -49,13 +49,17 @@ export default {
 
     methods: {
         store_submit(event) {
-            let store_obj = this.store_list.find(
-                (v) => v.id == this.f_store_list[0].id
-            );
-            console.log(store_obj);
+            // let store_obj = this.store_list.find(
+            //     (v) => v.id == this.f_store_list[0].id
+            // );
+            // console.log(store_obj);  //これなんだっけ
             this.$router.push({ path: "store_list/" });
             this.$store.commit("set_store_search_word", this.search_word);
-            this.$store.commit("set_store_list", this.f_store_list);
+            if (this.search_word.length == 0) {
+                this.$store.commit("set_store_list", this.store_list);
+            } else {
+                this.$store.commit("set_store_list", this.f_store_list);
+            }
         },
         store_submit_by_incremental(selected) {
             let store_obj = this.store_list.find(
@@ -87,12 +91,12 @@ export default {
                     });
                 }
 
-                const search_word_hira = kanaToHira(this.search_word)
-                
+                const search_word_hira = kanaToHira(this.search_word);
+
                 for (var i in this.store_list) {
                     let store_data = Object.assign({}, this.store_list[i]); // 複製
                     let name = store_data.store_name;
-                    let hira_trans_name = kanaToHira(name)
+                    let hira_trans_name = kanaToHira(name);
                     if (
                         hira_trans_name
                             .toLowerCase()
