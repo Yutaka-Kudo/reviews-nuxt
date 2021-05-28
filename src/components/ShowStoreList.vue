@@ -159,9 +159,9 @@
                         </v-expand-transition>
                     </div>
 
-                    <span class="media_type align-self-end flex-sm-shrink-0">{{
+                    <b class="media_type align-self-end flex-sm-shrink-0">{{
                         content["media_type"]
-                    }}</span>
+                    }}</b>
                 </v-card-text>
             </div>
         </v-card>

@@ -85,7 +85,7 @@ export default {
 
             // create_store_list
             this.$axios
-                .get(`stores/?area=${obj.id}`)
+                .get(`stores?area=${obj.id}`)
                 .then(function (res) {
                     that.store_list = res.data;
                 })

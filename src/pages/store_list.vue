@@ -62,7 +62,7 @@ export default {
                 for (var i in sliced_store_list) {
                     var store_data = sliced_store_list[i];
                     await this.$axios
-                        .get(`media_data/?store=${store_data.id}`)
+                        .get(`media_data?store=${store_data.id}`)
                         .then(function (res) {
                             that.media_data_list_by_store.push(res.data);
                         })
@@ -121,7 +121,7 @@ export default {
                 for (var media_data_by_store of this.media_data_list_by_store) {
                     for (var media_data of media_data_by_store) {
                         await this.$axios
-                            .get(`reviews/?media=${media_data.id}`)
+                            .get(`reviews?media=${media_data.id}`)
                             .then(function (res) {
                                 that.review_obj_list.push(res.data.slice(0, 3)); // sliceで制限かける
 
@@ -203,7 +203,7 @@ export default {
         for (var i in sliced_store_list) {
             var store_data = sliced_store_list[i];
             await this.$axios
-                .get(`media_data/?store=${store_data.id}`)
+                .get(`media_data?store=${store_data.id}`)
                 .then(function (res) {
                     that.media_data_list_by_store.push(res.data);
                 })
@@ -259,7 +259,7 @@ export default {
         for (var media_data_by_store of this.media_data_list_by_store) {
             for (var media_data of media_data_by_store) {
                 await this.$axios
-                    .get(`reviews/?media=${media_data.id}`)
+                    .get(`reviews?media=${media_data.id}`)
                     .then(function (res) {
                         that.review_obj_list.push(res.data.slice(0, 3)); // sliceで制限かける
 
