@@ -41,15 +41,15 @@ export default {
             store_list: [],
             review_obj_list: [],
             ref: "",
-            bg_img: require("@/static/img/salad.jpg"),
+            // bg_img: require("@/assets/img/salad.jpg"),
         };
     },
 
     async fetch({ store, $axios }) {
-        const res = await $axios.get("area/").catch(function (e) {
-            console.log(e);
-        });
-        store.commit("set_area_list", res.data);
+        // const res = await $axios.get("area/").catch(function (e) {
+        //     console.log(e);
+        // });
+        // store.commit("set_area_list", res.data);
     },
 
     async asyncData({ $axios, $store }) {
@@ -61,8 +61,15 @@ export default {
         // return { area_list: res.data };
     },
 
-    created: function () {
+    created: async function () {
         this.area_list = this.$store.getters["area_list"];
+
+        const res = await this.$axios.get("area/").catch(function (e) {
+            console.log(e);
+        });
+        this.$store.commit("set_area_list", res.data);
+        this.area_list = res.data
+        console.log(this.area_list);
     },
 
     mounted() {

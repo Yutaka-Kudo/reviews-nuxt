@@ -116,7 +116,7 @@ export default {
 
 <style scoped>
 .v-application {
-    background-image: url("@/static/img/acquapazza.jpg");
+    background-image: url("@/assets/img/acquapazza.jpg");
     background-attachment: fixed;
     background-position: top;
 
