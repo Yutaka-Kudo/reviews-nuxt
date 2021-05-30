@@ -46,10 +46,10 @@ export default {
     },
 
     async fetch({ store, $axios }) {
-        // const res = await $axios.get("area/").catch(function (e) {
-        //     console.log(e);
-        // });
-        // store.commit("set_area_list", res.data);
+        const res = await $axios.get("area/").catch(function (e) {
+            console.log(e);
+        });
+        store.commit("set_area_list", res.data);
     },
 
     async asyncData({ $axios, $store }) {
@@ -64,12 +64,12 @@ export default {
     created: async function () {
         this.area_list = this.$store.getters["area_list"];
 
-        const res = await this.$axios.get("area/").catch(function (e) {
-            console.log(e);
-        });
-        this.$store.commit("set_area_list", res.data);
-        this.area_list = res.data
-        console.log(this.area_list);
+        // const res = await this.$axios.get("area/").catch(function (e) {
+        //     console.log(e);
+        // });
+        // this.$store.commit("set_area_list", res.data);
+        // this.area_list = res.data
+        // console.log(this.area_list);
     },
 
     mounted() {
