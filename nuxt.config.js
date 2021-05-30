@@ -59,7 +59,7 @@ export default {
 		// baseURL: 'http://127.0.0.1:8000/api/',
 		// baseURL: 'https://restaurant-reviews21.herokuapp.com/api/',
 		// baseURL: 'http://34.145.97.214/api/',
-		baseURL: '//34.145.97.214/api/',
+		baseURL: 'https://yk-restaurant-reviews-api.cyou/api/',
 	},
 
 	// PWA module configuration: https://go.nuxtjs.dev/pwa
