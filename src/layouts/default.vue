@@ -59,9 +59,9 @@
             </v-btn>
         </v-app-bar>
         <v-main>
-            <v-container>
+            <!-- <v-container class="pa-0"> -->
                 <nuxt />
-            </v-container>
+            <!-- </v-container> -->
         </v-main>
         <v-navigation-drawer
             v-model="rightDrawer"
@@ -80,9 +80,9 @@
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
-        <v-footer :absolute="!fixed" app>
+        <!-- <v-footer :absolute="!fixed" app>
             <span>&copy; {{ new Date().getFullYear() }}</span>
-        </v-footer>
+        </v-footer> -->
     </v-app>
 </template>
 
@@ -121,7 +121,8 @@ export default {
     background-position: top;
 
     background-size: cover;
-    height: 100%;
+    /* height: 100%; */
+    height: 100vh;
     /* opacity: 0.5; */
     /* 必須 */
     position: relative;
@@ -136,7 +137,7 @@ export default {
     right: 0px;
     bottom: 0px;
     left: 0px;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.4);
     z-index: -1;
 }
 </style>

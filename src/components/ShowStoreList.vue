@@ -159,9 +159,9 @@
                         </v-expand-transition>
                     </div>
 
-                    <b class="media_type align-self-end flex-sm-shrink-0">{{
-                        content["media_type"]
-                    }}</b>
+                    <b class="media_type align-self-end flex-sm-shrink-0">
+                        {{ content["media_type"] == "ぐるなび" ? "TripAdvisor" : content["media_type"] }}
+                    </b>
                 </v-card-text>
             </div>
         </v-card>
@@ -224,7 +224,7 @@ export default {
 
 <style scoped>
 .v-card__text {
-    background-color: rgba(250, 250, 250, .8);
+    background-color: rgba(250, 250, 250, 0.8);
     /* color: white; */
 }
 .store_name {
@@ -239,7 +239,7 @@ export default {
 }
 .item {
     /* margin-bottom: 20px; */
-    background-color: rgba(255, 255, 255, .85);
+    background-color: rgba(255, 255, 255, 0.85);
 }
 .media_type:before {
     content: "by ";

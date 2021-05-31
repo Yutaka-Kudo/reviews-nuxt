@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <v-col cols="12" sm="8" md="6" class="search_box">
         <!-- enter押してもブラウザロードしないように -->
-        <v-form @submit.prevent="area_submit" class="area_wrap">
+        <v-form @submit.prevent="area_submit" class="d-flex flex-column">
             <v-text-field
                 v-model.trim="search_word"
                 label="エリア"
@@ -14,23 +14,25 @@
                 dark
                 background-color="rgba(255, 255, 255, 0.3)"
             />
-                <!-- autofocus -->
+            <!-- autofocus -->
             <!-- rounded -->
 
             <!-- インクリメンタルサーチ -->
-            <transition-group name="incre_search">
-                <v-card
-                    v-for="(area_data, index) in filtered_area"
-                    :key="area_data.id"
-                    @click="area_submit_by_incremental(area_data)"
-                    class="list_item pr-2 pl-2 mb-2 ml-8"
-                >
-                    <!-- :class="index % 2 == 1 ? `isEven` : `noEven`" -->
-                    <span v-html="area_data.area_name"></span>
-                </v-card>
-            </transition-group>
+            <div class="list_items mb-auto">
+                <transition-group name="incre_search">
+                    <v-card
+                        v-for="(area_data, index) in filtered_area"
+                        :key="area_data.id"
+                        @click="area_submit_by_incremental(area_data)"
+                        class="list_item pr-2 pl-2 mb-2 ml-8"
+                    >
+                        <!-- :class="index % 2 == 1 ? `isEven` : `noEven`" -->
+                        <span v-html="area_data.area_name"></span>
+                    </v-card>
+                </transition-group>
+            </div>
         </v-form>
-    </div>
+    </v-col>
 </template>
 
 
@@ -117,8 +119,12 @@ export default {
 </script>
 
 <style scoped>
-.area_wrap {
-    margin-bottom: 40px;
+.search_box {
+    height: 100%;
+}
+.v-form {
+    height: auto;
+    max-height: 100%;
 }
 .v-input {
     font-size: large;
@@ -132,10 +138,15 @@ export default {
 .v-sheet:hover {
     background: rgba(150, 150, 0, 1);
 }
-
+.list_items {
+    overflow: scroll;
+}
+.list_items::-webkit-scrollbar {
+    display: none;
+}
 /* トランジションーーーーーーー */
 .list_item {
-    transition: transform 0.5s, opacity .4s;
+    transition: transform 0.5s, opacity 0.4s;
     display: inline-block;
 }
 .incre_search-enter,

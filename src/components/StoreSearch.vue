@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <v-col cols="12" sm="8" md="6" class="search_box">
         <!-- enter押してもブラウザロードしないように -->
-        <v-form @submit.prevent="store_submit">
+        <v-form @submit.prevent="store_submit" class="d-flex flex-column">
             <v-text-field
                 v-model.trim="search_word"
                 label="店名"
@@ -17,20 +17,22 @@
             />
 
             <!-- インクリメンタルサーチ -->
-            <transition-group name="incre_search">
-                <v-card
-                    v-for="(store_data, index) in filtered_store"
-                    :key="store_data.id"
-                    @click="store_submit_by_incremental(store_data)"
-                    hover
-                    class="list_item pr-2 pl-2 mb-2 ml-8"
-                >
-                    <!-- :class="index % 2 == 1 ? `isEven` : `noEven`" -->
-                    <span v-html="store_data.store_name"></span>
-                </v-card>
-            </transition-group>
+            <div class="list_items">
+                <transition-group name="incre_search">
+                    <v-card
+                        v-for="(store_data, index) in filtered_store"
+                        :key="store_data.id"
+                        @click="store_submit_by_incremental(store_data)"
+                        hover
+                        class="list_item pr-2 pl-2 mb-2 ml-8"
+                    >
+                        <!-- :class="index % 2 == 1 ? `isEven` : `noEven`" -->
+                        <span v-html="store_data.store_name"></span>
+                    </v-card>
+                </transition-group>
+            </div>
         </v-form>
-    </div>
+    </v-col>
 </template>
 
 
@@ -143,6 +145,13 @@ export default {
 </script>
 
 <style scoped>
+.search_box {
+    height: 100%;
+}
+.v-form {
+    height: auto;
+    max-height: 100%;
+}
 .v-input {
     font-size: large;
     font-weight: bolder;
@@ -154,6 +163,13 @@ export default {
 }
 .v-sheet:hover {
     background: rgba(150, 150, 0, 1);
+}
+
+.list_items {
+    overflow: scroll;
+}
+.list_items::-webkit-scrollbar {
+    display: none;
 }
 
 /* トランジションーーーーーーー */

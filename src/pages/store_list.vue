@@ -1,6 +1,6 @@
 <template>
-    <div class="bg">
-        <v-container>
+    <div class="bg store_list_wrap">
+        <v-container >
             <!-- <div> -->
             <!-- <Tran/> -->
             <!-- </div> -->
@@ -8,6 +8,7 @@
             <ShowStoreList
                 :media_data_list_by_store="media_data_list_by_store"
                 :content_list="content_list"
+                
             />
             <Pagination
                 :page_length="pages.page_length"
@@ -183,7 +184,7 @@ export default {
     //     },
     // },
 
-    mounted: async function () {
+    created: async function () {
         console.log("parent mount");
         console.log(this);
         this.store_list = this.$store.getters["store_list"];
@@ -323,7 +324,8 @@ export default {
 
     background-attachment: fixed;
 
-    height: 100%;
+    /* height: 100%; */
+    height: 100vh;
     /* 必須 */
 
     animation: opaMove 3s 3s forwards;
@@ -382,5 +384,10 @@ export default {
     100% {
         transform: scale(0);
     }
+}
+
+.store_list_wrap{
+    height: 100vh;
+    overflow: scroll;
 }
 </style>

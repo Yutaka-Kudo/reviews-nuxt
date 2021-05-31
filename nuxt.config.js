@@ -8,6 +8,7 @@ export default {
 		// base: baseDir,//ベースディレクトリをgenerate時に変更できるようにする
 	},
 	// Target: https://go.nuxtjs.dev/config-target
+	// ssr: true,
 	target: 'static',
 
 	// Global page headers: https://go.nuxtjs.dev/config-head
@@ -58,7 +59,6 @@ export default {
 	axios: {
 		// baseURL: 'http://127.0.0.1:8000/api/',
 		// baseURL: 'https://restaurant-reviews21.herokuapp.com/api/',
-		// baseURL: 'http://34.145.97.214/api/',
 		baseURL: 'https://yk-restaurant-reviews-api.cyou/api/',
 	},
 

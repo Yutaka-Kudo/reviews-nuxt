@@ -1,20 +1,10 @@
 <template>
     <div class="bg">
-        <div class="pt-16 pr-5 pl-5 d-flex flex-column align-center flex-md-row align-md-start">
-            <v-col cols="12" sm="8" md="6">
-                <AreaSearch
-                    :area_list="area_list"
-                    @get_area_obj="get_area_obj"
-                    class="search_box"
-                />
-            </v-col>
-            <v-col cols="12" sm="8" md="6">
-                <StoreSearch
-                    :store_list="store_list"
-                    @get_ref="get_ref"
-                    class="search_box"
-                />
-            </v-col>
+        <div
+            class="pt-16 pr-5 pl-5 d-flex flex-column align-center flex-md-row align-md-start search_list_wrap"
+        >
+            <AreaSearch :area_list="area_list" @get_area_obj="get_area_obj" />
+            <StoreSearch :store_list="store_list" @get_ref="get_ref" />
             <!-- <template> </template> -->
         </div>
     </div>
@@ -62,7 +52,13 @@ export default {
     },
 
     created: async function () {
-        this.area_list = this.$store.getters["area_list"];
+        if (process.server) {
+            // console.log('serrrrrrrrrr');
+        }
+        if (process.client) {
+            // console.log('cliennnnnnn');
+            this.area_list = this.$store.getters["area_list"];
+        }
 
         // const res = await this.$axios.get("area/").catch(function (e) {
         //     console.log(e);
@@ -74,7 +70,7 @@ export default {
 
     mounted() {
         // gsap.to(".hello", { rotation: 27, x: 100, duration: 1 });
-        gsap.to(".hello", { x: 100, duration: 3 });
+        // gsap.to(".hello", { x: 100, duration: 3 });
     },
 
     // ページ帰還時にリストを保持 いらないかも
@@ -121,10 +117,19 @@ export default {
 </script>
 
 <style scoped>
-.search_box {
-    /* background-color: black; */
-    overflow: hidden;
+.bg {
+    /* height: 100%; */
+    height: calc(100vh - 40px);
 }
+.search_list_wrap {
+    height: calc(100vh - 40px);
+    /* height: 100vh; */
+    /* overflow: scroll; */
+}
+.search_list_wrap::-webkit-scrollbar {
+    display: none;
+}
+
 
 .scroll-enter-active {
     /* animation: scroll-in 0.8s; */
@@ -140,7 +145,7 @@ export default {
 }
 .scroll-enter,
 .scroll-leave-to {
-    transform: translateX(-120%);
+    /* transform: translateX(-120%); */
 }
 
 .scroll-leave {
