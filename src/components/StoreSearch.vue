@@ -201,4 +201,14 @@ export default {
         transition: transform .5s;
     }
 } */
+
+@media screen and (max-width: 960px) {
+    .search_box {
+        max-height: 70%;
+        flex-shrink: 1;
+    }
+    .incre_search-leave-active {
+    position: relative;
+}
+}
 </style>

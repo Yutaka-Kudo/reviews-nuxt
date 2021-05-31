@@ -120,7 +120,7 @@ export default {
 
 <style scoped>
 .search_box {
-    height: 100%;
+    max-height: 100%;
 }
 .v-form {
     height: auto;
@@ -163,4 +163,15 @@ export default {
 /* .incre_search-move{
     transition: transform .5s;
 } */
+
+@media screen and (max-width: 960px) {
+    .search_box {
+        max-height: 80%;
+        flex-shrink: 1;
+        flex-basis: initial;
+    }
+}
+</style>
+<style>
+
 </style>

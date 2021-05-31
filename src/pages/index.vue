@@ -1,7 +1,7 @@
 <template>
     <div class="bg">
         <div
-            class="pt-16 pr-5 pl-5 d-flex flex-column align-center flex-md-row align-md-start search_list_wrap"
+            class="search_list_wrap pr-5 pl-5 d-flex flex-column  align-start flex-md-row  "
         >
             <AreaSearch :area_list="area_list" @get_area_obj="get_area_obj" />
             <StoreSearch :store_list="store_list" @get_ref="get_ref" />
@@ -122,6 +122,7 @@ export default {
     height: calc(100vh - 40px);
 }
 .search_list_wrap {
+    padding-top: 10vh;
     height: calc(100vh - 40px);
     /* height: 100vh; */
     /* overflow: scroll; */
@@ -145,10 +146,10 @@ export default {
 }
 .scroll-enter,
 .scroll-leave-to {
-    /* transform: translateX(-120%); */
+    transform: translateX(-120%);
 }
 
 .scroll-leave {
-    /* transform: translateX(0px); */
+    transform: translateX(0px);
 }
 </style>

@@ -45,6 +45,7 @@ export default {
     },
     methods: {
         page_change: async function (page_num) {
+            this.$nuxt.$loading.start();
             // 現在のページなら機能しないように
             if (this.pages["now_page"] != page_num) {
                 this.pages["now_page"] = page_num;
@@ -174,6 +175,7 @@ export default {
 
                 // console.log(JSON.stringify(this.review_obj_list));
             }
+            this.$nuxt.$loading.finish();
         },
     },
 
@@ -185,6 +187,7 @@ export default {
     // },
 
     created: async function () {
+        this.$nuxt.$loading.start();
         console.log("parent mount");
         console.log(this);
         this.store_list = this.$store.getters["store_list"];
@@ -306,6 +309,7 @@ export default {
         // return this.$store.commit("set_review_obj_list", this.review_obj_list);
 
         // console.log(JSON.stringify(this.review_obj_list));
+        this.$nuxt.$loading.finish();
     },
     transition: {
         // name:"bounce"
@@ -330,6 +334,15 @@ export default {
 
     animation: opaMove 3s 3s forwards;
 }
+.store_list_wrap{
+    /* height: 100vh; */
+    /* overflow: scroll; */
+    height: calc(100vh - 40px);
+    overflow: scroll;
+}
+.store_list_wrap::-webkit-scrollbar {
+    display: none;
+}
 @keyframes opaMove {
     0% {
             background-color: rgba(0, 0, 0, .0);
@@ -340,7 +353,7 @@ export default {
 }
 .scroll-enter-active {
     /* animation: scroll-in 0.8s; */
-    transition: all 1s 1s;
+    transition: all 1s;
 }
 .scroll-leave-active {
     /* animation: scroll-in 0.8s; */
@@ -386,8 +399,5 @@ export default {
     }
 }
 
-.store_list_wrap{
-    height: 100vh;
-    overflow: scroll;
-}
+
 </style>
