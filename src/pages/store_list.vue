@@ -188,11 +188,11 @@ export default {
 
     created: async function () {
         this.$nuxt.$loading.start();
-        console.log("parent mount");
-        console.log(this);
+        console.log("parent created");
+        // console.log(this);
         this.store_list = this.$store.getters["store_list"];
         let that = this;
-        // console.log("mount");
+        console.log("created");
 
         this.pages["page_length"] = Math.ceil(
             this.store_list.length / this.pages["page_size"]
@@ -257,14 +257,16 @@ export default {
             });
         }
         // console.log(JSON.stringify(this.media_data_list_by_store));
-        console.log(this.media_data_list_by_store);
+        // console.log(this.media_data_list_by_store);
         console.log("7777777777777");
         this.review_obj_list.splice(0);
         for (var media_data_by_store of this.media_data_list_by_store) {
             for (var media_data of media_data_by_store) {
+                console.log('beeeeeee');
                 await this.$axios
                     .get(`reviews?media=${media_data.id}`)
                     .then(function (res) {
+                        console.log('affffffffff');
                         that.review_obj_list.push(res.data.slice(0, 3)); // sliceで制限かける
 
                         //本文を集める
@@ -293,6 +295,8 @@ export default {
                     });
             }
         }
+
+        console.log('888888888');
 
         // 2次元配列を1次元に＆日付け降順
         this.content_list = this.content_list.flat(1);
