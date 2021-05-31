@@ -151,7 +151,7 @@ export default {
             this.$nuxt.$loading.finish();
         },
 
-        page_change: async function (page_num) {
+        page_change: function (page_num) {
             // 現在のページなら機能しないように
             if (this.pages["now_page"] != page_num) {
                 this.pages["now_page"] = page_num;
@@ -182,7 +182,7 @@ export default {
     //     },
     // },
 
-    created: async function () {
+    created: function () {
         console.log("parent created");
         this.store_list = this.$store.getters["store_list"];
         let that = this;
