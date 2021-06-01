@@ -53,14 +53,28 @@ export default {
 		'@nuxtjs/axios',
 		// https://go.nuxtjs.dev/pwa
 		'@nuxtjs/pwa',
+		// '@nuxtjs/proxy',
 	],
 
 	// Axios module configuration: https://go.nuxtjs.dev/config-axios
 	axios: {
 		// baseURL: 'http://127.0.0.1:8000/api/',
 		// baseURL: 'https://restaurant-reviews21.herokuapp.com/api/',
-		baseURL: 'https://yk-restaurant-reviews-api.cyou/api/',
+		baseURL: 'https://yk-restaurant-reviews-api.cyou',
+		// proxy: true,
+		// prefix: '/api',
+		// headers: {
+		// 	common: {
+		// 	}
+		// }
 	},
+	// proxy: {
+	// 	'/api': {
+	// 		target: 'https://yk-restaurant-reviews-api.cyou/',
+	// 		// pathRewrite: { '^/api': '', },
+	// 	},
+	// },
+
 
 	// PWA module configuration: https://go.nuxtjs.dev/pwa
 	pwa: {

@@ -36,8 +36,8 @@ export default {
     },
 
     async fetch({ store, $axios }) {
-        const res = await $axios.get("area/").catch(function (e) {
-            console.log(e);
+        const res = await $axios.get("api/area/").catch(function (e) {
+            // console.log(e);
         });
         store.commit("set_area_list", res.data);
     },
@@ -88,7 +88,7 @@ export default {
 
             // create_store_list
             this.$axios
-                .get(`stores?area=${obj.id}`)
+                .get(`api/stores?area=${obj.id}`)
                 .then(function (res) {
                     that.store_list = res.data;
                 })

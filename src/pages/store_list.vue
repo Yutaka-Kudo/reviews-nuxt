@@ -51,7 +51,7 @@ export default {
             for (var i in sliced_store_list) {
                 var store_data = sliced_store_list[i];
                 await this.$axios
-                    .get(`media_data?store=${store_data.id}`)
+                    .get(`api/media_data?store=${store_data.id}`)
                     .then(function (res) {
                         res.data["loading"] = true
                         that.media_data_list_by_store.push(res.data);
@@ -110,7 +110,7 @@ export default {
             for (var media_data_by_store of this.media_data_list_by_store) {
                 for (var media_data of media_data_by_store) {
                     await this.$axios
-                        .get(`reviews?media=${media_data.id}`)
+                        .get(`api/reviews?media=${media_data.id}`)
                         .then(function (res) {
                             //本文を集める
                             let contents = res.data.map(function (v) {
