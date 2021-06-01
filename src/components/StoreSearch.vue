@@ -1,7 +1,11 @@
 <template>
     <v-col cols="12" sm="8" md="6" class="search_box">
         <!-- enter押してもブラウザロードしないように -->
-        <v-form @submit.prevent="store_submit" class="d-flex flex-column">
+        <v-form
+            @submit.prevent="store_submit"
+            class="d-flex flex-column"
+            v-cloak
+        >
             <v-text-field
                 v-model.trim="search_word"
                 label="店名"
@@ -14,6 +18,7 @@
                 filled
                 dark
                 background-color="rgba(255, 255, 255, 0.2)"
+                v-cloak
             />
 
             <!-- インクリメンタルサーチ -->
@@ -208,7 +213,7 @@ export default {
         flex-shrink: 1;
     }
     .incre_search-leave-active {
-    position: relative;
-}
+        position: relative;
+    }
 }
 </style>

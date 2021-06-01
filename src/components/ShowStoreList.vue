@@ -6,6 +6,7 @@
             class="item mb-15"
             elevation="3"
             outlines
+            :loading="media_data['loading']"
             v-cloak
         >
             <div class="card_head d-flex flex-column align-center flex-sm-row">

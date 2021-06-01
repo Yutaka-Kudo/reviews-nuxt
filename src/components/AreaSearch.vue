@@ -1,7 +1,11 @@
 <template>
     <v-col cols="12" sm="8" md="6" class="search_box">
         <!-- enter押してもブラウザロードしないように -->
-        <v-form @submit.prevent="area_submit" class="d-flex flex-column">
+        <v-form
+            @submit.prevent="area_submit"
+            class="d-flex flex-column"
+            v-cloak
+        >
             <v-text-field
                 v-model.trim="search_word"
                 label="エリア"
@@ -13,6 +17,7 @@
                 filled
                 dark
                 background-color="rgba(255, 255, 255, 0.3)"
+                v-cloak
             />
             <!-- autofocus -->
             <!-- rounded -->
@@ -173,5 +178,4 @@ export default {
 }
 </style>
 <style>
-
 </style>

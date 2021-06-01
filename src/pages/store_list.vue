@@ -43,7 +43,7 @@ export default {
     },
     methods: {
         create_data: async function (sliced_store_list) {
-            this.$nuxt.$loading.start();
+            // this.$nuxt.$loading.start();
 
             console.log(sliced_store_list);
             let that = this;
@@ -53,6 +53,7 @@ export default {
                 await this.$axios
                     .get(`media_data?store=${store_data.id}`)
                     .then(function (res) {
+                        res.data["loading"] = true
                         that.media_data_list_by_store.push(res.data);
                     })
                     .catch(function (e) {
@@ -136,6 +137,7 @@ export default {
                             console.log(e);
                         });
                 }
+                media_data_by_store["loading"] = false
             }
 
             // 2次元配列を1次元に＆日付け降順
@@ -148,7 +150,10 @@ export default {
                 }
             });
 
-            this.$nuxt.$loading.finish();
+            console.log(this.content_list);
+
+
+            // this.$nuxt.$loading.finish();
         },
 
         page_change: function (page_num) {
@@ -168,7 +173,7 @@ export default {
                 // media_data取得ーーーーーーー
                 this.create_data(sliced_store_list);
 
-                console.log(this.content_list);
+                // console.log(this.content_list);
 
                 // console.log(JSON.stringify(this.review_obj_list));
             }
@@ -200,7 +205,7 @@ export default {
         // media_data取得ーーーーーーー
         this.create_data(sliced_store_list);
 
-        console.log(this.content_list);
+        // console.log(this.content_list);
         // console.log(JSON.stringify(this.review_obj_list));
     },
     transition: {
