@@ -53,7 +53,7 @@ export default {
                 await this.$axios
                     .get(`api/media_data?store=${store_data.id}`)
                     .then(function (res) {
-                        res.data["loading"] = true
+                        res.data["loading"] = true;
                         that.media_data_list_by_store.push(res.data);
                     })
                     .catch(function (e) {
@@ -108,9 +108,10 @@ export default {
             this.content_list = [];
 
             for (var media_data_by_store of this.media_data_list_by_store) {
+                let content_list_temp = [];
                 for (var media_data of media_data_by_store) {
                     await this.$axios
-                    // this.$axios
+                        // this.$axios
                         .get(`api/reviews?media=${media_data.id}`)
                         .then(function (res) {
                             //本文を集める
@@ -131,30 +132,33 @@ export default {
                                     };
                                 }
                             });
-                            // console.log(contents);
-                            that.content_list.push(contents.slice(0, 3));
+                            content_list_temp.push(contents);
                         })
                         .catch(function (e) {
                             console.log(e);
                         });
                 }
-                media_data_by_store["loading"] = false
-                console.log('ffffffffff');
+
+                // 2次元配列を1次元に＆日付け降順
+                // フラットにしてから日時順並び替え
+                content_list_temp = content_list_temp.flat(1);
+                content_list_temp.sort((x, y) => {
+                    if (x["review_date"] > y["review_date"]) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                });
+
+                this.content_list.push(content_list_temp.slice(0,6));
+                this.content_list = this.content_list.flat(1);
+
+                // ローディング終了
+                media_data_by_store["loading"] = false;
             }
 
-            // 2次元配列を1次元に＆日付け降順
-            this.content_list = this.content_list.flat(1);
-            this.content_list.sort((x, y) => {
-                if (x["review_date"] > y["review_date"]) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            });
-
             console.log(this.content_list);
-            console.log('finish create_data');
-
+            console.log("finish create_data");
 
             // this.$nuxt.$loading.finish();
         },
