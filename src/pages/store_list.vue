@@ -50,31 +50,26 @@ export default {
 
             for (var i in sliced_store_list) {
                 var store_data = sliced_store_list[i];
-                await this.$axios
+                let media_data_temp = [];
+                let res = await this.$axios
                     .get(`api/media_data?store=${store_data.id}`)
-                    .then(function (res) {
-                        res.data["loading"] = true;
-                        that.media_data_list_by_store.push(res.data);
-                    })
                     .catch(function (e) {
                         console.log(e);
                     });
-            }
-            // console.log(this.media_data_list_by_store);
 
-            // 成形
-            for (var i in this.media_data_list_by_store) {
-                let media_data = this.media_data_list_by_store[i];
+                res.data["loading"] = true;
+                media_data_temp = res.data;
 
+                // 成形
                 //uberOnlyフラグーーーー
-                var media_type_list = media_data.map(
-                    (v) => v["media_type"]["media_type"]
-                );
-                media_data["uber_only"] =
-                    media_type_list == "uber" ? true : false; //なぜか配列同士の比較はfalseになる。
+                media_data_temp["uber_only"] =
+                    media_data_temp.map((v) => v["media_type"]["media_type"]) ==
+                    "uber"
+                        ? true
+                        : false; //なぜか配列同士の比較はfalseになる。
 
                 //total_rate出すーーーー
-                var rate_list = media_data.map((v) => Number(v.rate)); // numberにかえてarrayに収納
+                var rate_list = media_data_temp.map((v) => Number(v.rate)); // numberにかえてarrayに収納
                 var rate_list = rate_list.filter((v) => v); // 0を除外
                 let total_rate = 0;
                 if (rate_list.length >= 1) {
@@ -82,10 +77,10 @@ export default {
                         rate_list.reduce((sum, v) => sum + v, 0) /
                         rate_list.length;
                 }
-                media_data.total_rate = total_rate.toFixed(1); //小数点以下1に
+                media_data_temp.total_rate = total_rate.toFixed(1); //小数点以下1に
 
                 // 並び替えーーーーーー
-                const junban = [
+                let junban = [
                     "google",
                     "tb",
                     "hp",
@@ -95,70 +90,59 @@ export default {
                     "demaekan",
                     "foodpanda",
                 ];
-                this.media_data_list_by_store.forEach((media_d) => {
-                    media_d.sort(
-                        (x, y) =>
-                            junban.indexOf(x["media_type"]["media_type"]) -
-                            junban.indexOf(y["media_type"]["media_type"])
-                    );
-                });
-            }
-            // console.log(JSON.stringify(this.media_data_list_by_store));
+                media_data_temp.sort(
+                    (x, y) =>
+                        junban.indexOf(x["media_type"]["media_type"]) -
+                        junban.indexOf(y["media_type"]["media_type"])
+                );
+                this.media_data_list_by_store.push(media_data_temp);
+                // }
+                // console.log(JSON.stringify(this.media_data_list_by_store));
 
-            this.content_list = [];
-
-            for (var media_data_by_store of this.media_data_list_by_store) {
                 let content_list_temp = [];
-                for (var media_data of media_data_by_store) {
-                    await this.$axios
+                for (var media_data of media_data_temp) {
+                    // await this.$axios
+                    let res = await this.$axios
                         // this.$axios
                         .get(`api/reviews?media=${media_data.id}`)
-                        .then(function (res) {
-                            //本文を集める
-                            let contents = res.data.map(function (v) {
-                                if (v.content) {
-                                    return {
-                                        store_id: v["media"]["store"]["id"],
-                                        store_name:
-                                            v["media"]["store"]["store_name"],
-                                        media_type:
-                                            v["media"]["media_type"][
-                                                "official_name"
-                                            ],
-                                        review_date: v["review_date"],
-                                        review_point: v["review_point"],
-                                        content: v["content"],
-                                        seen: false,
-                                    };
-                                }
-                            });
-                            content_list_temp.push(contents);
-                        })
                         .catch(function (e) {
                             console.log(e);
                         });
+                    //本文を集める
+                    let contents = res.data.map(function (v) {
+                        if (v.content) {
+                            return {
+                                store_id: v["media"]["store"]["id"],
+                                store_name: v["media"]["store"]["store_name"],
+                                media_type:
+                                    v["media"]["media_type"]["official_name"],
+                                review_date: v["review_date"],
+                                review_point: v["review_point"],
+                                content: v["content"],
+                                seen: false,
+                            };
+                        }
+                    });
+                    content_list_temp.push(contents);
+                    // 2次元配列を1次元に＆日付け降順
+                    // フラットにしてから日時順並び替え
+                    content_list_temp = content_list_temp.flat(1);
+                    content_list_temp.sort((x, y) => {
+                        if (x["review_date"] > y["review_date"]) {
+                            return -1;
+                        } else {
+                            return 1;
+                        }
+                    });
                 }
 
-                // 2次元配列を1次元に＆日付け降順
-                // フラットにしてから日時順並び替え
-                content_list_temp = content_list_temp.flat(1);
-                content_list_temp.sort((x, y) => {
-                    if (x["review_date"] > y["review_date"]) {
-                        return -1;
-                    } else {
-                        return 1;
-                    }
-                });
-
-                this.content_list.push(content_list_temp.slice(0,6));
+                this.content_list.push(content_list_temp.slice(0, 6));
                 this.content_list = this.content_list.flat(1);
 
                 // ローディング終了
-                media_data_by_store["loading"] = false;
+                media_data_temp["loading"] = false;
             }
 
-            console.log(this.content_list);
-            console.log("finish create_data");
 
             // this.$nuxt.$loading.finish();
         },

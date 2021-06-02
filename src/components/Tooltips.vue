@@ -41,6 +41,7 @@ export default {
     .store_name {
         font-size: 20px;
         font-weight: bold;
+        overflow: hidden;
     }
 }
 </style>
