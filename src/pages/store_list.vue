@@ -60,7 +60,7 @@ export default {
                         console.log(e);
                     });
             }
-            console.log(this.media_data_list_by_store);
+            // console.log(this.media_data_list_by_store);
 
             // 成形
             for (var i in this.media_data_list_by_store) {
@@ -110,6 +110,7 @@ export default {
             for (var media_data_by_store of this.media_data_list_by_store) {
                 for (var media_data of media_data_by_store) {
                     await this.$axios
+                    // this.$axios
                         .get(`api/reviews?media=${media_data.id}`)
                         .then(function (res) {
                             //本文を集める
@@ -138,6 +139,7 @@ export default {
                         });
                 }
                 media_data_by_store["loading"] = false
+                console.log('ffffffffff');
             }
 
             // 2次元配列を1次元に＆日付け降順
@@ -151,6 +153,7 @@ export default {
             });
 
             console.log(this.content_list);
+            console.log('finish create_data');
 
 
             // this.$nuxt.$loading.finish();
@@ -203,6 +206,7 @@ export default {
         ); // 1ページ分のデータ
 
         // media_data取得ーーーーーーー
+        // this.create_data(sliced_store_list.slice(0,2));
         this.create_data(sliced_store_list);
 
         // console.log(this.content_list);

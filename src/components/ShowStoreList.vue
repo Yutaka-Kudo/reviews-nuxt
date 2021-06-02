@@ -26,7 +26,7 @@
                 </span>
             </div>
 
-            <div class="d-flex flex-wrap justify-space-around justify-sm-start">
+            <div class="d-flex flex-wrap  justify-sm-start">
                 <v-card-subtitle
                     class="rate_by_media pb-1"
                     v-for="media_d in media_data"
@@ -299,6 +299,9 @@ export default {
 
 @media (max-width: 860px) {
 }
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 600px) {
+    .rate_by_media{
+        width: 50%;
+    }
 }
 </style>

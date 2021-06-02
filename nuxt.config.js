@@ -8,8 +8,9 @@ export default {
 		// base: baseDir,//ベースディレクトリをgenerate時に変更できるようにする
 	},
 	// Target: https://go.nuxtjs.dev/config-target
-	// ssr: true,
-	target: 'static',
+	ssr: true,
+	// target: 'static',
+	target: 'server',
 
 	// Global page headers: https://go.nuxtjs.dev/config-head
 	head: {
