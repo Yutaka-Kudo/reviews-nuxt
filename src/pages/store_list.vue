@@ -47,6 +47,7 @@ export default {
 
             console.log(sliced_store_list);
             let that = this;
+            this.content_list.splice(0);
 
             for (var i in sliced_store_list) {
                 var store_data = sliced_store_list[i];
@@ -143,7 +144,6 @@ export default {
                 media_data_temp["loading"] = false;
             }
 
-
             // this.$nuxt.$loading.finish();
         },
 
@@ -211,6 +211,14 @@ export default {
 };
 </script>
 
+<style>
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+</style>
 <style scoped>
 .bg {
     background-color: rgba(0, 0, 0, 0);

@@ -1,16 +1,19 @@
 <template>
-    <div class="text-center d-flex align-center justify-space-around">
+    <div class="tooltip text-center d-flex align-center justify-space-around">
         <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-                <span class="store_name d-sm-none" v-bind="attrs" v-on="on">{{
-                    store_name | store_name_view_xs
-                }}</span>
+                <span class="store_name d-sm-none" v-bind="attrs" v-on="on">
+                    {{ store_name | store_name_view_xs }}
+                </span>
                 <span
                     class="store_name d-none d-sm-flex"
                     v-bind="attrs"
                     v-on="on"
-                    >{{ store_name | store_name_view_sm }}</span
                 >
+                    <span>
+                        {{ store_name }}
+                    </span>
+                </span>
             </template>
             <span>{{ store_name }}</span>
         </v-tooltip>
@@ -34,14 +37,26 @@ export default {
 </script>
 
 <style scoped>
-.store_name {
-    word-break: keep-all;
+span {
+    display: inline-block;
 }
-@media screen and (max-width: 600px) {
-    .store_name {
-        font-size: 20px;
-        font-weight: bold;
+.tooltip {
+    overflow: hidden;
+}
+.store_name {
+    overflow: hidden;
+}
+@media screen and (min-width: 960px) {
+    .store_name span {
+        word-break: break-word;
+        white-space: nowrap;
         overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+@media screen and (max-width: 960px) {
+    .store_name span {
+        word-break: break-word;
     }
 }
 </style>

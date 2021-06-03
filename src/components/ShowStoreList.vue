@@ -9,14 +9,19 @@
             :loading="media_data['loading']"
             v-cloak
         >
-            <div class="card_head d-flex flex-column align-center flex-sm-row">
-                <v-card-title class="store_name text-h5 pb-1 pb-sm-0">
-                    <Tooltips
-                        :store_name="media_data[0].store.store_name"
+            <div
+                class="card_head d-flex flex-column align-center flex-sm-row justify-sm-start"
+            >
+                <v-card-title
+                    class="store_name text-h5 pb-1 pb-sm-0 d-flex flex-nowrap"
+                >
+                    <span
                         :class="{ uber_limited: media_data['uber_only'] }"
-                    />
+                    ></span>
+                    <Tooltips :store_name="media_data[0].store.store_name" />
                 </v-card-title>
-                <span class="rate_num_total align-self-sm-end"
+                <span
+                    class="rate_num_total align-self-sm-end flex-sm-shrink-0 mr-sm-2"
                     >{{
                         media_data.total_rate == "0.0"
                             ? " -"
@@ -26,7 +31,7 @@
                 </span>
             </div>
 
-            <div class="d-flex flex-wrap  justify-sm-start">
+            <div class="d-flex flex-wrap justify-sm-start">
                 <v-card-subtitle
                     class="rate_by_media pb-1"
                     v-for="media_d in media_data"
@@ -34,11 +39,46 @@
                 >
                     <div class="d-flex flex-column">
                         <div class="d-flex justify-center">
-                            <p class="media_link">
-                                <a :href="media_d['url']" target="_blank">{{
-                                    media_d["media_type"]["official_name"]
-                                }}</a>
-                            </p>
+                            <!-- mediaリンク -->
+                            <!-- スマホからのgoogleリンクが変なので修正 -->
+                            <div
+                                v-if="
+                                    media_d['media_type']['official_name'] ==
+                                    'Google'
+                                "
+                            >
+                                <p class="media_link d-sm-none">
+                                    <a
+                                        :href="`https://www.google.com/search?q=千葉県船橋市+居酒屋+${media_d['store']['store_name']}`"
+                                        target="_blank"
+                                    >
+                                        {{
+                                            media_d["media_type"][
+                                                "official_name"
+                                            ]
+                                        }}
+                                    </a>
+                                </p>
+
+                                <p class="media_link d-none d-sm-flex">
+                                    <a :href="media_d['url']" target="_blank">
+                                        {{
+                                            media_d["media_type"][
+                                                "official_name"
+                                            ]
+                                        }}
+                                    </a>
+                                </p>
+                            </div>
+                            <div v-else>
+                                <p class="media_link">
+                                    <a :href="media_d['url']" target="_blank">{{
+                                        media_d["media_type"]["official_name"]
+                                    }}</a>
+                                </p>
+                            </div>
+                            <!-- mediaリンク end -->
+
                             <span class="review_count ml-2">{{
                                 media_d["review_count"] | if_zero
                             }}</span>
@@ -161,7 +201,11 @@
                     </div>
 
                     <b class="media_type align-self-end flex-sm-shrink-0">
-                        {{ content["media_type"] == "ぐるなび" ? "TripAdvisor" : content["media_type"] }}
+                        {{
+                            content["media_type"] == "ぐるなび"
+                                ? "TripAdvisor"
+                                : content["media_type"]
+                        }}
                     </b>
                 </v-card-text>
             </div>
@@ -229,7 +273,12 @@ export default {
     /* color: white; */
 }
 .store_name {
-    display: inline-block;
+    overflow: hidden;
+}
+
+.rate_num_total:before {
+    content: "総合";
+    font-size: 13px;
 }
 .media_link {
     text-align: center;
@@ -255,15 +304,10 @@ export default {
     font-size: 13px;
 }
 
-.rate_num_total:before {
-    content: "総合";
-    font-size: 13px;
-}
-
 .rev_head_opened {
     position: sticky;
     /* top: 100px; */
-    top: 65px;
+    top: 13px;
 }
 .rev_content_text_detail {
     white-space: pre-line;
@@ -297,10 +341,10 @@ export default {
     border-radius: 3px;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 960px) {
 }
 @media screen and (max-width: 600px) {
-    .rate_by_media{
+    .rate_by_media {
         width: 50%;
     }
 }
