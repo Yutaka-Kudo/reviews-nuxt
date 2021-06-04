@@ -1,43 +1,41 @@
 <template>
-    <v-col cols="12" sm="8" md="6" class="search_box">
-        <!-- enter押してもブラウザロードしないように -->
-        <v-form
-            @submit.prevent="area_submit"
-            class="d-flex flex-column"
+    <!-- enter押してもブラウザロードしないように -->
+    <v-form
+        @submit.prevent="area_submit"
+        class="search_box d-flex flex-column"
+        v-cloak
+    >
+        <v-text-field
+            v-model.trim="search_word"
+            label="エリア"
+            prepend-icon="mdi-earth-box-plus"
+            append-outer-icon="mdi-send"
+            @click:append-outer="area_submit"
+            clear-icon="mdi-close-circle"
+            clearable
+            filled
+            dark
+            background-color="rgba(255, 255, 255, 0.3)"
             v-cloak
-        >
-            <v-text-field
-                v-model.trim="search_word"
-                label="エリア"
-                prepend-icon="mdi-earth-box-plus"
-                append-outer-icon="mdi-send"
-                @click:append-outer="area_submit"
-                clear-icon="mdi-close-circle"
-                clearable
-                filled
-                dark
-                background-color="rgba(255, 255, 255, 0.3)"
-                v-cloak
-            />
-            <!-- autofocus -->
-            <!-- rounded -->
+        />
+        <!-- autofocus -->
+        <!-- rounded -->
 
-            <!-- インクリメンタルサーチ -->
-            <div class="list_items mb-auto">
-                <transition-group name="incre_search">
-                    <v-card
-                        v-for="(area_data, index) in filtered_area"
-                        :key="area_data.id"
-                        @click="area_submit_by_incremental(area_data)"
-                        class="list_item pr-2 pl-2 mb-2 ml-8"
-                    >
-                        <!-- :class="index % 2 == 1 ? `isEven` : `noEven`" -->
-                        <span v-html="area_data.area_name"></span>
-                    </v-card>
-                </transition-group>
-            </div>
-        </v-form>
-    </v-col>
+        <!-- インクリメンタルサーチ -->
+        <div class="list_items mb-auto">
+            <transition-group name="incre_search">
+                <v-card
+                    v-for="(area_data, index) in filtered_area"
+                    :key="area_data.id"
+                    @click="area_submit_by_incremental(area_data)"
+                    class="list_item pr-2 pl-2 mb-2 ml-8"
+                >
+                    <!-- :class="index % 2 == 1 ? `isEven` : `noEven`" -->
+                    <span v-html="area_data.area_name"></span>
+                </v-card>
+            </transition-group>
+        </div>
+    </v-form>
 </template>
 
 
@@ -124,12 +122,10 @@ export default {
 </script>
 
 <style scoped>
-.search_box {
-    max-height: 100%;
-}
 .v-form {
     height: auto;
-    max-height: 100%;
+    max-height: 78vh;
+    /* max-height: 100%; */
 }
 .v-input {
     font-size: large;
@@ -145,6 +141,7 @@ export default {
 }
 .list_items {
     overflow: scroll;
+    -ms-overflow-style: none;
 }
 .list_items::-webkit-scrollbar {
     display: none;
@@ -171,9 +168,9 @@ export default {
 
 @media screen and (max-width: 960px) {
     .search_box {
-        max-height: 80%;
-        flex-shrink: 1;
-        flex-basis: initial;
+        /* max-height: 80%; */
+        /* flex-shrink: 1; */
+        /* flex-basis: initial; */
     }
 }
 </style>

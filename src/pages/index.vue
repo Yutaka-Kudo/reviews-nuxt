@@ -1,12 +1,19 @@
 <template>
-    <div class="bg">
-        <div
-            class="search_list_wrap pr-5 pl-5 d-flex flex-column  align-start flex-md-row  "
-        >
-            <AreaSearch :area_list="area_list" @get_area_obj="get_area_obj" />
-            <StoreSearch :store_list="store_list" @get_ref="get_ref" />
-            <!-- <template> </template> -->
-        </div>
+    <div class="search_list_wrap">
+        <v-container>
+            <v-row>
+                <v-col cols="12" md="6">
+                    <AreaSearch
+                        :area_list="area_list"
+                        @get_area_obj="get_area_obj"
+                    />
+                </v-col>
+                <v-col cols="12" md="6">
+                    <StoreSearch :store_list="store_list" @get_ref="get_ref" />
+                </v-col>
+            </v-row>
+        </v-container>
+        <!-- <template> </template> -->
     </div>
 </template>
 
@@ -119,16 +126,13 @@ export default {
 <style scoped>
 .bg {
     /* height: 100%; */
-    height: calc(100vh - 40px);
+    /* height: calc(100vh - 40px); */
 }
 .search_list_wrap {
-    padding-top: 10vh;
-    height: calc(100vh - 40px);
+    padding-top: 70px;
+    /* height: calc(100vh - 40px); */
     /* height: 100vh; */
     /* overflow: scroll; */
-}
-.search_list_wrap::-webkit-scrollbar {
-    display: none;
 }
 
 
@@ -151,5 +155,11 @@ export default {
 
 .scroll-leave {
     transform: translateX(0px);
+}
+
+@media screen and (max-width: 960px) {
+    .search_list_wrap{
+            /* height: 90vh; */
+    }
 }
 </style>

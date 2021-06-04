@@ -123,7 +123,7 @@ export default {
 
     background-size: cover;
     /* height: 100%; */
-    height: 100vh;
+    /* height: 100vh; */
     /* opacity: 0.5; */
     /* 必須 */
     position: relative;

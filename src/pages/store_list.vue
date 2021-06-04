@@ -226,7 +226,7 @@ export default {
     background-attachment: fixed;
 
     /* height: 100%; */
-    height: 100vh;
+    /* height: 100vh; */
     /* 必須 */
 
     animation: opaMove 3s 3s forwards;
@@ -234,8 +234,8 @@ export default {
 .store_list_wrap {
     /* height: 100vh; */
     /* overflow: scroll; */
-    height: calc(100vh - 40px);
-    overflow: scroll;
+    /* height: calc(100vh - 40px); */
+    /* overflow: scroll; */
 }
 .store_list_wrap::-webkit-scrollbar {
     display: none;

@@ -49,7 +49,7 @@
                             >
                                 <p class="media_link d-sm-none">
                                     <a
-                                        :href="`https://www.google.com/search?q=千葉県船橋市+居酒屋+${media_d['store']['store_name']}`"
+                                        :href="`https://www.google.com/search?tbs=lf:1,lf_ui:9&tbm=lcl&q=千葉県船橋市+居酒屋+${media_d['store']['store_name']}`"
                                         target="_blank"
                                     >
                                         {{
@@ -189,7 +189,7 @@
                         <v-expand-transition>
                             <div
                                 v-show="content['seen']"
-                                @click="show_detail(content)"
+                                @click="close_detail(content)"
                             >
                                 <div
                                     class="rev_content_text rev_content_text_detail"
@@ -219,6 +219,11 @@ export default {
     components: {
         Tooltips,
     },
+    data() {
+        return {
+            scrollY: 0,
+        };
+    },
     props: {
         // store_list: Array,
         media_data_list_by_store: Array,
@@ -228,7 +233,42 @@ export default {
     methods: {
         show_detail(content) {
             content["seen"] = !content["seen"];
+
+            // ヘッダーが降りてきたらstickyしてるやつも合わせて降ろす。
+            let rev_head_opened_elems = document.getElementsByClassName(
+                "rev_head_opened"
+            );
+            const target = document.getElementsByClassName("v-app-bar")[0];
+            let func = function () {
+                let observer = new MutationObserver(function () {
+                    if (
+                        !document.getElementsByClassName(
+                            "v-app-bar--hide-shadow"
+                        )[0]
+                    ) {
+                        rev_head_opened_elems.forEach(function (elem) {
+                            elem.classList.add("rev_head_opened_with_header");
+                        });
+                    } else {
+                        rev_head_opened_elems.forEach(function (elem) {
+                            elem.classList.remove(
+                                "rev_head_opened_with_header"
+                            );
+                        });
+                    }
+                });
+                observer.observe(target, { attributes: true });
+            };
+            setTimeout(func, 5); // これないとgetElementsByClassNameの結果が取れない。多分クラスの変更に時間がかかる模様。
         },
+
+        close_detail(content) {
+            content["seen"] = !content["seen"];
+        },
+        // handle_scroll() {
+        //     this.scrollY = window.scrollY;
+        //     console.log(this.scrollY);
+        // },
     },
 
     computed: {
@@ -242,6 +282,8 @@ export default {
         console.log("child mount");
         console.log(this.content_list);
         // console.log(this.media_data_list_by_store);
+
+        // window.addEventListener("scroll", this.handle_scroll);
     },
 
     filters: {
@@ -308,6 +350,13 @@ export default {
     position: sticky;
     /* top: 100px; */
     top: 13px;
+    transition: 0.2s 0.2s cubic-bezier(0.4, 0, 0.2, 1) top;
+}
+.rev_head_opened_with_header {
+    position: sticky;
+    /* top: 100px; */
+    top: 53px;
+
 }
 .rev_content_text_detail {
     white-space: pre-line;
