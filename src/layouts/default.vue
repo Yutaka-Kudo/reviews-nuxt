@@ -53,7 +53,8 @@
                 <v-icon>mdi-minus</v-icon>
             </v-btn> -->
             <v-spacer />
-            <v-toolbar-title v-text="title" />
+            <!-- <v-toolbar-title v-html="<i>title</i>" /> -->
+            <v-toolbar-title v-html="title" />
             <v-spacer />
             <!-- <v-btn icon @click.stop="rightDrawer = !rightDrawer">
                 <v-icon>mdi-menu</v-icon>
@@ -109,7 +110,7 @@ export default {
             miniVariant: false,
             right: true,
             rightDrawer: false,
-            title: "RESTAURANT REVIEWS",
+            title: "RESTAURARY",
         };
     },
 };

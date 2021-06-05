@@ -4,6 +4,7 @@
             v-model="page"
             :length="page_length"
             @input="page_change"
+            total-visible=8
         ></v-pagination>
     </div>
 </template>
@@ -40,3 +41,21 @@ export default {
     },
 };
 </script>
+
+<style >
+.v-pagination > li {
+    align-items: center;
+    display: flex;
+    align-self: flex-end;
+}
+.v-pagination__more {
+    margin: 0.3rem;
+    display: inline-flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 13px;
+    width: 32px;
+    background: white;
+        border-radius: 4px;
+}
+</style>

@@ -7,7 +7,7 @@
       {{ otherError }}
     </h1>
     <NuxtLink to="/">
-      Home page
+      Home Page
     </NuxtLink>
   </v-app>
 </template>
@@ -24,7 +24,7 @@ export default {
   data () {
     return {
       pageNotFound: '404 Not Found',
-      otherError: 'An error occurred'
+      otherError: 'データの読み込みに失敗しました。<br>ホーム画面に戻って操作をやり直してください。'
     }
   },
   head () {
@@ -39,6 +39,6 @@ export default {
 
 <style scoped>
 h1 {
-  font-size: 20px;
+  font-size: 30px;
 }
 </style>

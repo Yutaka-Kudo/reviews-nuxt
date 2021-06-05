@@ -1,19 +1,28 @@
 <template>
-    <div class="search_list_wrap">
-        <v-container>
-            <v-row>
-                <v-col cols="12" md="6">
-                    <AreaSearch
-                        :area_list="area_list"
-                        @get_area_obj="get_area_obj"
-                    />
-                </v-col>
-                <v-col cols="12" md="6">
-                    <StoreSearch :store_list="store_list" @get_ref="get_ref" />
-                </v-col>
-            </v-row>
-        </v-container>
-        <!-- <template> </template> -->
+    <div>
+        <div class="description">
+            RESTAURARY(レストラリー)で、飲食店の評価・口コミ(レビュー)を最新順でCheck
+            気になってるお店の最近の情報がまるはだか！
+        </div>
+        <div class="search_list_wrap">
+            <v-container>
+                <v-row>
+                    <v-col cols="12" md="6">
+                        <AreaSearch
+                            :area_list="area_list"
+                            @get_area_obj="get_area_obj"
+                        />
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <StoreSearch
+                            :store_list="store_list"
+                            @get_ref="get_ref"
+                        />
+                    </v-col>
+                </v-row>
+            </v-container>
+            <!-- <template> </template> -->
+        </div>
     </div>
 </template>
 
@@ -128,13 +137,16 @@ export default {
     /* height: 100%; */
     /* height: calc(100vh - 40px); */
 }
+.description{
+    background-color: rgba(255, 255, 255, 0.3);
+    /* border-color: rgba(255, 255, 255, 0.3); */
+}
 .search_list_wrap {
     padding-top: 70px;
     /* height: calc(100vh - 40px); */
     /* height: 100vh; */
     /* overflow: scroll; */
 }
-
 
 .scroll-enter-active {
     /* animation: scroll-in 0.8s; */
@@ -158,8 +170,8 @@ export default {
 }
 
 @media screen and (max-width: 960px) {
-    .search_list_wrap{
-            /* height: 90vh; */
+    .search_list_wrap {
+        /* height: 90vh; */
     }
 }
 </style>
