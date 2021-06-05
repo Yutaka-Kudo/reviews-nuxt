@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/", {data:[{}],fetch:{},mutations:[["set_area_list",[{id:3,area_name:"千葉県 千葉市"},{id:2,area_name:"千葉県 市川市"},{id:7,area_name:"千葉県 柏市"},{id:4,area_name:"千葉県 習志野市"},{id:12,area_name:"千葉県 船橋市"},{id:5,area_name:"埼玉県 さいたま市"},{id:10,area_name:"埼玉県 上尾市"},{id:6,area_name:"東京都 中目黒"}]]]});

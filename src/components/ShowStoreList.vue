@@ -281,6 +281,7 @@ export default {
     mounted: function () {
         console.log("child mount");
         console.log(this.content_list);
+        // console.log(this.$vuetify.breakpoint);
         // console.log(this.media_data_list_by_store);
 
         // window.addEventListener("scroll", this.handle_scroll);

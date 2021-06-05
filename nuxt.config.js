@@ -55,6 +55,9 @@ export default {
 		// https://go.nuxtjs.dev/pwa
 		'@nuxtjs/pwa',
 		// '@nuxtjs/proxy',
+
+		// ↓ 配列の最後でsitemapモジュールを宣言
+		'@nuxtjs/sitemap',
 	],
 
 	// Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -76,11 +79,23 @@ export default {
 	// 	},
 	// },
 
+	sitemap: {
+		hostname: "https://restaurary.com/",
+		exclude: [
+			// '/admin/**',
+		],
+		// ↓ 動的なルーティングで生成したページは明示的に宣言
+		routes: [
+			// '/kind/apple',
+			// '/kind/banana',
+		]
+	},
+
 
 	// PWA module configuration: https://go.nuxtjs.dev/pwa
 	pwa: {
 		manifest: {
-			lang: 'en'
+			lang: 'ja'
 		}
 	},
 
