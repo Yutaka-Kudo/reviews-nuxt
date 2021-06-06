@@ -1,6 +1,7 @@
 import colors from 'vuetify/es5/util/colors'
 
 // const baseDir = process.env.BASE_DIR || '/' //ベースディレクトリをgenerate時に変更できるようにする
+require('dotenv').config()
 
 export default {
 	router: {
@@ -14,8 +15,8 @@ export default {
 
 	// Global page headers: https://go.nuxtjs.dev/config-head
 	head: {
-		titleTemplate: '%s - reviews_nuxt',
-		title: 'reviews_nuxt',
+		titleTemplate: '%s - RESTAURARY',
+		title: 'RESTAURARY',
 		meta: [
 			{ charset: 'utf-8' },
 			{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -58,6 +59,9 @@ export default {
 
 		// ↓ 配列の最後でsitemapモジュールを宣言
 		'@nuxtjs/sitemap',
+
+		// Docs: https://github.com/nuxt-community/gtm-module
+		'@nuxtjs/gtm',
 	],
 
 	// Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -91,6 +95,18 @@ export default {
 		]
 	},
 
+	gtm: {
+		id: process.env.GTM_ID,
+		pageTracking: true,
+		enabled: true,
+		// pageViewEventName: 'nuxtRoute', //変更する場合
+	},
+	//   // 動的変数を使う場合（本番と分ける時など）には追加
+	//   publicRuntimeConfig: {
+	// 	gtm: {
+	// 	  id: process.env.GTM_ID,
+	// 	  pageTracking: true
+	// 	},
 
 	// PWA module configuration: https://go.nuxtjs.dev/pwa
 	pwa: {

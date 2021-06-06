@@ -211,6 +211,7 @@ export default {
         /* flex-shrink: 1; */
     }
     .list_items {
+        min-height: 30vh;
         max-height: 44vh;
     }
     .incre_search-leave-active {

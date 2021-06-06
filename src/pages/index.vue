@@ -1,12 +1,12 @@
 <template>
-    <div>
+    <v-container class="index_wrap">
         <div class="description">
             RESTAURARY(レストラリー)で、飲食店の評価・口コミ(レビュー)を最新順でCheck
             気になってるお店の最近の情報がまるはだか！
         </div>
         <div class="search_list_wrap">
             <v-container>
-                <v-row>
+                <v-row class="flex-column">
                     <v-col cols="12" md="6">
                         <AreaSearch
                             :area_list="area_list"
@@ -23,7 +23,7 @@
             </v-container>
             <!-- <template> </template> -->
         </div>
-    </div>
+    </v-container>
 </template>
 
 <script>
@@ -137,7 +137,10 @@ export default {
     /* height: 100%; */
     /* height: calc(100vh - 40px); */
 }
-.description{
+.container{
+    /* height: 100%; */
+}
+.description {
     background-color: rgba(255, 255, 255, 0.3);
     /* border-color: rgba(255, 255, 255, 0.3); */
 }
@@ -170,8 +173,13 @@ export default {
 }
 
 @media screen and (max-width: 960px) {
+    .index_wrap{
+        display: flex;
+        flex-direction: column;
+    }
     .search_list_wrap {
         /* height: 90vh; */
+        /* flex-grow: 1; */
     }
 }
 </style>
