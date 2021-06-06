@@ -8,6 +8,7 @@
             <ShowStoreList
                 :media_data_list_by_store="media_data_list_by_store"
                 :content_list="content_list"
+                :seen_whole="seen_whole"
             />
             <Pagination
                 :page_length="pages.page_length"
@@ -43,6 +44,7 @@ export default {
                 now_page: 1,
             },
             page_is_disabled: false,
+            seen_whole: true,
         };
     },
     methods: {
@@ -185,6 +187,11 @@ export default {
                 if (this.pages["now_page"] + 1 == page_num) {
                     this.pages["now_page"] = page_num;
                     this.page_is_disabled = true;
+
+                    this.seen_whole = false;
+                    const that = this
+                    function fufu(){that.seen_whole = true}
+                    setTimeout(fufu, 20);
 
                     this.media_data_list_by_store = _.cloneDeep(
                         this.media_data_list_by_store_next
