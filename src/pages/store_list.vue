@@ -12,6 +12,7 @@
             <Pagination
                 :page_length="pages.page_length"
                 @page_change="page_change"
+                :page_is_disabled="page_is_disabled"
             />
         </v-container>
     </div>
@@ -32,22 +33,38 @@ export default {
     data() {
         return {
             media_data_list_by_store: [],
+            media_data_list_by_store_next: [],
             content_list: [],
+            content_list_next: [],
             store_list: [],
             pages: {
                 page_size: 10,
                 page_length: 0,
                 now_page: 1,
             },
+            page_is_disabled: false,
         };
     },
     methods: {
-        create_data: async function (sliced_store_list) {
+        create_data: async function (sliced_store_list, next_flg = false) {
             // this.$nuxt.$loading.start();
 
             // console.log(sliced_store_list);
-            let that = this;
-            this.content_list.splice(0);
+            // let that = this;
+
+            if (!next_flg) {
+                this.media_data_list_by_store.splice(0);
+                this.content_list.splice(0);
+                console.log("4444");
+            } else {
+                this.media_data_list_by_store_next.splice(0);
+                this.content_list_next.splice(0);
+                console.log("55555");
+            }
+            console.log(this.media_data_list_by_store[0]);
+            console.log(this.media_data_list_by_store_next[0]);
+            console.log(this.media_data_list_by_store);
+            console.log(this.media_data_list_by_store_next);
 
             for (var i in sliced_store_list) {
                 var store_data = sliced_store_list[i];
@@ -96,7 +113,12 @@ export default {
                         junban.indexOf(x["media_type"]["media_type"]) -
                         junban.indexOf(y["media_type"]["media_type"])
                 );
-                this.media_data_list_by_store.push(media_data_temp);
+
+                if (!next_flg) {
+                    this.media_data_list_by_store.push(media_data_temp);
+                } else {
+                    this.media_data_list_by_store_next.push(media_data_temp);
+                }
                 // }
                 // console.log(JSON.stringify(this.media_data_list_by_store));
 
@@ -137,36 +159,73 @@ export default {
                     });
                 }
 
-                this.content_list.push(content_list_temp.slice(0, 6));
-                this.content_list = this.content_list.flat(1);
+                if (!next_flg) {
+                    this.content_list.push(content_list_temp.slice(0, 6));
+                    this.content_list = this.content_list.flat(1);
+                    console.log("no next");
+                } else {
+                    this.content_list_next.push(content_list_temp.slice(0, 6));
+                    this.content_list_next = this.content_list_next.flat(1);
+                    console.log("next!!!");
+                    // console.log(this.content_list_next);
+                }
 
                 // ローディング終了
                 media_data_temp["loading"] = false;
             }
 
             // this.$nuxt.$loading.finish();
+            // console.log(this.media_data_list_by_store_next);
+            // console.log(this.content_list_next);
         },
 
-        page_change: function (page_num) {
+        page_change: async function (page_num) {
             // 現在のページなら機能しないように
             if (this.pages["now_page"] != page_num) {
-                this.pages["now_page"] = page_num;
+                if (this.pages["now_page"] + 1 == page_num) {
+                    this.pages["now_page"] = page_num;
+                    this.page_is_disabled = true;
 
-                // console.log("mount");
+                    this.media_data_list_by_store = _.cloneDeep(
+                        this.media_data_list_by_store_next
+                    );
+                    this.content_list = _.cloneDeep(this.content_list_next);
 
-                console.log(this.pages["page_length"]);
-                let sliced_store_list = this.store_list.slice(
-                    this.pages["page_size"] * (page_num - 1),
-                    this.pages["page_size"] * page_num
-                ); // 1ページ分のデータ
+                    // 次ページ分
+                    let sliced_store_list_next = this.store_list.slice(
+                        this.pages["page_size"] * page_num,
+                        this.pages["page_size"] * (page_num + 1)
+                    );
 
-                this.media_data_list_by_store.splice(0);
-                // media_data取得ーーーーーーー
-                this.create_data(sliced_store_list);
+                    // 次ページ分ストック
+                    await this.create_data(sliced_store_list_next, true);
 
-                // console.log(this.content_list);
+                    this.page_is_disabled = false;
+                } else {
+                    this.pages["now_page"] = page_num;
+                    this.page_is_disabled = true;
 
-                // console.log(JSON.stringify(this.review_obj_list));
+                    // 1ページ分store_list
+                    let sliced_store_list = this.store_list.slice(
+                        this.pages["page_size"] * (page_num - 1),
+                        this.pages["page_size"] * page_num
+                    );
+
+                    await this.create_data(sliced_store_list);
+
+                    // 次ページ分
+                    let sliced_store_list_next = this.store_list.slice(
+                        this.pages["page_size"] * page_num,
+                        this.pages["page_size"] * (page_num + 1)
+                    );
+
+                    // 次ページ分ストック
+                    await this.create_data(sliced_store_list_next, true);
+
+                    this.page_is_disabled = false;
+
+                    // console.log(JSON.stringify(this.review_obj_list));
+                }
             }
         },
     },
@@ -178,26 +237,37 @@ export default {
     //     },
     // },
 
-    created: function () {
-        console.log("parent created");
-        this.store_list = this.$store.getters["store_list"];
-        let that = this;
-        console.log("created");
+    created: async function () {
+        // console.log("parent created");
 
+        this.page_is_disabled = true;
+
+        this.store_list = this.$store.getters["store_list"];
+        // let that = this;
+        // console.log("created");
+
+        //ページ数、決定
         this.pages["page_length"] = Math.ceil(
             this.store_list.length / this.pages["page_size"]
-        ); //ページ数、決定
-        // console.log(this.pages["page_length"]);
+        );
+
+        // 1ページ分store_list
         let sliced_store_list = this.store_list.slice(
             0,
             this.pages["page_size"]
-        ); // 1ページ分のデータ
+        );
 
-        // media_data取得ーーーーーーー
-        // this.create_data(sliced_store_list.slice(0,2));
-        this.create_data(sliced_store_list);
+        await this.create_data(sliced_store_list);
 
-        // console.log(this.content_list);
+        // 次ページ分
+        let sliced_store_list_next = this.store_list.slice(
+            this.pages["page_size"],
+            this.pages["page_size"] * 2
+        );
+        await this.create_data(sliced_store_list_next, true);
+
+        this.page_is_disabled = false;
+
         // console.log(JSON.stringify(this.review_obj_list));
     },
     transition: {

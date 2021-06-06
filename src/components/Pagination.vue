@@ -5,6 +5,7 @@
             :length="page_length"
             @input="page_change"
             total-visible=8
+            :disabled="page_is_disabled"
         ></v-pagination>
     </div>
 </template>
@@ -21,6 +22,7 @@ export default {
     },
     props: {
         page_length: Number,
+        page_is_disabled: Boolean,
     },
     methods: {
         page_change: function (num) {
