@@ -1,13 +1,29 @@
 import colors from 'vuetify/es5/util/colors'
 
-// const baseDir = process.env.BASE_DIR || '/' //ベースディレクトリをgenerate時に変更できるようにする
 require('dotenv').config()
+
+// meta
+const lang = 'ja'
+const siteName = 'RESTAURARY ~レストラリー~'
+const siteDesc = 'RESTAURARY(レストラリー)で、飲食店の評価・口コミ(レビュー)を最新順でCheck。気になってるお店の最近の情報がまるはだか！'
+const siteKeywords = 'レストラン,飲食店,口コミ,レビュー'
+
+// OGP関連
+// path
+const baseHost = process.env.BASE_HOST || 'http://localhost:3000'
+const baseDir = process.env.BASE_DIR || '/' //ベースディレクトリをgenerate時に変更できるようにする
+const baseUrl = baseHost + baseDir
+const ogpImages = baseUrl + 'img/ogp/'
+
+// pwa
+const shortName = 'RESTAURARY'
 
 export default {
 	router: {
 		// base: '/nuxt/'
-		// base: baseDir,//ベースディレクトリをgenerate時に変更できるようにする
+		base: baseDir,//ベースディレクトリをgenerate時に変更できるようにする
 	},
+
 	// Target: https://go.nuxtjs.dev/config-target
 	// ssr: true,
 	target: 'static',
@@ -15,21 +31,63 @@ export default {
 
 	// Global page headers: https://go.nuxtjs.dev/config-head
 	head: {
-		titleTemplate: '%s - RESTAURARY',
-		title: 'RESTAURARY',
+		htmlAttrs: {
+			lang: lang,
+			prefix: 'og: http://ogp.me/ns#',
+		},
+		titleTemplate: `%s - ${siteName}`,
+		// title: 'RESTAURARY',
 		meta: [
 			{ charset: 'utf-8' },
+			// { 'http-equiv': 'x-ua-compatible', content: 'ie=edge' },
 			{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
-			{ hid: 'description', name: 'description', content: '' }
+			// { name: 'format-detection', content: 'telephone=no, email=no, address=no' },
+
+			// SEO関連
+			{ hid: 'description', name: 'description', content: siteDesc },
+			{ hid: 'keywords', name: 'keywords', content: siteKeywords },
+
+			// OGP関連
+			{ hid: 'og:site_name', property: 'og:site_name', content: siteName },
+			{ hid: 'og:type', property: 'og:type', content: 'website' },
+			{ hid: 'og:url', property: 'og:url', content: baseUrl },
+			{ hid: 'og:title', property: 'og:title', content: siteName },
+			{ hid: 'og:description', property: 'og:description', content: siteDesc },
+			{ hid: 'og:image', property: 'og:image', content: `${ogpImages}home.jpg` },
+			{ name: 'twitter:card', content: 'summary_large_image' },
+			// { name: 'twitter:site', content: '@Twitter' },
+			// { property: 'article:publisher', content: 'FacebookURL' },
+			// { property: 'fb:app_id', content: 'FacebookAppID' },
+
 		],
 		link: [
-			{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+			// favicon
+			{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+			{ rel: 'apple-touch-icon', sizes: '180x180', href: 'apple-touch-icon.png' },
+
+			// pwa splash screens
+			// Doc: https://appsco.pe/developer/splash-screens
+			{ href: 'iphone5_splash.png', media: '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)', rel: 'apple-touch-startup-image' },
+			{ href: 'iphone6_splash.png', media: '(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)', rel: 'apple-touch-startup-image' },
+			{ href: 'iphoneplus_splash.png', media: '(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)', rel: 'apple-touch-startup-image' },
+			{ href: 'iphonex_splash.png', media: '(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)', rel: 'apple-touch-startup-image' },
+			{ href: 'iphonexr_splash.png', media: '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)', rel: 'apple-touch-startup-image' },
+			{ href: 'iphonexsmax_splash.png', media: '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)', rel: 'apple-touch-startup-image' },
+			{ href: 'ipad_splash.png', media: '(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)', rel: 'apple-touch-startup-image' },
+			{ href: 'ipadpro1_splash.png', media: '(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)', rel: 'apple-touch-startup-image' },
+			{ href: 'ipadpro3_splash.png', media: '(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)', rel: 'apple-touch-startup-image' },
+			{ href: 'ipadpro2_splash.png', media: '(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)', rel: 'apple-touch-startup-image' }
 		],
 		script: [
 			// lodash
-			{ src: "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js" }
+			{ src: "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js" },
+
+			// polyfills ※キャッシュ例のために記載
+			{ src: '//polyfill.io/v2/polyfill.min.js?features=WebAnimations,IntersectionObserver' },
 		],
 	},
+
+
 
 	// Global CSS: https://go.nuxtjs.dev/config-css
 	css: [
@@ -85,6 +143,7 @@ export default {
 
 	sitemap: {
 		hostname: "https://restaurary.com/",
+
 		exclude: [
 			// '/admin/**',
 		],
@@ -111,8 +170,17 @@ export default {
 	// PWA module configuration: https://go.nuxtjs.dev/pwa
 	pwa: {
 		manifest: {
-			lang: 'ja'
-		}
+			name: siteName,
+			lang: lang,
+			short_name: shortName,
+			// title: 'demo',
+			// 'og:title': 'demo',
+			description: siteDesc,
+			// 'og:description': 'demoサイトです',
+			theme_color: '#ffffff',
+			background_color: '#ffffff',
+			display: 'standalone',
+		},
 	},
 
 	// Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

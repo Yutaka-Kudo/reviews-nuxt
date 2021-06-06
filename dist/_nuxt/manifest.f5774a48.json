@@ -1,7 +1,7 @@
 {
-  "name": "reviews_nuxt",
-  "short_name": "reviews_nuxt",
-  "description": "## Build Setup",
+  "name": "RESTAURARY ~レストラリー~",
+  "short_name": "RESTAURARY",
+  "description": "RESTAURARY(レストラリー)で、飲食店の評価・口コミ(レビュー)を最新順でCheck。気になってるお店の最近の情報がまるはだか！",
   "icons": [
     {
       "src": "/_nuxt/icons/icon_64x64.5f6a36.png",
@@ -49,5 +49,6 @@
   "start_url": "/?standalone=true",
   "display": "standalone",
   "background_color": "#ffffff",
+  "theme_color": "#ffffff",
   "lang": "ja"
 }
