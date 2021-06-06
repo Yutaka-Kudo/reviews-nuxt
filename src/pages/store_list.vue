@@ -45,7 +45,7 @@ export default {
         create_data: async function (sliced_store_list) {
             // this.$nuxt.$loading.start();
 
-            console.log(sliced_store_list);
+            // console.log(sliced_store_list);
             let that = this;
             this.content_list.splice(0);
 
@@ -187,7 +187,7 @@ export default {
         this.pages["page_length"] = Math.ceil(
             this.store_list.length / this.pages["page_size"]
         ); //ページ数、決定
-        console.log(this.pages["page_length"]);
+        // console.log(this.pages["page_length"]);
         let sliced_store_list = this.store_list.slice(
             0,
             this.pages["page_size"]

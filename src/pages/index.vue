@@ -6,7 +6,7 @@
         </div>
         <div class="search_list_wrap">
             <v-container>
-                <v-row class="flex-column">
+                <v-row class="flex-column flex-md-row">
                     <v-col cols="12" md="6">
                         <AreaSearch
                             :area_list="area_list"
