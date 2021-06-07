@@ -1,8 +1,7 @@
 <template>
     <v-container class="index_wrap">
         <div class="description">
-            RESTAURARY(レストラリー)で、飲食店の評価・口コミ(レビュー)を最新順でCheck
-            気になってるお店の最近の情報がまるはだか！
+            レストラン・居酒屋・飲食店・デリバリーの口コミ・レビューを最新順でCheck。店舗型レストランはもちろん、デリバリー専門店の評価も集めてます。気になってるお店の最近の情報がまるはだか！
         </div>
         <div class="search_list_wrap">
             <v-container>

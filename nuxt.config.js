@@ -5,7 +5,7 @@ require('dotenv').config()
 // meta
 const lang = 'ja'
 const siteName = 'RESTAURARY ~レストラリー~'
-const siteDesc = 'RESTAURARY(レストラリー)で、飲食店の評価・口コミ(レビュー)を最新順でCheck。気になってるお店の最近の情報がまるはだか！'
+const siteDesc = 'レストラン・居酒屋・飲食店・デリバリーの口コミ・レビューを最新順でCheck。店舗型レストランはもちろん、デリバリー専門店の評価も集めてます。気になってるお店の最近の情報がまるはだか！'
 const siteKeywords = 'レストラン,飲食店,口コミ,レビュー'
 
 // OGP関連
@@ -124,7 +124,7 @@ export default {
 
 	// Axios module configuration: https://go.nuxtjs.dev/config-axios
 	axios: {
-		// baseURL: 'http://127.0.0.1:8000/api/',
+		// baseURL: 'http://127.0.0.1:8000',
 		// baseURL: 'https://restaurant-reviews21.herokuapp.com/api/',
 		baseURL: 'https://yk-restaurant-reviews-api.cyou',
 		// proxy: true,

@@ -79,6 +79,7 @@ export default {
             this.f_store_list.unshift(selected);
 
             this.$store.commit("set_store_list", this.f_store_list);
+            console.log(this.f_store_list);
         },
     },
 
@@ -176,7 +177,7 @@ export default {
 }
 
 /* トランジションーーーーーーー */
-.list_item {
+.v-sheet.v-card--hover {
     transition: transform 0.5s, opacity 0.4s;
     /* transition-duration: .7s; */
     display: inline-block;

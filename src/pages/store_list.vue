@@ -57,26 +57,32 @@ export default {
             if (!next_flg) {
                 this.media_data_list_by_store.splice(0);
                 this.content_list.splice(0);
-                console.log("4444");
             } else {
                 this.media_data_list_by_store_next.splice(0);
                 this.content_list_next.splice(0);
-                console.log("55555");
             }
-            console.log(this.media_data_list_by_store[0]);
-            console.log(this.media_data_list_by_store_next[0]);
-            console.log(this.media_data_list_by_store);
-            console.log(this.media_data_list_by_store_next);
 
             for (var i in sliced_store_list) {
                 var store_data = sliced_store_list[i];
                 let media_data_temp = [];
+
+                let store_res = await this.$axios
+                    .get(`api/stores?id=${store_data.id}`)
+                    .catch(function (e) {
+                        console.log(e);
+                    });
+
                 let res = await this.$axios
                     .get(`api/media_data?store=${store_data.id}`)
                     .catch(function (e) {
                         console.log(e);
                     });
 
+                res.data["category"] = [
+                    store_res.data[0].category1,
+                    store_res.data[0].category2,
+                    store_res.data[0].category3,
+                ];
                 res.data["loading"] = true;
                 media_data_temp = res.data;
 
@@ -189,14 +195,20 @@ export default {
                     this.page_is_disabled = true;
 
                     this.seen_whole = false;
-                    const that = this
-                    function fufu(){that.seen_whole = true}
-                    setTimeout(fufu, 20);
+                    const that = this;
+                    function func() {
+                        that.seen_whole = true;
+                    }
+                    setTimeout(func, 500);
 
-                    this.media_data_list_by_store = _.cloneDeep(
-                        this.media_data_list_by_store_next
-                    );
-                    this.content_list = _.cloneDeep(this.content_list_next);
+                    this.media_data_list_by_store = [
+                        ...this.media_data_list_by_store_next,
+                    ];
+                    this.content_list = [ ...this.content_list_next ];
+
+                    console.log(this.media_data_list_by_store);
+                    console.log(this.content_list);
+                    console.log(this.media_data_list_by_store == this.media_data_list_by_store_next);
 
                     // 次ページ分
                     let sliced_store_list_next = this.store_list.slice(
@@ -276,7 +288,11 @@ export default {
         this.page_is_disabled = false;
 
         // console.log(JSON.stringify(this.review_obj_list));
+        console.log(this.media_data_list_by_store);
+        console.log(this.media_data_list_by_store_next);
+        console.log(this.content_list);
     },
+    mounted: function () {},
     transition: {
         // name:"bounce"
         // name: "blind",
@@ -297,17 +313,11 @@ export default {
 }
 </style>
 <style scoped>
-.bg {
+/* .bg {
     background-color: rgba(0, 0, 0, 0);
-
     background-attachment: fixed;
-
-    /* height: 100%; */
-    /* height: 100vh; */
-    /* 必須 */
-
     animation: opaMove 3s 3s forwards;
-}
+} */
 .store_list_wrap {
     /* height: 100vh; */
     /* overflow: scroll; */
@@ -342,34 +352,5 @@ export default {
 
 .scroll-leave {
     /* transform: translateX(0,0); */
-}
-
-.bounce-enter-active {
-    animation: bounce-in 0.8s;
-}
-.bounce-leave-active {
-    animation: bounce-out 0.5s;
-}
-@keyframes bounce-in {
-    0% {
-        transform: scale(0);
-    }
-    50% {
-        transform: scale(1.5);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-@keyframes bounce-out {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.5);
-    }
-    100% {
-        transform: scale(0);
-    }
 }
 </style>
