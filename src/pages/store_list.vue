@@ -50,8 +50,6 @@ export default {
     methods: {
         create_data: async function (sliced_store_list, next_flg = false) {
             // this.$nuxt.$loading.start();
-
-            // console.log(sliced_store_list);
             // let that = this;
 
             if (!next_flg) {
@@ -155,17 +153,18 @@ export default {
                         }
                     });
                     content_list_temp.push(contents);
-                    // 2次元配列を1次元に＆日付け降順
-                    // フラットにしてから日時順並び替え
-                    content_list_temp = content_list_temp.flat(1);
-                    content_list_temp.sort((x, y) => {
-                        if (x["review_date"] > y["review_date"]) {
-                            return -1;
-                        } else {
-                            return 1;
-                        }
-                    });
                 }
+
+                // 2次元配列を1次元に＆日付け降順
+                // フラットにしてから日時順並び替え
+                content_list_temp = content_list_temp.flat(1);
+                content_list_temp.sort((x, y) => {
+                    if (x["review_date"] > y["review_date"]) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                });
 
                 if (!next_flg) {
                     this.content_list.push(content_list_temp.slice(0, 6));
@@ -204,11 +203,14 @@ export default {
                     this.media_data_list_by_store = [
                         ...this.media_data_list_by_store_next,
                     ];
-                    this.content_list = [ ...this.content_list_next ];
+                    this.content_list = [...this.content_list_next];
 
                     console.log(this.media_data_list_by_store);
                     console.log(this.content_list);
-                    console.log(this.media_data_list_by_store == this.media_data_list_by_store_next);
+                    console.log(
+                        this.media_data_list_by_store ==
+                            this.media_data_list_by_store_next
+                    );
 
                     // 次ページ分
                     let sliced_store_list_next = this.store_list.slice(
@@ -288,9 +290,12 @@ export default {
         this.page_is_disabled = false;
 
         // console.log(JSON.stringify(this.review_obj_list));
-        console.log(this.media_data_list_by_store);
-        console.log(this.media_data_list_by_store_next);
-        console.log(this.content_list);
+        console.log("media_data_list_by_store", this.media_data_list_by_store);
+        console.log(
+            "media_data_list_by_store_next",
+            this.media_data_list_by_store_next
+        );
+        console.log("content_list", this.content_list);
     },
     mounted: function () {},
     transition: {

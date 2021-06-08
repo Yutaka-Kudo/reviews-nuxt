@@ -54,7 +54,6 @@ export default {
             let area_obj = this.area_list.find(
                 (v) => v.id == this.filtered_area[0].id
             );
-            console.log(area_obj);
             this.search_word = area_obj.area_name;
             this.$emit("get_area_obj", area_obj);
             this.$store.commit("set_area_search_word", area_obj.area_name);
@@ -116,7 +115,6 @@ export default {
         this.search_word = this.$store.getters["area_search_word"].length
             ? this.$store.getters["area_search_word"]
             : "";
-        console.log(this.search_word);
     },
 };
 </script>

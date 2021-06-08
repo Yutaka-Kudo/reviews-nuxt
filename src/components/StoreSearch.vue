@@ -44,7 +44,7 @@ export default {
     data() {
         return {
             search_word: "",
-            f_store_list: [],
+            f_store_list_pure: [],
         };
     },
 
@@ -55,7 +55,7 @@ export default {
     methods: {
         store_submit(event) {
             // let store_obj = this.store_list.find(
-            //     (v) => v.id == this.f_store_list[0].id
+            //     (v) => v.id == this.f_store_list_pure[0].id
             // );
             // console.log(store_obj);  //これなんだっけ
             this.$router.push({ path: "store_list/" });
@@ -63,31 +63,34 @@ export default {
             if (this.search_word.length == 0) {
                 this.$store.commit("set_store_list", this.store_list);
             } else {
-                this.$store.commit("set_store_list", this.f_store_list);
+                this.$store.commit("set_store_list", this.f_store_list_pure);
             }
         },
         store_submit_by_incremental(selected) {
-            let store_obj = this.store_list.find(
-                (v) => (v.id == v.id) == selected.id
-            );
-            console.log(store_obj);
             this.$router.push({ path: "store_list/" });
             this.$store.commit("set_store_search_word", this.search_word);
 
-            // 選んだ店を消去 → 先頭に入れる
-            this.f_store_list.splice(this.f_store_list.indexOf(selected), 1);
-            this.f_store_list.unshift(selected);
+            let store_obj = this.f_store_list_pure.find(
+                // (v) => (v.id == v.id) == selected.id
+                (v) => v.id == selected.id
+            );
+            console.log("selected_store",store_obj);
 
-            this.$store.commit("set_store_list", this.f_store_list);
-            console.log(this.f_store_list);
+            // 選んだ店を消去 → 先頭に入れる
+            this.f_store_list_pure.splice(this.f_store_list_pure.indexOf(store_obj), 1);
+            this.f_store_list_pure.unshift(store_obj);
+
+            this.$store.commit("set_store_list", this.f_store_list_pure);
+            // console.log(this.f_store_list_pure);
         },
     },
 
     computed: {
         filtered_store: function () {
-            this.f_store_list = [];
+            this.f_store_list_pure = [];
+            let temp_list = [];
             if (!this.search_word) {
-                return this.f_store_list;
+                return temp_list;
             } else {
                 // カタカナ → ひらがな関数
                 function kanaToHira(str) {
@@ -100,6 +103,7 @@ export default {
                 const search_word_hira = kanaToHira(this.search_word);
 
                 for (var i in this.store_list) {
+                    let origin_store_data = this.store_list[i]
                     let store_data = Object.assign({}, this.store_list[i]); // 複製
                     let name = store_data.store_name;
                     let hira_trans_name = kanaToHira(name);
@@ -108,6 +112,9 @@ export default {
                             .toLowerCase()
                             .indexOf(search_word_hira.toLowerCase()) != -1
                     ) {
+                        this.f_store_list_pure.push(origin_store_data);
+
+                        // 着色ーーーーーーー
                         // search_wordのstr.indexOf
                         var hit_index = hira_trans_name
                             .toLowerCase()
@@ -128,10 +135,10 @@ export default {
                             hit_index_last + 1
                         )}</span>${name.slice(hit_index_last + 1)}`;
 
-                        this.f_store_list.push(store_data);
+                        temp_list.push(store_data);
                     }
                 }
-                return this.f_store_list.slice(0, 20);
+                return temp_list.slice(0, 20);
             }
         },
     },

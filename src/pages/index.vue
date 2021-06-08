@@ -71,8 +71,9 @@ export default {
             // console.log('serrrrrrrrrr');
         }
         if (process.client) {
-            // console.log('cliennnnnnn');
+            // ページ戻った時にリストを保持する
             this.area_list = this.$store.getters["area_list"];
+            this.store_list = this.$store.getters["basis_store_list"];
         }
 
         // const res = await this.$axios.get("area/").catch(function (e) {
@@ -88,13 +89,6 @@ export default {
         // gsap.to(".hello", { x: 100, duration: 3 });
     },
 
-    // ページ帰還時にリストを保持 いらないかも
-    // mounted: function () {
-    //     this.store_list = this.$store.getters["basis_store_list"].length
-    //         ? this.$store.getters["basis_store_list"]
-    //         : [];
-    // },
-
     methods: {
         // area_idからstoreのリストを取る
         get_area_obj: function (obj) {
@@ -106,6 +100,7 @@ export default {
                 .get(`api/stores?area=${obj.id}`)
                 .then(function (res) {
                     that.store_list = res.data;
+                    that.$store.commit('set_basis_store_list',res.data)
                 })
                 .catch(function (e) {
                     console.log(e);
