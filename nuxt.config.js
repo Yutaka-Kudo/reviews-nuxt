@@ -4,9 +4,9 @@ require('dotenv').config()
 
 // meta
 const lang = 'ja'
-const siteName = 'RESTAURARY ~レストラリー~'
-const siteDesc = 'レストラン・居酒屋・飲食店・デリバリーの口コミ・レビューを最新順でCheck。店舗型レストランはもちろん、デリバリー専門店の評価も集めてます。気になってるお店の最近の情報がまるはだか！'
-const siteKeywords = 'レストラン,飲食店,口コミ,レビュー'
+const siteName = 'RESTAURary 飲食店口コミ総合まとめ ~レストラリー~'
+const siteDesc = '飲食店総合口コミまとめサイト レストラン・居酒屋・飲食店・デリバリーの口コミ・レビューを最新順でCheck！店舗型レストランはもちろん、デリバリー専門店も検索可能。気になってるお店の使える情報をさくっとGET！Special Thanks各グルメサイト'
+const siteKeywords = 'レストラン,飲食店,居酒屋,グルメ,口コミ,レビュー'
 
 // OGP関連
 // path
@@ -16,7 +16,7 @@ const baseUrl = baseHost + baseDir
 const ogpImages = baseUrl + 'img/ogp/'
 
 // pwa
-const shortName = 'RESTAURARY'
+const shortName = 'RESTAURary'
 
 export default {
 	router: {
