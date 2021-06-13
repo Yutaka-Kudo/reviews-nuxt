@@ -144,10 +144,11 @@ export default {
                         temp_list.push(store_data);
                     } 
                     else if (
-                        yomigana
+                        kanaToHira(yomigana)
                             .toLowerCase()
                             .indexOf(this.search_word.toLowerCase()) != -1
                     ) {
+                        this.f_store_list_pure.push(origin_store_data);
                         temp_list.push(store_data);
                     }
                      else if (
@@ -155,6 +156,7 @@ export default {
                             .toLowerCase()
                             .indexOf(this.search_word.toLowerCase()) != -1
                     ) {
+                        this.f_store_list_pure.push(origin_store_data);
                         temp_list.push(store_data);
                     }
                 }
