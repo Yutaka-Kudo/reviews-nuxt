@@ -106,6 +106,7 @@ export default {
                     let origin_store_data = this.store_list[i]
                     let store_data = Object.assign({}, this.store_list[i]); // 複製
                     let name = store_data.store_name;
+                    // let name = store_data.yomigana;
                     let hira_trans_name = kanaToHira(name);
                     if (
                         hira_trans_name

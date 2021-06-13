@@ -57,7 +57,7 @@
                             >
                                 <p class="media_link d-sm-none">
                                     <a
-                                        :href="`https://www.google.com/search?tbs=lf:1,lf_ui:9&tbm=lcl&q=千葉県船橋市+居酒屋+${media_d['store']['store_name']}`"
+                                        :href="`https://www.google.com/search?tbs=lf:1,lf_ui:9&tbm=lcl&q=千葉県船橋市+飲食店+${media_d['store']['store_name']}`"
                                         target="_blank"
                                     >
                                         {{
@@ -69,13 +69,25 @@
                                 </p>
 
                                 <p class="media_link d-none d-sm-flex">
-                                    <a :href="media_d['url']" target="_blank">
+                                    <!-- リンクが無ければspanで -->
+                                    <a
+                                        v-if="media_d['url']"
+                                        :href="media_d['url']"
+                                        target="_blank"
+                                    >
                                         {{
                                             media_d["media_type"][
                                                 "official_name"
                                             ]
                                         }}
                                     </a>
+                                    <span v-else>
+                                        {{
+                                            media_d["media_type"][
+                                                "official_name"
+                                            ]
+                                        }}
+                                    </span>
                                 </p>
                             </div>
                             <div v-else>
@@ -291,10 +303,7 @@ export default {
         },
     },
     mounted: function () {
-        console.log("child mount");
-        // console.log(this.content_list);
         // console.log(this.$vuetify.breakpoint);
-        // console.log(this.media_data_list_by_store);
 
         // window.addEventListener("scroll", this.handle_scroll);
     },
@@ -331,7 +340,7 @@ export default {
     /* color: white; */
 }
 
-.card_head{
+.card_head {
     width: 100%;
 }
 .store_name {

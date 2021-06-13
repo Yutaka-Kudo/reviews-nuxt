@@ -81,6 +81,7 @@ export default {
                     store_res.data[0].category2,
                     store_res.data[0].category3,
                 ];
+                res.data["yomigana"] = store_res.data[0].yomigana
                 res.data["loading"] = true;
                 media_data_temp = res.data;
 

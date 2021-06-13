@@ -125,8 +125,8 @@ export default {
 	// Axios module configuration: https://go.nuxtjs.dev/config-axios
 	axios: {
 		// baseURL: 'http://127.0.0.1:8000',
-		// baseURL: 'https://restaurant-reviews21.herokuapp.com/api/',
 		baseURL: 'https://yk-restaurant-reviews-api.cyou',
+		// baseURL: 'https://restaurant-reviews21.herokuapp.com/api/',
 		// proxy: true,
 		// prefix: '/api',
 		// headers: {
