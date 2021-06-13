@@ -99,10 +99,15 @@
                             </div>
                             <!-- mediaリンク end -->
 
+                            <!-- 件数 -->
                             <span class="review_count ml-2">{{
                                 media_d["review_count"] | if_zero
                             }}</span>
+                            <!-- 件数end -->
+
                         </div>
+
+                        <!-- レート -->
                         <span
                             v-if="
                                 media_d['review_count'] &&
@@ -119,11 +124,20 @@
                             {{ media_d["rate"] }}
                             <RateStar class="star" :value="media_d['rate']" />
                         </span>
+                        <!-- レートend -->
+
+                        <!-- 収集日 -->
+                        <span class="collected_date" v-if="media_d['collected']">
+                            収集日{{media_d["collected"]}}
+
+                        </span>
+                        <!-- 収集日end -->
+
                     </div>
                 </v-card-subtitle>
             </div>
 
-            <!-- <p>新規順</p> -->
+            <!-- <p>新規順 content</p> -->
             <div v-for="content in content_list" :key="content.id">
                 <v-divider
                     inset
