@@ -71,13 +71,15 @@ export default {
     },
     computed: {
         filtered_area: function () {
-            var f_area_list = [];
+            let temp_list = [];
             if (!this.search_word) {
-                return f_area_list;
+                return temp_list;
             } else {
                 for (var i in this.area_list) {
                     let area_data = Object.assign({}, this.area_list[i]); // 複製
                     let name = area_data.area_name;
+                    let yomigana = area_data.yomigana;
+                    let yomi_roma = area_data.yomi_roma;
                     if (
                         name
                             .toLowerCase()
@@ -103,10 +105,22 @@ export default {
                             hit_index_last + 1
                         )}</span>${name.slice(hit_index_last + 1)}`;
 
-                        f_area_list.push(area_data);
+                        temp_list.push(area_data);
+                    } else if (
+                        yomigana
+                            .toLowerCase()
+                            .indexOf(this.search_word.toLowerCase()) != -1
+                    ) {
+                        temp_list.push(area_data);
+                    } else if (
+                        yomi_roma
+                            .toLowerCase()
+                            .indexOf(this.search_word.toLowerCase()) != -1
+                    ) {
+                        temp_list.push(area_data);
                     }
                 }
-                return f_area_list;
+                return temp_list;
             }
         },
     },
