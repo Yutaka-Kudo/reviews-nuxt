@@ -103,7 +103,7 @@ export default {
                     });
                 }
 
-                const search_word_hira = kanaToHira(this.search_word);
+                const search_word_hira = kanaToHira(this.search_word.replaceAll(' ',''));
 
                 for (var i in this.store_list) {
                     let origin_store_data = this.store_list[i];
@@ -115,44 +115,92 @@ export default {
                     // console.log(yomigana);
                     if (
                         hira_trans_name
+                            .replaceAll(" ", "")
                             .toLowerCase()
                             .indexOf(search_word_hira.toLowerCase()) != -1
                     ) {
                         this.f_store_list_pure.push(origin_store_data);
 
-                        // 着色ーーーーーーー
-                        // search_wordのstr.indexOf
+                        // 空白の文字位置
+                        let ws_index_list = [];
+                        let position = 0;
+                        let order = 1;
+                        while (name.length > position) {
+                            if (name.indexOf(" ", position) != -1) {
+                                let space_index = name.indexOf(" ", position);
+                                ws_index_list.push({
+                                    // 順番番号、兼、index番号の追加数
+                                    order: order,
+                                    // 空白除去時の、空白あったindex番号
+                                    space_index: space_index - (order - 1),
+                                });
+                                order += 1;
+                                position = space_index + 1;
+                            } else {
+                                // 空白なくなったらwhile終わらせるため
+                                position = name.length;
+                            }
+                        }
+
+                        // 着色ーーーーーーーーーーーーーー
+                        // search_wordのstr.indexOf 空白除去時
                         var hit_index = hira_trans_name
+                            .replaceAll(" ", "")
                             .toLowerCase()
                             .indexOf(search_word_hira.toLowerCase());
+
+                        // 空白部分をまたいだ際の調整
+                        let add_num = 0;
+                        // 後ろからふるいにかけるため
+                        let reversed_ws_list = ws_index_list.reverse();
+                        for (let ws_obj of reversed_ws_list) {
+                            if (hit_index >= ws_obj["space_index"]) {
+                                add_num = ws_obj["order"];
+                                break;
+                            }
+                        }
+                        let hit_index_in_space = hit_index + add_num;
+
                         // search_wordの最後の文字で照合 indexOfの第2引数がミソ
                         var hit_index_last = hira_trans_name
+                            .replaceAll(" ", "")
                             .toLowerCase()
                             .indexOf(
                                 search_word_hira.slice(-1).toLowerCase(),
                                 hit_index + search_word_hira.length - 1
                             );
 
+                        let add_num_last = 0;
+                        for (let ws_obj of reversed_ws_list) {
+                            if (hit_index_last >= ws_obj["space_index"]) {
+                                add_num_last = ws_obj["order"];
+                                break;
+                            }
+                        }
+                        let hit_index_last_in_space =
+                            hit_index_last + add_num_last;
+
+                        // html改造ーーーーーーーーー
                         store_data.store_name = `${name.slice(
                             0,
-                            hit_index
+                            hit_index_in_space
                         )}<span class="highlight" style="background:rgba(255, 255, 0, .4);" >${name.slice(
-                            hit_index,
-                            hit_index_last + 1
-                        )}</span>${name.slice(hit_index_last + 1)}`;
+                            hit_index_in_space,
+                            hit_index_last_in_space + 1
+                        )}</span>${name.slice(hit_index_last_in_space + 1)}`;
 
                         temp_list.push(store_data);
-                    } 
-                    else if (
+                    } else if (
                         kanaToHira(yomigana)
+                            .replaceAll(" ", "")
                             .toLowerCase()
                             .indexOf(this.search_word.toLowerCase()) != -1
                     ) {
                         this.f_store_list_pure.push(origin_store_data);
                         temp_list.push(store_data);
-                    }
-                     else if (
+                    } else if (
                         yomi_roma
+                            .replaceAll(" ", "")
                             .toLowerCase()
                             .indexOf(this.search_word.toLowerCase()) != -1
                     ) {

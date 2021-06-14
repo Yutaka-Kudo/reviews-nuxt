@@ -75,47 +75,108 @@ export default {
             if (!this.search_word) {
                 return temp_list;
             } else {
+                // カタカナ → ひらがな関数
+                function kanaToHira(str) {
+                    return str.replace(/[\u30a1-\u30f6]/g, function (match) {
+                        var chr = match.charCodeAt(0) - 0x60;
+                        return String.fromCharCode(chr);
+                    });
+                }
+
+                const search_word_hira = kanaToHira(this.search_word.replaceAll(' ',''));
+
                 for (var i in this.area_list) {
+                    // let origin_area_data = this.area_list[i];
                     let area_data = Object.assign({}, this.area_list[i]); // 複製
                     let name = area_data.area_name;
+                    let hira_trans_name = kanaToHira(name);
                     let yomigana = area_data.yomigana;
                     let yomi_roma = area_data.yomi_roma;
                     if (
-                        name
+                        hira_trans_name
+                            .replaceAll(" ", "")
                             .toLowerCase()
-                            .indexOf(this.search_word.toLowerCase()) != -1
+                            .indexOf(search_word_hira.toLowerCase()) != -1
                     ) {
-                        // search_wordのstr.indexOf
-                        var hit_index = name
+                        // 空白の文字位置
+                        let ws_index_list = [];
+                        let position = 0;
+                        let order = 1;
+                        while (name.length > position) {
+                            if (name.indexOf(" ", position) != -1) {
+                                let space_index = name.indexOf(" ", position);
+                                ws_index_list.push({
+                                    // 順番番号、兼、index番号の追加数
+                                    order: order,
+                                    // 空白除去時の、空白あったindex番号
+                                    space_index: space_index - (order - 1),
+                                });
+                                order += 1;
+                                position = space_index + 1;
+                            } else {
+                                // 空白なくなったらwhile終わらせるため
+                                position = name.length;
+                            }
+                        }
+
+                        // 着色ーーーーーーーーーーーーーー
+                        // search_wordのstr.indexOf 空白除去時
+                        var hit_index = hira_trans_name
+                            .replaceAll(" ", "")
                             .toLowerCase()
-                            .indexOf(this.search_word.toLowerCase());
+                            .indexOf(search_word_hira.toLowerCase());
+
+                        // 空白部分をまたいだ際の調整
+                        let add_num = 0;
+                        // 後ろからふるいにかけるため
+                        let reversed_ws_list = ws_index_list.reverse();
+                        for (let ws_obj of reversed_ws_list) {
+                            if (hit_index >= ws_obj["space_index"]) {
+                                add_num = ws_obj["order"];
+                                break;
+                            }
+                        }
+                        let hit_index_in_space = hit_index + add_num;
+
                         // search_wordの最後の文字で照合 indexOfの第2引数がミソ
-                        var hit_index_last = name
+                        var hit_index_last = hira_trans_name
+                            .replaceAll(" ", "")
                             .toLowerCase()
                             .indexOf(
-                                this.search_word.slice(-1).toLowerCase(),
-                                hit_index + this.search_word.length - 1
+                                search_word_hira.slice(-1).toLowerCase(),
+                                hit_index + search_word_hira.length - 1
                             );
 
+                        let add_num_last = 0;
+                        for (let ws_obj of reversed_ws_list) {
+                            if (hit_index_last >= ws_obj["space_index"]) {
+                                add_num_last = ws_obj["order"];
+                                break;
+                            }
+                        }
+                        let hit_index_last_in_space =
+                            hit_index_last + add_num_last;
+
+                        // html改造ーーーーーーーーー
                         area_data.area_name = `${name.slice(
                             0,
-                            hit_index
-                        )}<span class="highlight" style="background:rgba(255, 255, 0, .3);" >${name.slice(
-                            hit_index,
-                            hit_index_last + 1
-                        )}</span>${name.slice(hit_index_last + 1)}`;
+                            hit_index_in_space
+                        )}<span class="highlight" style="background:rgba(255, 255, 0, .4);" >${name.slice(
+                            hit_index_in_space,
+                            hit_index_last_in_space + 1
+                        )}</span>${name.slice(hit_index_last_in_space + 1)}`;
 
                         temp_list.push(area_data);
                     } else if (
-                        yomigana
+                        yomigana.replaceAll(' ','')
                             .toLowerCase()
-                            .indexOf(this.search_word.toLowerCase()) != -1
+                            .indexOf(search_word_hira.toLowerCase()) != -1
                     ) {
                         temp_list.push(area_data);
                     } else if (
-                        yomi_roma
+                        yomi_roma.replaceAll(' ','')
                             .toLowerCase()
-                            .indexOf(this.search_word.toLowerCase()) != -1
+                            .indexOf(search_word_hira.toLowerCase()) != -1
                     ) {
                         temp_list.push(area_data);
                     }
