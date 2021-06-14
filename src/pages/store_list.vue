@@ -1,5 +1,6 @@
 <template>
     <div class="bg store_list_wrap">
+        <SearchBar />
         <v-container>
             <!-- <div> -->
             <!-- <Tran/> -->
@@ -22,12 +23,14 @@
 <script>
 import ShowStoreList from "~/components/ShowStoreList.vue";
 import Pagination from "~/components/Pagination.vue";
+import SearchBar from "../components/SearchBar.vue";
 // import Tran from "~/components/Tran.vue";
 
 export default {
     components: {
         ShowStoreList,
         Pagination,
+        SearchBar,
         // Tran,
     },
 
@@ -47,6 +50,14 @@ export default {
             seen_whole: true,
         };
     },
+
+    // async asyncData({ $axios, $store }) {
+    //     let store_list = $store.getters["store_list"]
+    //     return{
+    //         store_list:store_list
+    //     }
+    // },
+
     methods: {
         create_data: async function (sliced_store_list, next_flg = false) {
             // this.$nuxt.$loading.start();
@@ -81,7 +92,7 @@ export default {
                     store_res.data[0].category2,
                     store_res.data[0].category3,
                 ];
-                res.data["yomigana"] = store_res.data[0].yomigana
+                res.data["yomigana"] = store_res.data[0].yomigana;
                 res.data["loading"] = true;
                 media_data_temp = res.data;
 
@@ -265,6 +276,7 @@ export default {
         this.page_is_disabled = true;
 
         this.store_list = this.$store.getters["store_list"];
+        console.log(this.store_list);
         // let that = this;
         // console.log("created");
 

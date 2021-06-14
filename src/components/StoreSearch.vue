@@ -103,7 +103,9 @@ export default {
                     });
                 }
 
-                const search_word_hira = kanaToHira(this.search_word.replaceAll(' ',''));
+                const search_word_hira = kanaToHira(
+                    this.search_word.replaceAll(" ", "")
+                );
 
                 for (var i in this.store_list) {
                     let origin_store_data = this.store_list[i];
@@ -198,6 +200,9 @@ export default {
                     ) {
                         this.f_store_list_pure.push(origin_store_data);
                         temp_list.push(store_data);
+                        // console.log(
+                        //     kanaToHira(yomigana).replaceAll(" ", "").toLowerCase()
+                        // );
                     } else if (
                         yomi_roma
                             .replaceAll(" ", "")
@@ -206,6 +211,9 @@ export default {
                     ) {
                         this.f_store_list_pure.push(origin_store_data);
                         temp_list.push(store_data);
+                        // console.log(
+                        //     yomi_roma.replaceAll(" ", "").toLowerCase()
+                        // );
                     }
                 }
                 return temp_list.slice(0, 20);

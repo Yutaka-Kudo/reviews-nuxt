@@ -44,6 +44,9 @@
             <nuxt-link to="/">
                 <v-icon>mdi-home</v-icon>
             </nuxt-link>
+            <nuxt-link to="/store_list">
+                <v-icon>mdi-home</v-icon>
+            </nuxt-link>
             <!-- <nuxt-link to="/inspire">aaaaa</nuxt-link> -->
 
             <!-- <v-btn icon @click.stop="clipped = !clipped">
