@@ -415,7 +415,7 @@ export default {
 .rev_head_opened_with_header {
     position: sticky;
     /* top: 100px; */
-    top: 53px;
+    top: 85px;
 }
 .rev_content_text_detail {
     white-space: pre-line;
