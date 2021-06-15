@@ -59,8 +59,8 @@ export default {
 
     created: async function () {
         // vuexにページサイズ登録ーーーーーーーーー
-        this.$store.commit("set_page_size", this.pages["page_size"])
-        
+        this.$store.commit("set_page_size", this.pages["page_size"]);
+
         // console.log("parent created");
 
         this.page_is_disabled = true;
@@ -74,7 +74,7 @@ export default {
         let page_length = Math.ceil(
             this.store_list.length / this.pages["page_size"]
         );
-        this.$store.commit("set_page_length",page_length);
+        this.$store.commit("set_page_length", page_length);
         // this.pages["page_length"] = Math.ceil(
         //     this.store_list.length / this.pages["page_size"]
         // );
@@ -359,6 +359,13 @@ export default {
 .store_list_wrap::-webkit-scrollbar {
     display: none;
 }
+
+@media screen and (max-width: 600px) {
+    .store_list_wrap {
+        padding-top: 80px;
+    }
+}
+
 @keyframes opaMove {
     0% {
         background-color: rgba(0, 0, 0, 0);

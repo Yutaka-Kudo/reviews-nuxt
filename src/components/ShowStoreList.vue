@@ -147,7 +147,7 @@
                     v-if="content['store_id'] === media_data[0]['store']['id']"
                     class="rev_item d-flex flex-column align-center flex-sm-row justify-sm-space-between"
                 >
-                    <span v-if="content['seen']" class="mini_name">
+                    <span v-if="content['seen']" class="mini_name d-sm-none">
                         {{ media_data[0].store.store_name }}
                     </span>
                     <v-chip
