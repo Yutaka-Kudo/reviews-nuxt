@@ -26,35 +26,39 @@
 
             <!-- v-ifだとエラー。不明 -->
             <!-- v-show="searcher_seen" が d-flexが入ってると効かない。:classでクラス自体を操作-->
-            <v-form
-                @submit.prevent="store_submit"
-                class="search_box flex-grow-1"
-                :class="searcher_seen ? 'd-flex' : 'd-none'"
-                v-cloak
-            >
-                <v-text-field
-                    v-model.trim="search_word"
-                    label="店名"
-                    prepend-icon="mdi-store"
-                    ref="store_search"
-                    append-outer-icon="mdi-send"
-                    @click:append-outer="store_submit"
-                    clear-icon="mdi-close-circle"
-                    clearable
-                    dark
-                    background-color="rgba(255, 255, 255, 0.2)"
-                    hide-details
-                    v-cloak
-                />
-                <span
-                    class="list_length align-self-end ml-1"
-                    @click="store_submit"
-                >
-                    <span v-if="filtered_store.length">
-                        <b>{{ filtered_store.length }}</b> hit !!
-                    </span>
-                </span>
-            </v-form>
+            <transition name="appear">
+                <div v-show="searcher_seen">
+                    <v-form
+                        @submit.prevent="store_submit"
+                        class="search_box flex-grow-1 d-flex"
+                        v-cloak
+                    >
+                        <span>再検索</span>
+                        <v-text-field
+                            v-model.trim="search_word"
+                            label="店名"
+                            prepend-icon="mdi-store"
+                            ref="store_search"
+                            append-outer-icon="mdi-send"
+                            @click:append-outer="store_submit"
+                            clear-icon="mdi-close-circle"
+                            clearable
+                            dark
+                            background-color="rgba(255, 255, 255, 0.2)"
+                            hide-details
+                            v-cloak
+                        />
+                        <span
+                            class="list_length align-self-end ml-1"
+                            @click="store_submit"
+                        >
+                            <span v-if="filtered_store.length">
+                                <b>{{ filtered_store.length }}</b> hit !!
+                            </span>
+                        </span>
+                    </v-form>
+                </div>
+            </transition>
         </div>
     </v-app-bar>
     <!-- <v-spacer /> -->
@@ -85,7 +89,6 @@ export default {
 
             store_list: [],
             search_word: "",
-
         };
     },
 
@@ -111,7 +114,6 @@ export default {
             }
         },
     },
-
 
     computed: {
         filtered_store: function () {
@@ -169,13 +171,16 @@ export default {
             }
         },
     },
+    transition: {
+        name: "appear",
+        mode: "",
+    },
 };
 </script>
 
 <style scoped>
 .head-bar {
-    /* transition: height 1s; */
-    transition: all 0.2s;
+    transition: height 0.6s, transform 0.2s;
 }
 .header-top {
     width: 90vw;
@@ -189,6 +194,18 @@ export default {
     left: 50%;
     transform: translateX(-50%); */
 }
+
+.appear-enter-active {
+    transition: all 1s;
+}
+.appear-enter {
+    transform: scaleY(0);
+    /* transform: translateX(100px); */
+}
+/* .search_box {
+    transition: all 1s;
+    transform: scaleY();
+} */
 .list_length {
     width: 65px;
 }

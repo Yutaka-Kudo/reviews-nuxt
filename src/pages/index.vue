@@ -88,7 +88,7 @@ export default {
         // gsap.to(".hello", { rotation: 27, x: 100, duration: 1 });
         // gsap.to(".hello", { x: 100, duration: 3 });
 
-        this.update_layout()
+        this.update_header()
     },
 
     methods: {
@@ -117,11 +117,11 @@ export default {
             this.ref = obj;
         },
 
-        update_layout(){
+        update_header(){
             this.$nuxt.$emit('update_header', "index")
         }
     },
-    
+
     transition: {
         // name:"bounce"
         // name: "blind",

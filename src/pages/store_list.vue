@@ -100,7 +100,8 @@ export default {
     },  
 
     mounted() {
-        this.update_layout();
+        this.update_header();
+        console.log("this.update_header");
     },
 
     methods: {
@@ -306,7 +307,7 @@ export default {
                 }
             }
         },
-        update_layout() {
+        update_header() {
             this.$nuxt.$emit("update_header", "store_list");
         },
     },

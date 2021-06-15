@@ -78,7 +78,7 @@ export default {
             right: true,
             rightDrawer: false,
             title: "RESTAURary",
-            searcher_seen: false,
+            searcher_seen: true,
         };
     },
 
