@@ -4,7 +4,7 @@
             v-model="page"
             :length="page_length"
             @input="page_change"
-            total-visible=8
+            total-visible="8"
             :disabled="page_is_disabled"
         ></v-pagination>
     </div>
@@ -18,11 +18,15 @@ export default {
             lists: [],
             viewLists: [],
             pageSize: 10,
+            page_length: 0,
         };
     },
     props: {
-        page_length: Number,
         page_is_disabled: Boolean,
+    },
+    created:function(){
+        this.page_length = this.$store.getters["page_length"]
+        console.log(this.page_length);
     },
     methods: {
         page_change: function (num) {
@@ -58,6 +62,6 @@ export default {
     height: 13px;
     width: 32px;
     background: white;
-        border-radius: 4px;
+    border-radius: 4px;
 }
 </style>

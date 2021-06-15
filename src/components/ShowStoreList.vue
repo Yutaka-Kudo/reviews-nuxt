@@ -10,9 +10,9 @@
             :loading="media_data['loading']"
             v-cloak
         >
-            <div class="d-flex flex-column align-center">
+            <div class="card_head d-flex flex-column align-center">
                 <div
-                    class="card_head d-flex flex-column align-center flex-sm-row justify-sm-center"
+                    class="head_top d-flex flex-column align-center flex-sm-row justify-sm-center"
                 >
                     <v-card-title
                         class="store_name text-h5 pb-1 pb-sm-0 d-flex flex-nowrap"
@@ -104,7 +104,6 @@
                                 media_d["review_count"] | if_zero
                             }}</span>
                             <!-- 件数end -->
-
                         </div>
 
                         <!-- レート -->
@@ -127,12 +126,13 @@
                         <!-- レートend -->
 
                         <!-- 収集日 -->
-                        <span class="collected_date" v-if="media_d['collected']">
-                            収集日{{media_d["collected"]}}
-
+                        <span
+                            class="collected_date"
+                            v-if="media_d['collected']"
+                        >
+                            収集日{{ media_d["collected"] }}
                         </span>
                         <!-- 収集日end -->
-
                     </div>
                 </v-card-subtitle>
             </div>
@@ -147,6 +147,9 @@
                     v-if="content['store_id'] === media_data[0]['store']['id']"
                     class="rev_item d-flex flex-column align-center flex-sm-row justify-sm-space-between"
                 >
+                    <span v-if="content['seen']" class="mini_name">
+                        {{ media_data[0].store.store_name }}
+                    </span>
                     <v-chip
                         class="rev_head d-sm-none mb-2 align-self-center"
                         :class="{
@@ -270,14 +273,18 @@ export default {
 
     methods: {
         show_detail(content) {
+            // console.log(content);
             content["seen"] = !content["seen"];
 
             // ヘッダーが降りてきたらstickyしてるやつも合わせて降ろす。
             let rev_head_opened_elems = document.getElementsByClassName(
                 "rev_head_opened"
             );
+            let mini_name_elems = document.getElementsByClassName(
+                "mini_name"
+            );
             const target = document.getElementsByClassName("v-app-bar")[0];
-            
+
             let func = function () {
                 let observer = new MutationObserver(function () {
                     if (
@@ -288,10 +295,18 @@ export default {
                         rev_head_opened_elems.forEach(function (elem) {
                             elem.classList.add("rev_head_opened_with_header");
                         });
+                        mini_name_elems.forEach(function (elem) {
+                            elem.classList.add("mini_name_with_header");
+                        });
                     } else {
                         rev_head_opened_elems.forEach(function (elem) {
                             elem.classList.remove(
                                 "rev_head_opened_with_header"
+                            );
+                        });
+                        mini_name_elems.forEach(function (elem) {
+                            elem.classList.remove(
+                                "mini_name_with_header"
                             );
                         });
                     }
@@ -319,7 +334,6 @@ export default {
     },
     mounted: function () {
         // console.log(this.$vuetify.breakpoint);
-
         // window.addEventListener("scroll", this.handle_scroll);
     },
 
@@ -356,6 +370,11 @@ export default {
 }
 
 .card_head {
+    /* position: sticky;
+    top: 10px;
+    background-color: rgba(255, 255, 255, 0.7); */
+}
+.head_top {
     width: 100%;
 }
 .store_name {
@@ -406,16 +425,31 @@ export default {
     font-size: 13px;
 }
 
+.mini_name {
+    background: #e0e0e0;
+    border-radius: 8px;
+    position: sticky;
+    /* top: 100px; */
+    top: 2px;
+    transition: 0.2s 0.2s cubic-bezier(0.4, 0, 0.2, 1) top;
+}
+.mini_name_with_header {
+    background: #e0e0e0;
+    border-radius: 8px;
+    position: sticky;
+    /* top: 100px; */
+    top: 82px;
+}
 .rev_head_opened {
     position: sticky;
     /* top: 100px; */
-    top: 13px;
+    top: 24px;
     transition: 0.2s 0.2s cubic-bezier(0.4, 0, 0.2, 1) top;
 }
 .rev_head_opened_with_header {
     position: sticky;
     /* top: 100px; */
-    top: 85px;
+    top: 99px;
 }
 .rev_content_text_detail {
     white-space: pre-line;

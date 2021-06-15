@@ -12,7 +12,6 @@
                 :seen_whole="seen_whole"
             />
             <Pagination
-                :page_length="pages.page_length"
                 @page_change="page_change"
                 :page_is_disabled="page_is_disabled"
             />
@@ -59,6 +58,9 @@ export default {
     // },
 
     created: async function () {
+        // vuexにページサイズ登録ーーーーーーーーー
+        this.$store.commit("set_page_size", this.pages["page_size"])
+        
         // console.log("parent created");
 
         this.page_is_disabled = true;
@@ -69,9 +71,13 @@ export default {
         // console.log("created");
 
         //ページ数、決定
-        this.pages["page_length"] = Math.ceil(
+        let page_length = Math.ceil(
             this.store_list.length / this.pages["page_size"]
         );
+        this.$store.commit("set_page_length",page_length);
+        // this.pages["page_length"] = Math.ceil(
+        //     this.store_list.length / this.pages["page_size"]
+        // );
 
         // 1ページ分store_list
         let sliced_store_list = this.store_list.slice(
@@ -97,11 +103,11 @@ export default {
             this.media_data_list_by_store_next
         );
         console.log("content_list", this.content_list);
-    },  
+    },
 
     mounted() {
         this.update_header();
-        console.log("this.update_header");
+        // console.log("this.update_header");
     },
 
     methods: {

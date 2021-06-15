@@ -30,15 +30,13 @@
                 <div v-show="searcher_seen">
                     <v-form
                         @submit.prevent="store_submit"
-                        class="search_box flex-grow-1 d-flex"
+                        class="search_box flex-grow-1 d-flex align-center"
                         v-cloak
                     >
-                        <span>再検索</span>
+                        <span class="re-search mr-1">再<br />検索</span>
                         <v-text-field
                             v-model.trim="search_word"
                             label="店名"
-                            prepend-icon="mdi-store"
-                            ref="store_search"
                             append-outer-icon="mdi-send"
                             @click:append-outer="store_submit"
                             clear-icon="mdi-close-circle"
@@ -48,10 +46,7 @@
                             hide-details
                             v-cloak
                         />
-                        <span
-                            class="list_length align-self-end ml-1"
-                            @click="store_submit"
-                        >
+                        <span class="list_length ml-1" @click="store_submit">
                             <span v-if="filtered_store.length">
                                 <b>{{ filtered_store.length }}</b> hit !!
                             </span>
@@ -99,11 +94,18 @@ export default {
     mounted: function () {},
 
     methods: {
-        store_submit(event) {
+        async store_submit(event) {
             if (this.search_word.length) {
                 // this.$router.push({ path: "store_list/" });
                 this.$store.commit("set_store_search_word", this.search_word);
                 this.$store.commit("set_store_list", this.filtered_store);
+
+                //ページ数、決定
+                let page_length = Math.ceil(
+                    this.filtered_store.length / this.$store.getters["page_size"]
+                );
+                await this.$store.commit("set_page_length",page_length);
+
                 // console.log(this.store_list);
                 location.reload();
                 // if (this.search_word.length == 0) {
@@ -183,7 +185,7 @@ export default {
     transition: height 0.6s, transform 0.2s;
 }
 .header-top {
-    width: 90vw;
+    width: 93vw;
     justify-content: space-between;
 }
 .spacer_as_icon_width {
@@ -206,7 +208,21 @@ export default {
     transition: all 1s;
     transform: scaleY();
 } */
+.re-search {
+    display: inline-block;
+    white-space: pre;
+    font-size: 13px;
+    background: #ffa080d7;
+    color: #fff;
+    padding: 1px 5px 1px;
+    line-height: 16px;
+    border-radius: 3px;
+}
+
 .list_length {
     width: 65px;
+}
+.list_length:hover {
+    cursor: pointer;
 }
 </style>
