@@ -5,7 +5,7 @@ export const state = () => ({
     area_list: [],
     basis_store_list: [],
     store_list: [],
-    review_obj_list: [],
+    // review_obj_list: [],
     
     page_length:[],
     page_size:[],
@@ -27,9 +27,9 @@ export const getters = {
     store_list: state => {
         return state.store_list
     },
-    review_obj_list: state => {
-        return state.review_obj_list
-    },
+    // review_obj_list: state => {
+        // return state.review_obj_list
+    // },
     page_length: state => {
         return state.page_length
     },
@@ -60,9 +60,9 @@ export const mutations = {
     set_store_list(state, value) {
         state.store_list = value;
     },
-    set_review_obj_list(state, value) {
-        state.review_obj_list = value;
-    },
+    // set_review_obj_list(state, value) {
+        // state.review_obj_list = value;
+    // },
     set_page_length(state, value) {
         state.page_length = value;
     },

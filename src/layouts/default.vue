@@ -25,7 +25,7 @@
             </v-list>
         </v-navigation-drawer> -->
 
-        <SearchBar :searcher_seen="searcher_seen" />
+        <SearchBar :searcher_seen="searcher_seen" :store_list="basis_store_list" />
 
         <v-main>
             <!-- <v-container class="pa-0"> -->
@@ -79,6 +79,7 @@ export default {
             rightDrawer: false,
             title: "RESTAURary",
             searcher_seen: true,
+            basis_store_list:[],
         };
     },
 
@@ -98,6 +99,7 @@ export default {
             if (flg == "index") {
                 this.searcher_seen = false;
             } else if (flg == "store_list") {
+                this.basis_store_list = this.$store.getters["basis_store_list"]
                 this.searcher_seen = true;
             }
         },

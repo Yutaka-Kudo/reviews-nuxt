@@ -142,7 +142,7 @@ export default {
     /* height: 100%; */
 }
 .description {
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.6);
     /* border-color: rgba(255, 255, 255, 0.3); */
 }
 .search_list_wrap {

@@ -64,6 +64,7 @@
 export default {
     props: {
         searcher_seen: Boolean,
+        store_list: Array,
     },
     data() {
         return {
@@ -82,32 +83,31 @@ export default {
             // ],
             title: "RESTAURary",
 
-            store_list: [],
             search_word: "",
         };
     },
 
     created: function () {
         // console.log('99999999999');
-        this.store_list = this.$store.getters["basis_store_list"];
     },
     mounted: function () {},
 
     methods: {
-        async store_submit(event) {
+        store_submit(event) {
             if (this.search_word.length) {
-                // this.$router.push({ path: "store_list/" });
+                console.log(this.store_list);
                 this.$store.commit("set_store_search_word", this.search_word);
                 this.$store.commit("set_store_list", this.filtered_store);
 
                 //ページ数、決定
                 let page_length = Math.ceil(
-                    this.filtered_store.length / this.$store.getters["page_size"]
+                    this.filtered_store.length /
+                        this.$store.getters["page_size"]
                 );
-                await this.$store.commit("set_page_length",page_length);
+                this.$store.commit("set_page_length", page_length);
 
-                // console.log(this.store_list);
                 location.reload();
+                // this.$router.push({ path: "store_list/" });
                 // if (this.search_word.length == 0) {
                 //     this.$store.commit("set_store_list", this.store_list);
                 // } else {
