@@ -1,6 +1,16 @@
 <template>
     <div v-show="seen_whole">
         <!-- <transition name="list_scroll"> -->
+
+        <!-- エラー用 -->
+        <div v-if="!media_data_list_by_store.length" class="get_failed">
+            <b>
+                データ取得中...<br /><br />
+                画面が変わらない場合は<br />
+                ホーム画面に戻りリロードしてください
+            </b>
+        </div>
+        
         <v-card
             v-for="media_data in media_data_list_by_store"
             :key="media_data.id"
@@ -280,9 +290,7 @@ export default {
             let rev_head_opened_elems = document.getElementsByClassName(
                 "rev_head_opened"
             );
-            let mini_name_elems = document.getElementsByClassName(
-                "mini_name"
-            );
+            let mini_name_elems = document.getElementsByClassName("mini_name");
             const target = document.getElementsByClassName("v-app-bar")[0];
 
             let func = function () {
@@ -305,9 +313,7 @@ export default {
                             );
                         });
                         mini_name_elems.forEach(function (elem) {
-                            elem.classList.remove(
-                                "mini_name_with_header"
-                            );
+                            elem.classList.remove("mini_name_with_header");
                         });
                     }
                 });

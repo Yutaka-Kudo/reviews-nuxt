@@ -50,20 +50,26 @@ export default {
 
     props: {
         store_list: Array,
+        submit_enable_flg: Boolean,
     },
 
     methods: {
         store_submit(event) {
-            // let store_obj = this.store_list.find(
-            //     (v) => v.id == this.f_store_list_pure[0].id
-            // );
-            // console.log(store_obj);  //これなんだっけ
-            this.$router.push({ path: "store_list/" });
-            this.$store.commit("set_store_search_word", this.search_word);
-            if (this.search_word.length == 0) {
-                this.$store.commit("set_store_list", this.store_list);
-            } else {
-                this.$store.commit("set_store_list", this.f_store_list_pure);
+            if (this.store_list.length) {
+                // let store_obj = this.store_list.find(
+                //     (v) => v.id == this.f_store_list_pure[0].id
+                // );
+                // console.log(store_obj);  //これなんだっけ
+                this.$router.push({ path: "store_list/" });
+                this.$store.commit("set_store_search_word", this.search_word);
+                if (this.search_word.length == 0) {
+                    this.$store.commit("set_store_list", this.store_list);
+                } else {
+                    this.$store.commit(
+                        "set_store_list",
+                        this.f_store_list_pure
+                    );
+                }
             }
         },
         store_submit_by_incremental(selected) {

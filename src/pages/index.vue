@@ -14,8 +14,9 @@
                     </v-col>
                     <v-col cols="12" md="6">
                         <StoreSearch
-                            :store_list="store_list"
                             @get_ref="get_ref"
+                            :submit_enable_flg="submit_enable_flg"
+                            :store_list="store_list"
                         />
                     </v-col>
                 </v-row>
@@ -47,6 +48,7 @@ export default {
             review_obj_list: [],
             ref: "",
             // bg_img: require("@/assets/img/salad.jpg"),
+            submit_enable_flg:false,
         };
     },
 
@@ -103,6 +105,7 @@ export default {
                 .then(function (res) {
                     that.store_list = res.data;
                     that.$store.commit('set_basis_store_list',res.data)
+                    that.submit_enable_flg = true
                 })
                 .catch(function (e) {
                     console.log(e);
