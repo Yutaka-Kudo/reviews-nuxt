@@ -277,6 +277,7 @@ export default {
                 "rev_head_opened"
             );
             const target = document.getElementsByClassName("v-app-bar")[0];
+            
             let func = function () {
                 let observer = new MutationObserver(function () {
                     if (

@@ -6,93 +6,113 @@
         app
         hide-on-scroll
         scroll-threshold="60"
-        height="80"
+        :height="searcher_seen ? '80' : '40'"
+        class="head-bar"
     >
-        <nuxt-link to="/">
-            <v-icon>mdi-home</v-icon>
-        </nuxt-link>
+        <div class="header-wrap d-flex flex-column">
+            <!-- <div class="flex-grow-1 d-flex flex-wrap"> -->
+            <div class="header-top d-flex">
+                <nuxt-link to="/">
+                    <v-icon>mdi-home</v-icon>
+                </nuxt-link>
 
-        <v-spacer />
+                <!-- <v-spacer /> -->
 
-        <v-toolbar-title v-html="title" />
+                <v-toolbar-title v-html="title" class="title" />
 
-        <v-spacer />
+                <!-- <v-spacer /> -->
+                <div class="spacer_as_icon_width"></div>
+            </div>
 
-        <v-form
-            @submit.prevent="store_submit"
-            class="search_box d-flex"
-            v-cloak
-        >
-            <v-text-field
-                v-model.trim="search_word"
-                label="店名"
-                prepend-icon="mdi-store"
-                ref="store_search"
-                append-outer-icon="mdi-send"
-                @click:append-outer="store_submit"
-                clear-icon="mdi-close-circle"
-                clearable
-                dark
-                background-color="rgba(255, 255, 255, 0.2)"
-                hide-details
+            <!-- v-ifだとエラー。不明 -->
+            <!-- v-show="searcher_seen" が d-flexが入ってると効かない。:classでクラス自体を操作-->
+            <v-form
+                @submit.prevent="store_submit"
+                class="search_box flex-grow-1"
+                :class="searcher_seen ? 'd-flex' : 'd-none'"
                 v-cloak
-            />
-            <span class="list_length align-self-end ml-1" v-if="filtered_store.length"><b>{{filtered_store.length}}</b> hit !!</span>
-        </v-form>
-        <v-spacer />
+            >
+                <v-text-field
+                    v-model.trim="search_word"
+                    label="店名"
+                    prepend-icon="mdi-store"
+                    ref="store_search"
+                    append-outer-icon="mdi-send"
+                    @click:append-outer="store_submit"
+                    clear-icon="mdi-close-circle"
+                    clearable
+                    dark
+                    background-color="rgba(255, 255, 255, 0.2)"
+                    hide-details
+                    v-cloak
+                />
+                <span
+                    class="list_length align-self-end ml-1"
+                    @click="store_submit"
+                >
+                    <span v-if="filtered_store.length">
+                        <b>{{ filtered_store.length }}</b> hit !!
+                    </span>
+                </span>
+            </v-form>
+        </div>
     </v-app-bar>
+    <!-- <v-spacer /> -->
+    <!-- </div> -->
 </template>
 
 <script>
 export default {
+    props: {
+        searcher_seen: Boolean,
+    },
     data() {
         return {
             clipped: false,
-            fixed: false,
-            items: [
-                {
-                    icon: "mdi-apps",
-                    title: "Welcome",
-                    to: "/",
-                },
-                {
-                    icon: "mdi-chart-bubble",
-                    title: "Inspire",
-                    to: "/inspire",
-                },
-            ],
-            miniVariant: false,
-            right: true,
-            rightDrawer: false,
+            // items: [
+            //     {
+            //         icon: "mdi-apps",
+            //         title: "Welcome",
+            //         to: "/",
+            //     },
+            //     {
+            //         icon: "mdi-chart-bubble",
+            //         title: "Inspire",
+            //         to: "/inspire",
+            //     },
+            // ],
             title: "RESTAURary",
 
             store_list: [],
-            search_word:"",
-            // f_store_list_pure:[],
+            search_word: "",
+
         };
     },
 
-    methods: {
-        store_submit(event) {
-            // this.$router.push({ path: "store_list/" });
-            this.$store.commit("set_store_search_word", this.search_word);
-            this.$store.commit("set_store_list", this.filtered_store);
-            // console.log(this.store_list);
-            location.reload()
-            // if (this.search_word.length == 0) {
-            //     this.$store.commit("set_store_list", this.store_list);
-            // } else {
-            //     this.$store.commit("set_store_list", this.f_store_list_pure);
-            // }
-        },
-    },
     created: function () {
         // console.log('99999999999');
         this.store_list = this.$store.getters["basis_store_list"];
     },
-    mounted: function () {
-        console.log(this.store_list);
+    mounted: function () {},
+
+    methods: {
+        store_submit(event) {
+            if (this.search_word.length) {
+                // this.$router.push({ path: "store_list/" });
+                this.$store.commit("set_store_search_word", this.search_word);
+                this.$store.commit("set_store_list", this.filtered_store);
+                // console.log(this.store_list);
+                location.reload();
+                // if (this.search_word.length == 0) {
+                //     this.$store.commit("set_store_list", this.store_list);
+                // } else {
+                //     this.$store.commit("set_store_list", this.f_store_list_pure);
+                // }
+            }
+        },
     },
+
+
     computed: {
         filtered_store: function () {
             // this.f_store_list_pure = [];
@@ -119,7 +139,6 @@ export default {
                     let hira_trans_name = kanaToHira(name);
                     let yomigana = store_data.yomigana || "";
                     let yomi_roma = store_data.yomi_roma || "";
-                    // console.log(yomigana);
                     if (
                         hira_trans_name
                             .replaceAll(" ", "")
@@ -154,10 +173,23 @@ export default {
 </script>
 
 <style scoped>
-.v-app-bar.v-app-bar--fixed {
-    position: fixed;
-    top: 0px;
-    z-index: 5;
+.head-bar {
+    /* transition: height 1s; */
+    transition: all 0.2s;
 }
-
+.header-top {
+    width: 90vw;
+    justify-content: space-between;
+}
+.spacer_as_icon_width {
+    width: 24px;
+}
+.title {
+    /* position: absolute;
+    left: 50%;
+    transform: translateX(-50%); */
+}
+.list_length {
+    width: 65px;
+}
 </style>

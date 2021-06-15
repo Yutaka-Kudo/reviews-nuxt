@@ -87,6 +87,8 @@ export default {
     mounted() {
         // gsap.to(".hello", { rotation: 27, x: 100, duration: 1 });
         // gsap.to(".hello", { x: 100, duration: 3 });
+
+        this.update_layout()
     },
 
     methods: {
@@ -114,7 +116,12 @@ export default {
         get_ref: function (obj) {
             this.ref = obj;
         },
+
+        update_layout(){
+            this.$nuxt.$emit('update_header', "index")
+        }
     },
+    
     transition: {
         // name:"bounce"
         // name: "blind",

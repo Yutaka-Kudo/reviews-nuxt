@@ -24,48 +24,12 @@
                 </v-list-item>
             </v-list>
         </v-navigation-drawer> -->
-        <v-app-bar
-            :clipped-left="clipped"
-            fixed
-            dark
-            app
-            hide-on-scroll
-            scroll-threshold="60"
-            height="40"
-        >
-            <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" /> -->
-            <!-- <v-btn icon @click.stop="miniVariant = !miniVariant">
-                <v-icon
-                    >mdi-{{
-                        `chevron-${miniVariant ? "right" : "left"}`
-                    }}</v-icon
-                >
-            </v-btn> -->
-            <nuxt-link to="/">
-                <v-icon>mdi-home</v-icon>
-            </nuxt-link>
-            <nuxt-link to="/store_list">
-                <v-icon>mdi-home</v-icon>
-            </nuxt-link>
-            <!-- <nuxt-link to="/inspire">aaaaa</nuxt-link> -->
 
-            <!-- <v-btn icon @click.stop="clipped = !clipped">
-                <v-icon>mdi-application</v-icon>
-            </v-btn> -->
-            <!-- <v-btn icon @click.stop="fixed = !fixed">
-                <v-icon>mdi-minus</v-icon>
-            </v-btn> -->
-            <v-spacer />
-            <!-- <v-toolbar-title v-html="<i>title</i>" /> -->
-            <v-toolbar-title v-html="title" />
-            <v-spacer />
-            <!-- <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-                <v-icon>mdi-menu</v-icon>
-            </v-btn> -->
-        </v-app-bar>
+        <SearchBar :searcher_seen="searcher_seen" />
+
         <v-main>
             <!-- <v-container class="pa-0"> -->
-                <nuxt />
+            <nuxt />
             <!-- </v-container> -->
         </v-main>
         <v-navigation-drawer
@@ -114,7 +78,29 @@ export default {
             right: true,
             rightDrawer: false,
             title: "RESTAURary",
+            searcher_seen: false,
         };
+    },
+
+    created() {
+        this.set_listener();
+    },
+
+    mounted() {
+        console.log(this.$store.getters["store_list"])
+    },
+
+    methods: {
+        set_listener() {
+            this.$nuxt.$on("update_header", this.extend_header);
+        },
+        extend_header(flg) {
+            if (flg == "index") {
+                this.searcher_seen = false;
+            } else if (flg == "store_list") {
+                this.searcher_seen = true;
+            }
+        },
     },
 };
 </script>

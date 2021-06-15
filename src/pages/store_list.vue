@@ -1,6 +1,6 @@
 <template>
     <div class="bg store_list_wrap">
-        <SearchBar />
+        <!-- <SearchBar /> -->
         <v-container>
             <!-- <div> -->
             <!-- <Tran/> -->
@@ -57,6 +57,51 @@ export default {
     //         store_list:store_list
     //     }
     // },
+
+    created: async function () {
+        // console.log("parent created");
+
+        this.page_is_disabled = true;
+
+        this.store_list = this.$store.getters["store_list"];
+        // console.log(this.store_list);
+        // let that = this;
+        // console.log("created");
+
+        //ページ数、決定
+        this.pages["page_length"] = Math.ceil(
+            this.store_list.length / this.pages["page_size"]
+        );
+
+        // 1ページ分store_list
+        let sliced_store_list = this.store_list.slice(
+            0,
+            this.pages["page_size"]
+        );
+
+        await this.create_data(sliced_store_list);
+
+        // 次ページ分
+        let sliced_store_list_next = this.store_list.slice(
+            this.pages["page_size"],
+            this.pages["page_size"] * 2
+        );
+        await this.create_data(sliced_store_list_next, true);
+
+        this.page_is_disabled = false;
+
+        // console.log(JSON.stringify(this.review_obj_list));
+        console.log("media_data_list_by_store", this.media_data_list_by_store);
+        console.log(
+            "media_data_list_by_store_next",
+            this.media_data_list_by_store_next
+        );
+        console.log("content_list", this.content_list);
+    },  
+
+    mounted() {
+        this.update_layout();
+    },
 
     methods: {
         create_data: async function (sliced_store_list, next_flg = false) {
@@ -261,6 +306,9 @@ export default {
                 }
             }
         },
+        update_layout() {
+            this.$nuxt.$emit("update_header", "store_list");
+        },
     },
 
     // computed: {
@@ -270,47 +318,6 @@ export default {
     //     },
     // },
 
-    created: async function () {
-        // console.log("parent created");
-
-        this.page_is_disabled = true;
-
-        this.store_list = this.$store.getters["store_list"];
-        console.log(this.store_list);
-        // let that = this;
-        // console.log("created");
-
-        //ページ数、決定
-        this.pages["page_length"] = Math.ceil(
-            this.store_list.length / this.pages["page_size"]
-        );
-
-        // 1ページ分store_list
-        let sliced_store_list = this.store_list.slice(
-            0,
-            this.pages["page_size"]
-        );
-
-        await this.create_data(sliced_store_list);
-
-        // 次ページ分
-        let sliced_store_list_next = this.store_list.slice(
-            this.pages["page_size"],
-            this.pages["page_size"] * 2
-        );
-        await this.create_data(sliced_store_list_next, true);
-
-        this.page_is_disabled = false;
-
-        // console.log(JSON.stringify(this.review_obj_list));
-        console.log("media_data_list_by_store", this.media_data_list_by_store);
-        console.log(
-            "media_data_list_by_store_next",
-            this.media_data_list_by_store_next
-        );
-        console.log("content_list", this.content_list);
-    },
-    mounted: function () {},
     transition: {
         // name:"bounce"
         // name: "blind",
