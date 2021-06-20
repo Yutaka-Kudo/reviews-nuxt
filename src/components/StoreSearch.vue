@@ -17,8 +17,15 @@
             filled
             dark
             background-color="rgba(255, 255, 255, 0.2)"
+            hide-details
             v-cloak
         />
+
+        <span class="list_length ml-11 "  @click="store_submit">
+            <span v-if="f_store_list_pure.length">
+                <b>{{ f_store_list_pure.length }}</b> hit !!
+            </span>
+        </span>
 
         <!-- インクリメンタルサーチ -->
         <div class="list_items">
@@ -51,16 +58,18 @@ export default {
     props: {
         store_list: Array,
         submit_enable_flg: Boolean,
+        // selected_area: String,
     },
 
     methods: {
         store_submit(event) {
-            if (this.store_list.length) {
+            if (this.store_list.length && this.submit_enable_flg) {
                 // let store_obj = this.store_list.find(
                 //     (v) => v.id == this.f_store_list_pure[0].id
                 // );
                 // console.log(store_obj);  //これなんだっけ
-                this.$router.push({ path: "store_list/" });
+                let selected_area = this.$store.getters["selected_area"]
+                this.$router.push({ path: `${selected_area}/store_list/` });
                 this.$store.commit("set_store_search_word", this.search_word);
                 if (this.search_word.length == 0) {
                     this.$store.commit("set_store_list", this.store_list);
@@ -73,24 +82,27 @@ export default {
             }
         },
         store_submit_by_incremental(selected) {
-            this.$router.push({ path: "store_list/" });
-            this.$store.commit("set_store_search_word", this.search_word);
+            if (this.store_list.length && this.submit_enable_flg) {
+                let selected_area = this.$store.getters["selected_area"]
+                this.$router.push({ path: `${selected_area}/store_list/` });
+                this.$store.commit("set_store_search_word", this.search_word);
 
-            let store_obj = this.f_store_list_pure.find(
-                // (v) => (v.id == v.id) == selected.id
-                (v) => v.id == selected.id
-            );
-            console.log("selected_store", store_obj);
+                let store_obj = this.f_store_list_pure.find(
+                    // (v) => (v.id == v.id) == selected.id
+                    (v) => v.id == selected.id
+                );
+                console.log("selected_store", store_obj);
 
-            // 選んだ店を消去 → 先頭に入れる
-            this.f_store_list_pure.splice(
-                this.f_store_list_pure.indexOf(store_obj),
-                1
-            );
-            this.f_store_list_pure.unshift(store_obj);
+                // 選んだ店を消去 → 先頭に入れる
+                this.f_store_list_pure.splice(
+                    this.f_store_list_pure.indexOf(store_obj),
+                    1
+                );
+                this.f_store_list_pure.unshift(store_obj);
 
-            this.$store.commit("set_store_list", this.f_store_list_pure);
-            // console.log(this.f_store_list_pure);
+                this.$store.commit("set_store_list", this.f_store_list_pure);
+                // console.log(this.f_store_list_pure);
+            }
         },
     },
 
@@ -249,6 +261,9 @@ export default {
     font-size: large;
     font-weight: bolder;
 }
+.list_length{
+    color: white;
+}
 .v-sheet.v-card {
     background-color: rgba(0, 0, 0, 0.6);
     color: white;
@@ -262,6 +277,9 @@ export default {
     overflow: scroll;
     -ms-overflow-style: none;
     padding-right: 34px;
+    /* min-height: 15vh; */
+    /* max-height: 40vh; */
+    height: 45vh;
 }
 .list_items::-webkit-scrollbar {
     display: none;
@@ -297,14 +315,14 @@ export default {
     }
 } */
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 600px) {
     .search_box {
         /* max-height: 70%; */
         /* flex-shrink: 1; */
     }
     .list_items {
-        min-height: 30vh;
-        max-height: 44vh;
+        min-height: 15vh;
+        max-height: 40vh;
     }
     .incre_search-leave-active {
         position: relative;

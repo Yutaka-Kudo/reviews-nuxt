@@ -49,9 +49,12 @@
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
-        <!-- <v-footer :absolute="!fixed" app>
+
+        <v-footer :absolute="!fixed" app class="justify-space-between">
             <span>&copy; {{ new Date().getFullYear() }}</span>
-        </v-footer> -->
+            <a href="mailto:restaurary@gmail.com">contact</a>
+        </v-footer>
+
     </v-app>
 </template>
 
@@ -80,6 +83,8 @@ export default {
             title: "RESTAURary",
             searcher_seen: true,
             basis_store_list:[],
+
+            m_adress: "restaurary@gmail.com"
         };
     },
 

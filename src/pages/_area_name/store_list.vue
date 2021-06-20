@@ -22,7 +22,8 @@
 <script>
 import ShowStoreList from "~/components/ShowStoreList.vue";
 import Pagination from "~/components/Pagination.vue";
-import SearchBar from "../components/SearchBar.vue";
+// import SearchBar from "../../components/SearchBar.vue";
+import SearchBar from "@/components/SearchBar.vue";
 // import Tran from "~/components/Tran.vue";
 
 export default {
@@ -32,6 +33,8 @@ export default {
         SearchBar,
         // Tran,
     },
+
+    scrollToTop:true,
 
     data() {
         return {
@@ -58,6 +61,11 @@ export default {
     // },
 
     created: async function () {
+        // if (process.server) {
+        //     // console.log($store);
+        //     this.store_list = this.$store.getters["store_list"];
+        //     console.log("store_list",this.store_list);
+        // }
         // vuexにページサイズ登録ーーーーーーーーー
         this.$store.commit("set_page_size", this.pages["page_size"]);
 
@@ -107,7 +115,7 @@ export default {
 
     mounted() {
         this.update_header();
-        // console.log("this.update_header");
+        console.log(this.$route.params);
     },
 
     methods: {

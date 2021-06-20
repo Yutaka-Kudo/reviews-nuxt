@@ -2,7 +2,9 @@ export const state = () => ({
     area_search_word: [],
     store_search_word: [],
 
+    selected_area: "",
     area_list: [],
+    all_store_list: [],
     basis_store_list: [],
     store_list: [],
     // review_obj_list: [],
@@ -18,8 +20,14 @@ export const getters = {
     store_search_word: state => {
         return state.store_search_word
     },
+    selected_area: state => {
+        return state.selected_area
+    },
     area_list: state => {
         return state.area_list
+    },
+    all_store_list: state => {
+        return state.all_store_list
     },
     basis_store_list: state => {
         return state.basis_store_list
@@ -51,8 +59,14 @@ export const mutations = {
     set_store_search_word(state, value) {
         state.store_search_word = value;
     },
+    set_selected_area(state, value) {
+        state.selected_area = value;
+    },
     set_area_list(state, value) {
         state.area_list = value;
+    },
+    set_all_store_list(state, value) {
+        state.all_store_list = value;
     },
     set_basis_store_list(state, value) {
         state.basis_store_list = value;

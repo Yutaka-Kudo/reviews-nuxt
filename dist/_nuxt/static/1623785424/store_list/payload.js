@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/store_list", {data:[{}],fetch:{},mutations:[["set_page_size",10],["set_page_length",0]]});
