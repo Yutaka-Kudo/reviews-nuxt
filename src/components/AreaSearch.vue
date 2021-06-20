@@ -56,7 +56,7 @@ export default {
             );
             this.search_word = area_obj.area_name;
             this.$emit("get_area_obj", area_obj);
-            this.$store.commit("set_selected_area", area_obj.area_name);
+            this.$store.commit("set_selected_area", area_obj.yomi_roma);
             this.$store.commit("set_area_search_word", area_obj.area_name);
             // 日本語入力中のkeycodeは229。そこで発火しないように
             // if (event.keyCode !== 229) {
@@ -67,7 +67,7 @@ export default {
             let area_obj = this.area_list.find((v) => v.id == selected.id);
             this.search_word = area_obj.area_name;
             this.$emit("get_area_obj", area_obj);
-            this.$store.commit("set_selected_area", area_obj.area_name);
+            this.$store.commit("set_selected_area", area_obj.yomi_roma);
             this.$store.commit("set_area_search_word", area_obj.area_name);
         },
     },
