@@ -25,7 +25,7 @@
             </v-list>
         </v-navigation-drawer> -->
 
-        <SearchBar :searcher_seen="searcher_seen" :store_list="basis_store_list" />
+        <SearchBar :searcher_seen="searcher_seen" :selected_area="selected_area" :store_list="basis_store_list" />
 
         <v-main>
             <!-- <v-container class="pa-0"> -->
@@ -50,7 +50,7 @@
             </v-list>
         </v-navigation-drawer>
 
-        <v-footer :absolute="!fixed" app class="justify-space-between">
+        <v-footer dark :absolute="!fixed" app class="justify-space-between">
             <span>&copy; {{ new Date().getFullYear() }}</span>
             <a href="mailto:restaurary@gmail.com">contact</a>
         </v-footer>
@@ -83,6 +83,7 @@ export default {
             title: "RESTAURary",
             searcher_seen: true,
             basis_store_list:[],
+            selected_area:"",
 
             m_adress: "restaurary@gmail.com"
         };
@@ -105,6 +106,7 @@ export default {
                 this.searcher_seen = false;
             } else if (flg == "store_list") {
                 this.basis_store_list = this.$store.getters["basis_store_list"]
+                this.selected_area = this.$store.getters["selected_area"]
                 this.searcher_seen = true;
             }
         },

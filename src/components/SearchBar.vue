@@ -21,6 +21,7 @@
                 <v-toolbar-title v-html="title" class="title" />
 
                 <!-- <v-spacer /> -->
+                <span v-show="searcher_seen">{{selected_area}}</span>
                 <div class="spacer_as_icon_width"></div>
             </div>
 
@@ -64,6 +65,7 @@
 export default {
     props: {
         searcher_seen: Boolean,
+        selected_area: String,
         store_list: Array,
     },
     data() {

@@ -26,9 +26,8 @@
         </div>
         <div class="registerd_area">
             <RegisteredArea
-                :m_area_list="m_area_list"
                 :area_list="area_list"
-                :all_store_list="all_store_list"
+                :area_detail_list="area_detail_list"
             />
         </div>
     </v-container>
@@ -57,126 +56,64 @@ export default {
             ref: "",
             // bg_img: require("@/assets/img/salad.jpg"),
             submit_enable_flg: true,
-            all_store_list: [],
+            area_detail_list: [],
         };
     },
 
     async fetch({ store, $axios }) {
-        const res = await $axios.get("api/area/").catch(function (e) {
-            console.log(e);
-        });
-        store.commit("set_area_list", res.data);
+        // const res = await $axios.get("api/area/").catch(function (e) {
+        //     console.log(e);
+        // });
+        // store.commit("set_area_list", res.data);
     },
 
-    async asyncData({ $axios, $store }) {
+    async asyncData({ $axios, store }) {
         console.log(
             `I am rendered on the ${process.client ? "client" : "server"}`
         );
 
-        const m_area_res = await $axios
+        // サンプル {県名:〜県,内包市:[{市名:〜市,件数:〜件},{},{}]}
+        const m_area_list = await $axios
             .get("api/area_major/")
+            .then(function (res) {
+                return res.data;
+            })
             .catch(function (e) {
                 console.log(e);
             });
-            
-        // const m_area_list = m_area_res.data;
-        const m_area_list = [m_area_res.data[0]];
+        const area_list = await $axios
+            .get(`api/area/`)
+            .then(function (res) {
+                return res.data;
+            })
+            .catch(function (e) {
+                console.log(e);
+            });
 
-        let all_store_list = [];
-        let that = this;
-        let area_res = await $axios.get(`api/area/`).catch(function (e) {
-            console.log(e);
-        });
-        let area_list = area_res.data;
+        let area_detail_list = [];
         for (let m_area of m_area_list) {
             let temp = {};
             temp["m_area_name"] = m_area["area_name"];
-
             temp["include_cities"] = area_list.filter(
                 (v) => v.major_area == m_area.id
-
-            // );
-            ).slice(0,1);
-
-            console.log("eeeeeeeeee", temp);
-            // console.log(area_res.data);
-            for (let city of temp["include_cities"]) {
-                // console.log(city["area_name"]);
-                let store_res = await $axios.get(`api/stores/?area=${city.id}`);
-
-                city["num_of_registed"] = store_res.data.length;
-
-                console.log(city);
-            }
-            all_store_list.push(temp);
-            // this.all_store_list
-            // console.log(res.data);
-            // console.log(temp);
+            );
+            area_detail_list.push(temp);
         }
 
         return {
-            m_area_list,
-            all_store_list,
+            area_list,
+            area_detail_list,
         };
     },
 
     created: async function () {
-        // if (process.client) {
-        // // if (process.server) {
-        //     // サンプル {県名:〜県,内包市:[{市名:〜市,件数:〜件},{},{}]}
-        //     // console.log(this.m_area_list);
-        //     console.log("serrrrrrrrrr");
-        //     // let all_store_list = []
-        //     let that = this
-        //     for (let m_area of this.m_area_list) {
-        //         let temp = {};
-        //         // let area_res = await this.$axios
-        //         await this.$axios
-        //             .get(`api/area/?major_area=${m_area.id}`)
-        //             .then(function(area_res){
-        //                 temp["m_area_name"] = m_area["area_name"];
-        //                 temp["include_cities"] = area_res.data;
-        //                 // console.log(area_res.data);
-        //                 that.all_store_list.push(temp)
-
-        //                 for (let city of temp["include_cities"]) {
-        //                     // console.log(city["area_name"]);
-        //                     // let store_res =  this.$axios
-        //                     that.$axios
-        //                         .get(`api/stores/?area=${city.id}`)
-        //                         .then(function(store_res){
-        //                             city["num_of_registed"] = store_res.data.length
-        //                             console.log(city);
-
-        //                         })
-        //                         .catch(function (e) {
-        //                             console.log(e);
-        //                         });
-        //                     // this.all_store_list = temp
-
-        //                     // console.log(this.all_store_list);
-        //                 }
-        //             })
-        //             .catch(function (e) {
-        //                 console.log(e);
-        //             });
-        //         // this.all_store_list
-        //         // console.log(res.data);
-        //         // console.log(temp);
-        //     }
-        // }
         if (process.client) {
-            // if (process.server) {
-            // サンプル {県名:〜県,内包市:[{市名:〜市,件数:〜件},{},{}]}
-            // console.log(this.m_area_list);
-            console.log("serrrrrrrrrr");
-        }
-        if (process.client) {
+            this.$store.commit("set_area_list", this.area_list);
+
             // ページ戻った時にリストを保持する
             this.area_list = this.$store.getters["area_list"];
             this.store_list = this.$store.getters["basis_store_list"];
         }
-
     },
 
     mounted() {
@@ -192,11 +129,8 @@ export default {
             this.submit_enable_flg = false;
             let that = this;
             console.log(obj.id, obj.area_name);
+            this.$store.commit("set_selected_area", obj.area_name);
 
-            // create_store_list
-            // this.store_list = this.all_store_list.filter(v => v.area.id === obj.id)
-            // this.$store.commit("set_basis_store_list", this.store_list);
-            // this.submit_enable_flg = true;
             this.$axios
                 .get(`api/stores?area=${obj.id}`)
                 .then(function (res) {

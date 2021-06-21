@@ -34,7 +34,7 @@ export default {
         // Tran,
     },
 
-    scrollToTop:true,
+    // scrollToTop:true,
 
     data() {
         return {
@@ -62,55 +62,60 @@ export default {
 
     created: async function () {
         // if (process.server) {
-        //     // console.log($store);
-        //     this.store_list = this.$store.getters["store_list"];
-        //     console.log("store_list",this.store_list);
-        // }
-        // vuexにページサイズ登録ーーーーーーーーー
-        this.$store.commit("set_page_size", this.pages["page_size"]);
+        if (process.client) {
+            //     // console.log($store);
+            //     this.store_list = this.$store.getters["store_list"];
+            //     console.log("store_list",this.store_list);
+            // }
+            // vuexにページサイズ登録ーーーーーーーーー
+            this.$store.commit("set_page_size", this.pages["page_size"]);
 
-        // console.log("parent created");
+            // console.log("parent created");
 
-        this.page_is_disabled = true;
+            this.page_is_disabled = true;
 
-        this.store_list = this.$store.getters["store_list"];
-        // console.log(this.store_list);
-        // let that = this;
-        // console.log("created");
+            this.store_list = this.$store.getters["store_list"];
+            // console.log(this.store_list);
+            // let that = this;
+            // console.log("created");
 
-        //ページ数、決定
-        let page_length = Math.ceil(
-            this.store_list.length / this.pages["page_size"]
-        );
-        this.$store.commit("set_page_length", page_length);
-        // this.pages["page_length"] = Math.ceil(
-        //     this.store_list.length / this.pages["page_size"]
-        // );
+            //ページ数、決定
+            let page_length = Math.ceil(
+                this.store_list.length / this.pages["page_size"]
+            );
+            this.$store.commit("set_page_length", page_length);
+            // this.pages["page_length"] = Math.ceil(
+            //     this.store_list.length / this.pages["page_size"]
+            // );
 
-        // 1ページ分store_list
-        let sliced_store_list = this.store_list.slice(
-            0,
-            this.pages["page_size"]
-        );
+            // 1ページ分store_list
+            let sliced_store_list = this.store_list.slice(
+                0,
+                this.pages["page_size"]
+            );
 
-        await this.create_data(sliced_store_list);
+            await this.create_data(sliced_store_list);
 
-        // 次ページ分
-        let sliced_store_list_next = this.store_list.slice(
-            this.pages["page_size"],
-            this.pages["page_size"] * 2
-        );
-        await this.create_data(sliced_store_list_next, true);
+            // 次ページ分
+            let sliced_store_list_next = this.store_list.slice(
+                this.pages["page_size"],
+                this.pages["page_size"] * 2
+            );
+            await this.create_data(sliced_store_list_next, true);
 
-        this.page_is_disabled = false;
+            this.page_is_disabled = false;
 
-        // console.log(JSON.stringify(this.review_obj_list));
-        console.log("media_data_list_by_store", this.media_data_list_by_store);
-        console.log(
-            "media_data_list_by_store_next",
-            this.media_data_list_by_store_next
-        );
-        console.log("content_list", this.content_list);
+            // console.log(JSON.stringify(this.review_obj_list));
+            console.log(
+                "media_data_list_by_store",
+                this.media_data_list_by_store
+            );
+            console.log(
+                "media_data_list_by_store_next",
+                this.media_data_list_by_store_next
+            );
+            console.log("content_list", this.content_list);
+        }
     },
 
     mounted() {
@@ -363,6 +368,7 @@ export default {
     /* overflow: scroll; */
     /* height: calc(100vh - 40px); */
     /* overflow: scroll; */
+    padding-top: 80px;
 }
 .store_list_wrap::-webkit-scrollbar {
     display: none;

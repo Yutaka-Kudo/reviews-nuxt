@@ -1,5 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
-
+import axios from 'axios'
 require('dotenv').config()
 
 // meta
@@ -227,10 +227,21 @@ export default {
 		},
 		transpile: ['gsap', 'gsap/Draggable'],
 	},
-	vue: {
-		devtools: true,
-	},
-	srcDir: 'src/',  //srcディレクトリにまとめて整理
+
+	// // 使えるかわからないがpayload付き
+	// generate: {
+	// 	routes() {
+	// 		return axios.get('https://yk-restaurant-reviews-api.cyou/api/area').then(res => {
+	// 			return res.data.map(area => {
+	// 				return {
+	// 					route: `/${area.id}/ranking`,
+	// 					payload: area
+	// 				}
+	// 			})
+	// 		})
+	// 	}
+	// },
+	
 	// pageTransition: {
 	// 	name: 'page',
 	// 	mode: 'out-in',
@@ -240,5 +251,9 @@ export default {
 	// 	}
 	// },
 
+	vue: {
+		devtools: true,
+	},
+	srcDir: 'src/',  //srcディレクトリにまとめて整理
 	loading: './components/Loading.vue',
 }

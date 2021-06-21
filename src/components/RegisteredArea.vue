@@ -1,24 +1,25 @@
 <template>
     <div>
-        <v-card>現在登録数{{all_store_list}}</v-card>
+        <v-card>現在登録数</v-card>
         <v-card
-            v-for="m_area_data in all_store_list"
-            :key="m_area_data.id"
+            v-for="area_detail in area_detail_list"
+            :key="area_detail.id"
             class="item mb-15"
             elevation="3"
             outlines
             v-cloak
         >
             <v-card-title>
-                {{ m_area_data.m_area_name }}
+                {{ area_detail.m_area_name }}
             </v-card-title>
             <div>
-                <div v-for="city in m_area_data.include_cities" :key="city.id">
-                    <!-- <span v-if="m_area_data.id == city.major_area"> -->
+                <span v-for="city in area_detail.include_cities" :key="city.id" >
+                    <!-- <span v-if="area_detail.id == city.major_area"> -->
                         {{ city.area_name | city_name }}
-                        {{city.num_of_registed}}
+                        {{city.registed}}
                     <!-- </span> -->
-                </div>
+                    <nuxt-link :to="city.id+'/ranking'">TOP20</nuxt-link>
+                </span>
             </div>
         </v-card>
     </div>
@@ -29,7 +30,20 @@ export default {
     props: {
         m_area_list: Array,
         area_list: Array,
-        all_store_list: Array,
+        area_detail_list: Array,
+    },
+
+    methods:{
+        async go_store_list(city){
+            let store_list = await this.$axios.get(`api/stores/?area=${city.id}`)
+            console.log(store_list.data);
+            console.log(city.id);
+            this.$store.commit("set_store_list", store_list.data);
+            this.$store.commit("set_selected_area", city.area_name);
+            // axiosより後じゃないと動作しない↓
+            this.$router.push({ path: `store_list/` });
+
+        }
     },
 
     filters: {
