@@ -66,17 +66,6 @@ export default {
             console.log(e);
         });
         store.commit("set_area_list", res.data);
-
-        // let stores_res = await $axios.get("api/stores/?area=2").catch(function (e) {
-        //     console.log(e);
-        // });
-        // let stores_res2 = await $axios.get("api/stores/?area=12").catch(function (e) {
-        //     console.log(e);
-        // });
-        // let aaa = []
-        // aaa.push(stores_res.data)
-        // aaa.push(stores_res2.data)
-        // store.commit("set_all_store_list", stores_res.data);
     },
 
     async asyncData({ $axios, $store }) {
@@ -89,15 +78,46 @@ export default {
             .catch(function (e) {
                 console.log(e);
             });
-        const m_area_list = m_area_res.data;
+            
+        // const m_area_list = m_area_res.data;
+        const m_area_list = [m_area_res.data[0]];
+
+        let all_store_list = [];
+        let that = this;
+        let area_res = await $axios.get(`api/area/`).catch(function (e) {
+            console.log(e);
+        });
+        let area_list = area_res.data;
+        for (let m_area of m_area_list) {
+            let temp = {};
+            temp["m_area_name"] = m_area["area_name"];
+
+            temp["include_cities"] = area_list.filter(
+                (v) => v.major_area == m_area.id
+
+            // );
+            ).slice(0,1);
+
+            console.log("eeeeeeeeee", temp);
+            // console.log(area_res.data);
+            for (let city of temp["include_cities"]) {
+                // console.log(city["area_name"]);
+                let store_res = await $axios.get(`api/stores/?area=${city.id}`);
+
+                city["num_of_registed"] = store_res.data.length;
+
+                console.log(city);
+            }
+            all_store_list.push(temp);
+            // this.all_store_list
+            // console.log(res.data);
+            // console.log(temp);
+        }
 
         return {
             m_area_list,
-            // all_store_list,
+            all_store_list,
         };
-
-        // console.log(res.data);
-        // return { area_list: res.data };
     },
 
     created: async function () {
@@ -150,40 +170,6 @@ export default {
             // サンプル {県名:〜県,内包市:[{市名:〜市,件数:〜件},{},{}]}
             // console.log(this.m_area_list);
             console.log("serrrrrrrrrr");
-            // let all_store_list = []
-            // let that = this;
-            // for (let m_area of this.m_area_list) {
-            //     let temp = {};
-            //     // let area_res = await this.$axios
-            //     let area_res = await this.$axios
-            //         .get(`api/area/?major_area=${m_area.id}`)
-            //         .catch(function (e) {
-            //             console.log(e);
-            //         });
-            //     temp["m_area_name"] = m_area["area_name"];
-            //     temp["include_cities"] = area_res.data;
-            //     // console.log(area_res.data);
-            //     for (let city of temp["include_cities"]) {
-            //         // console.log(city["area_name"]);
-            //         // let store_res =  this.$axios
-            //         all_stores = this.$store.getters["all_store_list"]
-
-            //                 .then(function (store_res) {
-            //                     city["num_of_registed"] = store_res.data.length;
-            //                     console.log(city);
-            //                 })
-            //         // this.all_store_list = temp
-
-            //         // console.log(this.all_store_list);
-            //     }
-            //     that.all_store_list.push(temp);
-
-            // this.all_store_list = this.$store.getters["all_store_list"]
-
-                // this.all_store_list
-                // console.log(res.data);
-                // console.log(temp);
-            // }
         }
         if (process.client) {
             // ページ戻った時にリストを保持する
@@ -191,12 +177,6 @@ export default {
             this.store_list = this.$store.getters["basis_store_list"];
         }
 
-        // const res = await this.$axios.get("area/").catch(function (e) {
-        //     console.log(e);
-        // });
-        // this.$store.commit("set_area_list", res.data);
-        // this.area_list = res.data
-        // console.log(this.area_list);
     },
 
     mounted() {
