@@ -57,12 +57,12 @@ export default {
 
     props: {
         store_list: Array,
-        submit_enable_flg: Boolean,
+        submit_desable_flg: Boolean,
     },
 
     methods: {
         store_submit(event) {
-            if (this.store_list.length && this.submit_enable_flg) {
+            if (this.store_list.length && !this.submit_desable_flg) {
                 // let store_obj = this.store_list.find(
                 //     (v) => v.id == this.f_store_list_pure[0].id
                 // );
@@ -80,7 +80,7 @@ export default {
             }
         },
         store_submit_by_incremental(selected) {
-            if (this.store_list.length && this.submit_enable_flg) {
+            if (this.store_list.length && !this.submit_desable_flg) {
                 this.$router.push({ path: "store_list/" });
                 this.$store.commit("set_store_search_word", this.search_word);
 

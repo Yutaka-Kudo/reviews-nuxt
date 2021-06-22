@@ -119,7 +119,8 @@ export default {
     },
 
     mounted() {
-        this.update_header();
+        this.$nuxt.$emit("update_header", "store_list");
+        
         console.log(this.$route.params);
     },
 
@@ -168,17 +169,6 @@ export default {
                     "uber"
                         ? true
                         : false; //なぜか配列同士の比較はfalseになる。
-
-                //total_rate出すーーーー
-                var rate_list = media_data_temp.map((v) => Number(v.rate)); // numberにかえてarrayに収納
-                var rate_list = rate_list.filter((v) => v); // 0を除外
-                let total_rate = 0;
-                if (rate_list.length >= 1) {
-                    total_rate =
-                        rate_list.reduce((sum, v) => sum + v, 0) /
-                        rate_list.length;
-                }
-                media_data_temp.total_rate = total_rate.toFixed(1); //小数点以下1に
 
                 // 並び替えーーーーーー
                 let junban = [
@@ -326,9 +316,7 @@ export default {
                 }
             }
         },
-        update_header() {
-            this.$nuxt.$emit("update_header", "store_list");
-        },
+
     },
 
     // computed: {

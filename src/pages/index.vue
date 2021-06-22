@@ -16,7 +16,7 @@
                     <v-col cols="12" sm="6">
                         <StoreSearch
                             @get_ref="get_ref"
-                            :submit_enable_flg="submit_enable_flg"
+                            :submit_desable_flg="submit_desable_flg"
                             :store_list="store_list"
                         />
                     </v-col>
@@ -55,7 +55,7 @@ export default {
             review_obj_list: [],
             ref: "",
             // bg_img: require("@/assets/img/salad.jpg"),
-            submit_enable_flg: true,
+            submit_desable_flg: false,
             area_detail_list: [],
         };
     },
@@ -126,7 +126,7 @@ export default {
     methods: {
         // area_idからstoreのリストを取る
         get_area_obj: function (obj) {
-            this.submit_enable_flg = false;
+            this.submit_desable_flg = true;
             let that = this;
             console.log(obj.id, obj.area_name);
             this.$store.commit("set_selected_area", obj.area_name);
@@ -136,15 +136,13 @@ export default {
                 .then(function (res) {
                     that.store_list = res.data;
                     that.$store.commit("set_basis_store_list", res.data);
-                    that.submit_enable_flg = true;
+                    that.submit_desable_flg = false;
                 })
                 .catch(function (e) {
                     console.log(e);
                 });
 
             this.ref.focus(); // 店名入力フォームにフォーカス
-
-            // this.$store.commit(`set_basis_store_list`, that.store_list);
         },
 
         get_ref: function (obj) {

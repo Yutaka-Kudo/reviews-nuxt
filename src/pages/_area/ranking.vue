@@ -38,8 +38,17 @@ export default {
         let store_list = await $axios
             .get(`api/stores?area=${route.params.area}`)
             .then(function (res) {
-                // return res.data.slice(0, 3);
-                return res.data.slice(0, 20);
+                // ランキングにのせる店のレビュー数の最低ライン
+                let _list = res.data.filter(v=>v["total_review_count"] >= 20)
+
+                _list.sort((x, y) => {
+                    if (Number(x["total_rate"]) > Number(y["total_rate"])) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                });
+                return _list.slice(0, 20);
             })
             .catch(function (e) {
                 console.log(e);
@@ -65,7 +74,12 @@ export default {
     },
 
     mounted() {
-        this.update_header();
+        let area_list = this.$store.getters["area_list"];
+        let selected_area = area_list.find((v) => v.id == this.$route.params.area);
+        this.$store.commit("set_selected_area", selected_area.area_name);
+
+        this.$nuxt.$emit("update_header", "store_list");
+
         console.log(this.$route.params);
     },
 
@@ -114,17 +128,6 @@ export default {
                     "uber"
                         ? true
                         : false; //なぜか配列同士の比較はfalseになる。
-
-                //total_rate出すーーーー
-                var rate_list = media_data_temp.map((v) => Number(v.rate)); // numberにかえてarrayに収納
-                var rate_list = rate_list.filter((v) => v); // 0を除外
-                let total_rate = 0;
-                if (rate_list.length >= 1) {
-                    total_rate =
-                        rate_list.reduce((sum, v) => sum + v, 0) /
-                        rate_list.length;
-                }
-                media_data_temp.total_rate = total_rate.toFixed(1); //小数点以下1に
 
                 // 並び替えーーーーーー
                 let junban = [
@@ -207,10 +210,6 @@ export default {
             // this.$nuxt.$loading.finish();
             // console.log(this.media_data_list_by_store_next);
             // console.log(this.content_list_next);
-        },
-
-        update_header() {
-            this.$nuxt.$emit("update_header", "store_list");
         },
     },
 

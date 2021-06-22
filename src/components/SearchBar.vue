@@ -21,7 +21,7 @@
                 <v-toolbar-title v-html="title" class="title" />
 
                 <!-- <v-spacer /> -->
-                <span v-show="searcher_seen">{{selected_area}}</span>
+                <span v-show="searcher_seen">{{ selected_area }}</span>
                 <div class="spacer_as_icon_width"></div>
             </div>
 
@@ -109,7 +109,12 @@ export default {
                 this.$store.commit("set_page_length", page_length);
 
                 location.reload();
-                // this.$router.push({ path: "store_list/" });
+                // this.$nuxt.refresh()
+                // this.$router.push({
+                //     path: "",
+                //     query: { message: "テスト" },
+                // });
+
                 // if (this.search_word.length == 0) {
                 //     this.$store.commit("set_store_list", this.store_list);
                 // } else {

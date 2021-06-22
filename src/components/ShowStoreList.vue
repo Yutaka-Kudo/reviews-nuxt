@@ -10,7 +10,7 @@
                 ホーム画面に戻りリロードしてください
             </b>
         </div>
-        
+
         <v-card
             v-for="media_data in media_data_list_by_store"
             :key="media_data.id"
@@ -37,11 +37,11 @@
                     <span
                         class="rate_num_total align-self-sm-end flex-sm-shrink-0 mr-sm-2"
                         >{{
-                            media_data.total_rate == "0.0"
+                            media_data[0].store.total_rate == "0.00"
                                 ? " -"
-                                : media_data.total_rate
+                                : media_data[0].store.total_rate
                         }}
-                        <RateStar :value="media_data.total_rate" />
+                        <RateStar :value="media_data[0].store.total_rate" />
                     </span>
                 </div>
                 <span class="category">{{
