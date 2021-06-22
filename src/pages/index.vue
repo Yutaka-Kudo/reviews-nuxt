@@ -178,7 +178,7 @@ export default {
     /* border-color: rgba(255, 255, 255, 0.3); */
 }
 .search_list_wrap {
-    padding-top: 70px;
+    padding-top: 10px;
     /* height: calc(100vh - 40px); */
     /* height: 100vh; */
     /* overflow: scroll; */

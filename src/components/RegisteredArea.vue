@@ -12,14 +12,14 @@
             <v-card-title>
                 {{ area_detail.m_area_name }}
             </v-card-title>
-            <div>
-                <span v-for="city in area_detail.include_cities" :key="city.id" >
+            <div class="d-flex flex-wrap">
+                <div v-for="city in area_detail.include_cities" :key="city.id" class="pa-2">
                     <!-- <span v-if="area_detail.id == city.major_area"> -->
                         {{ city.area_name | city_name }}
                         {{city.registed}}
                     <!-- </span> -->
                     <nuxt-link :to="city.id+'/ranking'">TOP20</nuxt-link>
-                </span>
+                </div>
             </div>
         </v-card>
     </div>

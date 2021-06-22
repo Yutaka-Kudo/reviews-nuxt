@@ -319,7 +319,8 @@ export default {
     }
     .list_items {
         min-height: 15vh;
-        max-height: 40vh;
+        /* max-height: 40vh; */
+        max-height: 30vh;
     }
     .incre_search-leave-active {
         position: relative;

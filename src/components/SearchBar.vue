@@ -90,7 +90,7 @@ export default {
     },
 
     created: function () {
-        // console.log('99999999999');
+        // console.log('search bar created');
     },
     mounted: function () {},
 
@@ -108,7 +108,11 @@ export default {
                 );
                 this.$store.commit("set_page_length", page_length);
 
-                location.reload();
+                if (this.$route.name == "area-ranking") {
+                    this.$router.push({ path: "/store_list/" });
+                } else {
+                    location.reload();
+                }
                 // this.$nuxt.refresh()
                 // this.$router.push({
                 //     path: "",

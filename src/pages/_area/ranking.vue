@@ -1,6 +1,9 @@
 <template>
     <div class="bg store_list_wrap">
         <v-container>
+            <v-card class="ranking_head mb-10 d-flex justify-center">
+                <h1>Top20</h1>
+            </v-card>
             <ShowStoreList
                 :media_data_list_by_store="media_data_list_by_store"
                 :content_list="content_list"
@@ -39,7 +42,9 @@ export default {
             .get(`api/stores?area=${route.params.area}`)
             .then(function (res) {
                 // ランキングにのせる店のレビュー数の最低ライン
-                let _list = res.data.filter(v=>v["total_review_count"] >= 20)
+                let _list = res.data.filter(
+                    (v) => v["total_review_count"] >= 20
+                );
 
                 _list.sort((x, y) => {
                     if (Number(x["total_rate"]) > Number(y["total_rate"])) {
@@ -63,7 +68,7 @@ export default {
         // if (process.server) {
         if (process.client) {
             await this.create_data(this.store_list);
-            // console.log(JSON.stringify(this.review_obj_list));
+
             console.log(
                 "media_data_list_by_store",
                 this.media_data_list_by_store
@@ -73,10 +78,24 @@ export default {
         }
     },
 
-    mounted() {
+    mounted: async function () {
         let area_list = this.$store.getters["area_list"];
-        let selected_area = area_list.find((v) => v.id == this.$route.params.area);
+        let selected_area = area_list.find(
+            (v) => v.id == this.$route.params.area
+        );
         this.$store.commit("set_selected_area", selected_area.area_name);
+
+        const that = this;
+        await this.$axios
+            .get(`api/stores?area=${selected_area.id}`)
+            .then(function (res) {
+                // that.store_list = res.data;
+                that.$store.commit("set_basis_store_list", res.data);
+                // that.submit_desable_flg = false;
+            })
+            .catch(function (e) {
+                console.log(e);
+            });
 
         this.$nuxt.$emit("update_header", "store_list");
 
@@ -231,14 +250,6 @@ export default {
 };
 </script>
 
-<style>
-*,
-*:before,
-*:after {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-}
-</style>
 <style scoped>
 /* .bg {
     background-color: rgba(0, 0, 0, 0);
@@ -260,6 +271,10 @@ export default {
     .store_list_wrap {
         padding-top: 80px;
     }
+}
+
+.ranking_head {
+    /* font-size: 5vw; */
 }
 
 @keyframes opaMove {
