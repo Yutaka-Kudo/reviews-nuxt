@@ -334,6 +334,11 @@ export default {
         // mode: "out-in",
         mode: "",
     },
+    head(){
+        return{
+            title:"飲食店一覧"
+        }
+    }
 };
 </script>
 

@@ -162,6 +162,10 @@ export default {
         // mode: "out-in",
         mode: "",
     },
+    head: {
+        titleTemplate: null,
+        title: "RESTAURary 飲食店口コミ総合まとめ ~レストラリー~",
+    },
 };
 </script>
 

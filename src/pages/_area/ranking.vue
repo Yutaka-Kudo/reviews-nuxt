@@ -16,8 +16,10 @@
 <script>
 import ShowStoreList from "~/components/ShowStoreList.vue";
 import Pagination from "~/components/Pagination.vue";
+// import Meta from '~/assets/mixins/meta'
 
 export default {
+    // mixins: [Meta], //mixinsの使い方
     components: {
         ShowStoreList,
         Pagination,
@@ -246,6 +248,11 @@ export default {
         // mode: "in-out",
         // mode: "out-in",
         mode: "",
+    },
+    head(){
+        return{
+            title:`地域別ランキング ${this.$store.getters["selected_area"]}`
+        }
     },
 };
 </script>

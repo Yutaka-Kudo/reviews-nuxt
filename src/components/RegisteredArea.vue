@@ -16,9 +16,9 @@
                 <div v-for="city in area_detail.include_cities" :key="city.id" class="pa-2">
                     <!-- <span v-if="area_detail.id == city.major_area"> -->
                         {{ city.area_name | city_name }}
-                        {{city.registed}}
+                        {{city.registed}}店舗
                     <!-- </span> -->
-                    <nuxt-link :to="city.id+'/ranking'">TOP20</nuxt-link>
+                    <nuxt-link :to="city.id+'/ranking'">口コミランキングTOP20</nuxt-link>
                 </div>
             </div>
         </v-card>
