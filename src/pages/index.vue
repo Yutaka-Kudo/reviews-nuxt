@@ -2,7 +2,7 @@
     <v-container class="index_wrap">
         <div class="description">
             飲食店総合口コミまとめサイト
-            レストラン・居酒屋・飲食店・デリバリーの口コミ・レビューを最新順でCheck！店舗型レストランはもちろん、デリバリー専門店も検索可能。気になってるお店の使える情報をさくっとGET！
+            レストラン・居酒屋・飲食店・デリバリーの口コミ・レビューを最新順でCheck！店舗型レストランはもちろん、デリバリー専門店も検索可能。気になるお店の情報をさくっとGET！
         </div>
         <div class="search_list_wrap">
             <v-container>
@@ -180,6 +180,8 @@ export default {
 .description {
     background-color: rgba(255, 255, 255, 0.6);
     /* border-color: rgba(255, 255, 255, 0.3); */
+    width: 88%;
+    margin: 0 auto;
 }
 .search_list_wrap {
     padding-top: 10px;

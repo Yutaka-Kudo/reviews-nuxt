@@ -18,7 +18,9 @@
 
                 <!-- <v-spacer /> -->
 
-                <v-toolbar-title v-html="title" class="title" />
+                <nuxt-link to="/">
+                    <v-toolbar-title v-html="title" class="title" />
+                </nuxt-link>
 
                 <!-- <v-spacer /> -->
                 <span v-show="searcher_seen">{{ selected_area }}</span>
@@ -201,6 +203,10 @@ export default {
 }
 .spacer_as_icon_width {
     width: 24px;
+}
+.v-application a {
+    color: white;
+    text-decoration: none;
 }
 .title {
     /* position: absolute;

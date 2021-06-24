@@ -13,12 +13,18 @@
                 {{ area_detail.m_area_name }}
             </v-card-title>
             <div class="d-flex flex-wrap">
-                <div v-for="city in area_detail.include_cities" :key="city.id" class="pa-2">
+                <div
+                    v-for="city in area_detail.include_cities"
+                    :key="city.id"
+                    class="pa-2"
+                >
                     <!-- <span v-if="area_detail.id == city.major_area"> -->
-                        {{ city.area_name | city_name }}
-                        {{city.registed}}店舗
+                    {{ city.area_name | city_name }}
+                    {{ city.registed }}店舗
                     <!-- </span> -->
-                    <nuxt-link :to="city.id+'/ranking'">口コミランキングTOP20</nuxt-link>
+                    <nuxt-link :to="city.id + '/ranking'"
+                        >口コミランキングTOP20</nuxt-link
+                    >
                 </div>
             </div>
         </v-card>
@@ -33,17 +39,18 @@ export default {
         area_detail_list: Array,
     },
 
-    methods:{
-        async go_store_list(city){
-            let store_list = await this.$axios.get(`api/stores/?area=${city.id}`)
+    methods: {
+        async go_store_list(city) {
+            let store_list = await this.$axios.get(
+                `api/stores/?area=${city.id}`
+            );
             console.log(store_list.data);
             console.log(city.id);
             this.$store.commit("set_store_list", store_list.data);
             this.$store.commit("set_selected_area", city.area_name);
             // axiosより後じゃないと動作しない↓
             this.$router.push({ path: `store_list/` });
-
-        }
+        },
     },
 
     filters: {
@@ -53,3 +60,10 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+
+.item {
+    background-color: rgba(250, 226, 222, 0.95);
+}
+</style>
