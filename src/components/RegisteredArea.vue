@@ -19,7 +19,9 @@
                     class="pa-2"
                 >
                     <!-- <span v-if="area_detail.id == city.major_area"> -->
-                    {{ city.area_name | city_name }}
+                    <nuxt-link :to="city.id + '/ranking'">
+                        {{ city.area_name | city_name }}
+                    </nuxt-link>
                     {{ city.registed }}店舗
                     <!-- </span> -->
                     <nuxt-link :to="city.id + '/ranking'"
@@ -34,23 +36,7 @@
 <script>
 export default {
     props: {
-        m_area_list: Array,
-        area_list: Array,
         area_detail_list: Array,
-    },
-
-    methods: {
-        async go_store_list(city) {
-            let store_list = await this.$axios.get(
-                `api/stores/?area=${city.id}`
-            );
-            console.log(store_list.data);
-            console.log(city.id);
-            this.$store.commit("set_store_list", store_list.data);
-            this.$store.commit("set_selected_area", city.area_name);
-            // axiosより後じゃないと動作しない↓
-            this.$router.push({ path: `store_list/` });
-        },
     },
 
     filters: {
@@ -62,8 +48,7 @@ export default {
 </script>
 
 <style scoped>
-
 .item {
-    background-color: rgba(250, 226, 222, 0.95);
+    background-color: rgba(250, 226, 222, 0.9);
 }
 </style>

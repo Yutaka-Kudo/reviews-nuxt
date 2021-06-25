@@ -26,7 +26,6 @@
         </div>
         <div class="registerd_area">
             <RegisteredArea
-                :area_list="area_list"
                 :area_detail_list="area_detail_list"
             />
         </div>
@@ -120,27 +119,41 @@ export default {
         // gsap.to(".hello", { rotation: 27, x: 100, duration: 1 });
         // gsap.to(".hello", { x: 100, duration: 3 });
 
-        this.update_header();
+        this.update_header("index");
+
+        this.$store.watch(
+            (state,getters)=>getters.basis_store_list,
+            (newVal,oldVal)=>{
+                this.store_list = newVal
+                this.submit_desable_flg = false
+            }
+        )
     },
 
     methods: {
+        update_header(flg) {
+            this.$nuxt.$emit("update_header", flg);
+        },
+
         // area_idからstoreのリストを取る
         get_area_obj: function (obj) {
             this.submit_desable_flg = true;
-            let that = this;
             console.log(obj.id, obj.area_name);
-            this.$store.commit("set_selected_area", obj.area_name);
+            this.$store.commit("set_selected_area", obj);
 
-            this.$axios
-                .get(`api/stores?area=${obj.id}`)
-                .then(function (res) {
-                    that.store_list = res.data;
-                    that.$store.commit("set_basis_store_list", res.data);
-                    that.submit_desable_flg = false;
-                })
-                .catch(function (e) {
-                    console.log(e);
-                });
+            this.update_header("set_store_list")
+
+            // let that = this;
+            // this.$axios
+            //     .get(`api/stores?area=${obj.id}`)
+            //     .then(function (res) {
+            //         that.store_list = res.data;
+            //         that.$store.commit("set_basis_store_list", res.data);
+            //         that.submit_desable_flg = false;
+            //     })
+            //     .catch(function (e) {
+            //         console.log(e);
+            //     });
 
             this.ref.focus(); // 店名入力フォームにフォーカス
         },
@@ -149,9 +162,7 @@ export default {
             this.ref = obj;
         },
 
-        update_header() {
-            this.$nuxt.$emit("update_header", "index");
-        },
+
     },
 
     transition: {

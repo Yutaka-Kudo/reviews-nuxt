@@ -23,7 +23,7 @@
                 </nuxt-link>
 
                 <!-- <v-spacer /> -->
-                <span v-show="searcher_seen">{{ selected_area }}</span>
+                <span v-show="searcher_seen">{{ selected_area.area_name }}</span>
                 <div class="spacer_as_icon_width"></div>
             </div>
 
@@ -67,8 +67,8 @@
 export default {
     props: {
         searcher_seen: Boolean,
-        selected_area: String,
-        store_list: Array,
+        selected_area: Object,
+        basis_store_list: Array,
     },
     data() {
         return {
@@ -99,7 +99,7 @@ export default {
     methods: {
         store_submit(event) {
             if (this.search_word.length) {
-                console.log(this.store_list);
+                console.log(this.basis_store_list);
                 this.$store.commit("set_store_search_word", this.search_word);
                 this.$store.commit("set_store_list", this.filtered_store);
 
@@ -111,7 +111,7 @@ export default {
                 this.$store.commit("set_page_length", page_length);
 
                 if (this.$route.name == "area-ranking") {
-                    this.$router.push({ path: "/store_list/" });
+                    this.$router.push({ path: `/${this.selected_area.id}/store_list/` });
                 } else {
                     location.reload();
                 }
@@ -149,9 +149,9 @@ export default {
                     this.search_word.replaceAll(" ", "")
                 );
 
-                for (var i in this.store_list) {
-                    // let origin_store_data = this.store_list[i];
-                    let store_data = Object.assign({}, this.store_list[i]); // 複製
+                for (var i in this.basis_store_list) {
+                    // let origin_store_data = this.basis_store_list[i];
+                    let store_data = Object.assign({}, this.basis_store_list[i]); // 複製
                     let name = store_data.store_name;
                     let hira_trans_name = kanaToHira(name);
                     let yomigana = store_data.yomigana || "";

@@ -25,7 +25,11 @@
             </v-list>
         </v-navigation-drawer> -->
 
-        <SearchBar :searcher_seen="searcher_seen" :selected_area="selected_area" :store_list="basis_store_list" />
+        <SearchBar
+            :searcher_seen="searcher_seen"
+            :selected_area="selected_area"
+            :basis_store_list="basis_store_list"
+        />
 
         <v-main>
             <!-- <v-container class="pa-0"> -->
@@ -54,7 +58,6 @@
             <span>&copy; {{ new Date().getFullYear() }}</span>
             <a href="mailto:restaurary@gmail.com">contact</a>
         </v-footer>
-
     </v-app>
 </template>
 
@@ -82,10 +85,8 @@ export default {
             rightDrawer: false,
             title: "RESTAURary",
             searcher_seen: true,
-            basis_store_list:[],
-            selected_area:"",
-
-            m_adress: "restaurary@gmail.com"
+            selected_area: "",
+            basis_store_list: [],
         };
     },
 
@@ -94,7 +95,7 @@ export default {
     },
 
     mounted() {
-        console.log(this.$store.getters["store_list"])
+        // console.log(this.$store.getters["store_list"])
     },
 
     methods: {
@@ -104,9 +105,35 @@ export default {
         extend_header(flg) {
             if (flg == "index") {
                 this.searcher_seen = false;
+            } else if (flg == "set_store_list") {
+                this.selected_area = this.$store.getters["selected_area"];
+                let that = this;
+                this.$axios
+                    .get(`api/stores?area=${this.selected_area.id}`)
+                    .then(function (res) {
+                        that.basis_store_list = res.data;
+                        that.$store.commit("set_basis_store_list", res.data);
+                    })
+                    .catch(function (e) {
+                        console.log(e);
+                    });
             } else if (flg == "store_list") {
-                this.basis_store_list = this.$store.getters["basis_store_list"]
-                this.selected_area = this.$store.getters["selected_area"]
+                this.selected_area = this.$store.getters["selected_area"];
+                this.basis_store_list = this.$store.getters["basis_store_list"];
+                this.searcher_seen = true;
+            } else if (flg == "ranking") {
+                this.selected_area = this.$store.getters["selected_area"];
+                // let that = this;
+                // this.$axios
+                //     .get(`api/stores?area=${this.selected_area.id}`)
+                //     .then(function (res) {
+                //         that.basis_store_list = res.data;
+                //         that.$store.commit("set_basis_store_list", res.data);
+                //     })
+                //     .catch(function (e) {
+                //         console.log(e);
+                //     });
+                this.basis_store_list = this.$store.getters["basis_store_list"];
                 this.searcher_seen = true;
             }
         },

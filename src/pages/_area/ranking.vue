@@ -15,14 +15,12 @@
 
 <script>
 import ShowStoreList from "~/components/ShowStoreList.vue";
-import Pagination from "~/components/Pagination.vue";
 // import Meta from '~/assets/mixins/meta'
 
 export default {
     // mixins: [Meta], //mixinsの使い方
     components: {
         ShowStoreList,
-        Pagination,
     },
 
     // scrollToTop:true,
@@ -33,36 +31,48 @@ export default {
             // media_data_list_by_store_next: [],
             content_list: [],
             content_list_next: [],
-            // store_list: [],
             seen_whole: true,
         };
     },
 
-    async asyncData({ $axios, $store, route }) {
-        console.log(route.params);
-        let store_list = await $axios
+    async fetch({ $axios, store, route }) {
+        let area_list = store.getters["area_list"];
+        let selected_area = area_list.find((v) => v.id == route.params.area);
+        store.commit("set_selected_area", selected_area);
+
+        await $axios
             .get(`api/stores?area=${route.params.area}`)
             .then(function (res) {
-                // ランキングにのせる店のレビュー数の最低ライン
-                let _list = res.data.filter(
-                    (v) => v["total_review_count"] >= 20
-                );
-
-                _list.sort((x, y) => {
-                    if (Number(x["total_rate"]) > Number(y["total_rate"])) {
-                        return -1;
-                    } else {
-                        return 1;
-                    }
-                });
-                return _list.slice(0, 20);
+                // basis登録
+                store.commit("set_basis_store_list", res.data);
             })
             .catch(function (e) {
                 console.log(e);
             });
+    },
+
+    async asyncData({ $axios, store, route }) {
+        let basis_store_list = store.getters["basis_store_list"];
+        // ランキングにのせる店のレビュー数の最低ライン
+        let store_list = basis_store_list.filter(
+            (v) => v["total_review_count"] >= 20
+        );
+        // レート順並び替え
+        store_list.sort((x, y) => {
+            if (Number(x["total_rate"]) > Number(y["total_rate"])) {
+                return -1;
+            } else {
+                return 1;
+            }
+        });
+        // 上から20こ
+        store_list = store_list.slice(0, 20);
+
+        let selected_area = store.getters["selected_area"];
 
         return {
             store_list,
+            selected_area,
         };
     },
 
@@ -81,25 +91,7 @@ export default {
     },
 
     mounted: async function () {
-        let area_list = this.$store.getters["area_list"];
-        let selected_area = area_list.find(
-            (v) => v.id == this.$route.params.area
-        );
-        this.$store.commit("set_selected_area", selected_area.area_name);
-
-        const that = this;
-        await this.$axios
-            .get(`api/stores?area=${selected_area.id}`)
-            .then(function (res) {
-                // that.store_list = res.data;
-                that.$store.commit("set_basis_store_list", res.data);
-                // that.submit_desable_flg = false;
-            })
-            .catch(function (e) {
-                console.log(e);
-            });
-
-        this.$nuxt.$emit("update_header", "store_list");
+        this.$nuxt.$emit("update_header", "ranking");
 
         console.log(this.$route.params);
     },
@@ -227,19 +219,8 @@ export default {
                 // ローディング終了
                 media_data_temp["loading"] = false;
             }
-
-            // this.$nuxt.$loading.finish();
-            // console.log(this.media_data_list_by_store_next);
-            // console.log(this.content_list_next);
         },
     },
-
-    // computed: {
-    //     store_list: function () {
-    //         // console.log("comp");
-    //         return this.$store.getters["store_list"];
-    //     },
-    // },
 
     transition: {
         // name:"bounce"
@@ -249,10 +230,10 @@ export default {
         // mode: "out-in",
         mode: "",
     },
-    head(){
-        return{
-            title:`地域別ランキング ${this.$store.getters["selected_area"]}`
-        }
+    head() {
+        return {
+            title: `地域別ランキング ${this.selected_area.area_name}`,
+        };
     },
 };
 </script>
