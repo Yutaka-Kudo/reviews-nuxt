@@ -25,9 +25,7 @@
             <!-- <template> </template> -->
         </div>
         <div class="registerd_area">
-            <RegisteredArea
-                :area_detail_list="area_detail_list"
-            />
+            <RegisteredArea :area_detail_list="area_detail_list" />
         </div>
     </v-container>
 </template>
@@ -37,7 +35,7 @@ import Logo from "~/components/Logo.vue";
 import VuetifyLogo from "~/components/VuetifyLogo.vue";
 import AreaSearch from "~/components/AreaSearch.vue";
 import StoreSearch from "~/components/StoreSearch.vue";
-import { gsap } from "gsap";
+// import { gsap } from "gsap";
 
 export default {
     components: {
@@ -49,21 +47,19 @@ export default {
     // layout: "index",
     data() {
         return {
-            area_list: [],
             store_list: [],
             review_obj_list: [],
             ref: "",
             // bg_img: require("@/assets/img/salad.jpg"),
             submit_desable_flg: false,
-            area_detail_list: [],
         };
     },
 
     async fetch({ store, $axios }) {
-        // const res = await $axios.get("api/area/").catch(function (e) {
-        //     console.log(e);
-        // });
-        // store.commit("set_area_list", res.data);
+        const res = await $axios.get("api/area/").catch(function (e) {
+            console.log(e);
+        });
+        store.commit("set_area_list", res.data);
     },
 
     async asyncData({ $axios, store }) {
@@ -105,13 +101,13 @@ export default {
         };
     },
 
-    created: async function () {
+    created: function () {
         if (process.client) {
-            this.$store.commit("set_area_list", this.area_list);
-
             // ページ戻った時にリストを保持する
             this.area_list = this.$store.getters["area_list"];
             this.store_list = this.$store.getters["basis_store_list"];
+            console.log(this.area_list);
+            console.log(this.store_list);
         }
     },
 
@@ -121,13 +117,13 @@ export default {
 
         this.update_header("index");
 
-        this.$store.watch(
-            (state,getters)=>getters.basis_store_list,
-            (newVal,oldVal)=>{
-                this.store_list = newVal
-                this.submit_desable_flg = false
-            }
-        )
+        // this.$store.watch(
+        //     (state, getters) => getters.basis_store_list,
+        //     (newVal, oldVal) => {
+        //         this.store_list = newVal;
+        //         this.submit_desable_flg = false;
+        //     }
+        // );
     },
 
     methods: {
@@ -136,12 +132,24 @@ export default {
         },
 
         // area_idからstoreのリストを取る
-        get_area_obj: function (obj) {
+        get_area_obj: async function (obj) {
             this.submit_desable_flg = true;
             console.log(obj.id, obj.area_name);
             this.$store.commit("set_selected_area", obj);
 
-            this.update_header("set_store_list")
+            let that = this;
+            let area_list = this.$axios
+                .get(`api/stores?area=${obj.id}`)
+                .then(function (res) {
+                    // return res.data;
+                    that.store_list = res.data;
+                    that.$store.commit("set_basis_store_list", res.data);
+                    that.submit_desable_flg = false;
+                })
+                .catch(function (e) {
+                    console.log(e);
+                });
+            // this.update_header("set_store_list");
 
             this.ref.focus(); // 店名入力フォームにフォーカス
         },
@@ -149,8 +157,6 @@ export default {
         get_ref: function (obj) {
             this.ref = obj;
         },
-
-
     },
 
     transition: {

@@ -21,7 +21,7 @@
             v-cloak
         />
 
-        <span class="list_length ml-11 "  @click="store_submit">
+        <span class="list_length ml-11" @click="store_submit">
             <span v-if="f_store_list_pure.length">
                 <b>{{ f_store_list_pure.length }}</b> hit !!
             </span>
@@ -63,27 +63,23 @@ export default {
     methods: {
         store_submit(event) {
             if (this.store_list.length && !this.submit_desable_flg) {
-                let selected_area = this.$store.getters["selected_area"]
-                this.$router.push({ path: `${selected_area.id}/store_list/` });
+                this.$router.push({ path: `store_list/` });
                 this.$store.commit("set_store_search_word", this.search_word);
-                if (this.search_word.length == 0) {
-                    this.$store.commit("set_store_list", this.store_list);
-                } else {
+                if (this.search_word.length != 0) {
                     this.$store.commit(
                         "set_store_list",
                         this.f_store_list_pure
                     );
+                } else {
+                    this.$store.commit("set_store_list", this.store_list);
                 }
             }
         },
         store_submit_by_incremental(selected) {
             if (this.store_list.length && !this.submit_desable_flg) {
-                let selected_area = this.$store.getters["selected_area"]
-                this.$router.push({ path: `${selected_area.id}/store_list/` });
+                this.$router.push({ path: `store_list/` });
                 this.$store.commit("set_store_search_word", this.search_word);
-
                 let store_obj = this.f_store_list_pure.find(
-                    // (v) => (v.id == v.id) == selected.id
                     (v) => v.id == selected.id
                 );
                 console.log("selected_store", store_obj);
@@ -256,7 +252,7 @@ export default {
     font-size: large;
     font-weight: bolder;
 }
-.list_length{
+.list_length {
     color: white;
 }
 .v-sheet.v-card {

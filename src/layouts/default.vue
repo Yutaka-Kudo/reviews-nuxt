@@ -100,23 +100,14 @@ export default {
 
     methods: {
         set_listener() {
-            this.$nuxt.$on("update_header", this.extend_header);
+            this.$nuxt.$on("update_header", this.update_header);
         },
-        async extend_header(flg) {
+        async update_header(flg) {
             if (flg == "index") {
                 this.searcher_seen = false;
             } else if (flg == "set_store_list") {
-                this.selected_area = this.$store.getters["selected_area"];
-                let that = this;
-                this.$axios
-                    .get(`api/stores?area=${this.selected_area.id}`)
-                    .then(function (res) {
-                        that.basis_store_list = res.data;
-                        that.$store.commit("set_basis_store_list", res.data);
-                    })
-                    .catch(function (e) {
-                        console.log(e);
-                    });
+                // this.selected_area = this.$store.getters["selected_area"];
+
             } else if (flg == "store_list") {
                 this.selected_area = this.$store.getters["selected_area"];
                 console.log("defa sele",this.selected_area);

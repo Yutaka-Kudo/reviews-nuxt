@@ -112,12 +112,12 @@ export default {
                 );
                 this.$store.commit("set_page_length", page_length);
 
-                if (this.$route.name == "area-ranking") {
-                    this.$router.push({
-                        path: `/${this.selected_area.id}/store_list/`,
-                    });
-                } else {
+                if (this.$route.name == "store_list") {
                     location.reload();
+                } else {
+                    this.$router.push({
+                        path: `/store_list/`,
+                    });
                 }
                 // this.$nuxt.refresh()
                 // this.$router.push({

@@ -36,8 +36,30 @@ export default {
         };
     },
 
-    // async asyncData({ $axios, store, route }) {
-    // },
+    async asyncData({ $axios, store, route }) {
+        // await store.dispatch(`set_area_listAction`);
+        let area_list = store.getters["area_list"];
+        let selected_area = area_list.find((v) => v.id == route.params.area);
+        console.log("slelctlek", selected_area);
+        // store.commit("set_selected_area", selected_area);
+
+        let basis_store_list = await $axios
+            .get(`api/stores?area=${route.params.area}`)
+            .then(function (res) {
+                return res.data;
+                // basis登録
+                // store.commit("set_basis_store_list", res.data);
+            })
+            .catch(function (e) {
+                console.log(e);
+            });
+
+        return {
+            selected_area,
+            basis_store_list,
+        };
+    },
+
 
     async fetch({ $axios, store, route }) {
         // await store.dispatch(`set_area_listAction`)
@@ -64,35 +86,20 @@ export default {
         // if (process.server) {
         if (process.client) {
             console.log("crecre");
-            let area_list = await this.$axios
-                .get(`api/area/`)
-                .then(function (res) {
-                    return res.data;
-                });
-            this.selected_area = area_list.find(
-                (v) => v.id == this.$route.params.area
-            );
+
+            // selected_area登録
             this.$store.commit("set_selected_area", this.selected_area);
-
+            
             // basis登録
-            let basis_store_list = await this.$axios
-                .get(`api/stores?area=${this.$route.params.area}`)
-                .then(function (res) {
-                    return res.data;
-                })
-                .catch(function (e) {
-                    console.log(e);
-                });
-            this.$store.commit("set_basis_store_list", basis_store_list);
+            this.$store.commit("set_basis_store_list", this.basis_store_list);
 
-            this.$nuxt.$emit("update_header", "store_list");
+            // this.$nuxt.$emit("update_header", "store_list");
 
-            // this.selected_area = this.$store.getters["selected_area"];
             console.log(this.selected_area);
             console.log(this.$route.params);
 
             // ランキングにのせる店のレビュー数の最低ライン
-            let store_list = basis_store_list.filter(
+            let store_list = this.basis_store_list.filter(
                 (v) => v["total_review_count"] >= 20
             );
             // レート順並び替え
@@ -119,6 +126,7 @@ export default {
 
     mounted: async function () {
         console.log("moumoummou");
+        this.$nuxt.$emit("update_header", "store_list");
 
         console.log(this.$route.params);
     },

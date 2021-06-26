@@ -46,8 +46,29 @@ export default {
         };
     },
 
-    // async asyncData({ $axios, store, route }) {
-    // },
+    async asyncData({ $axios, store, route }) {
+        // await store.dispatch(`set_area_listAction`);
+        let area_list = store.getters["area_list"];
+        let selected_area = area_list.find((v) => v.id == route.params.area);
+        console.log("slelctlek", selected_area);
+        // store.commit("set_selected_area", selected_area);
+
+        let basis_store_list = await $axios
+            .get(`api/stores?area=${route.params.area}`)
+            .then(function (res) {
+                return res.data;
+                // basis登録
+                // store.commit("set_basis_store_list", res.data);
+            })
+            .catch(function (e) {
+                console.log(e);
+            });
+
+        return {
+            selected_area,
+            basis_store_list,
+        };
+    },
 
     async fetch({ $axios, store, route }) {
         // await store.dispatch(`set_area_listAction`);
@@ -55,7 +76,6 @@ export default {
         // let selected_area = area_list.find((v) => v.id == route.params.area);
         // console.log("slelctlek", selected_area);
         // store.commit("set_selected_area", selected_area);
-
         // await $axios
         //     .get(`api/stores?area=${route.params.area}`)
         //     .then(function (res) {
@@ -72,44 +92,21 @@ export default {
         if (process.client) {
             this.page_is_disabled = true;
 
-            let area_list = await this.$axios
-                .get(`api/area/`)
-                .then(function (res) {
-                    return res.data;
-                });
-            this.selected_area = area_list.find(
-                (v) => v.id == this.$route.params.area
-            );
+            // selected_area登録
             this.$store.commit("set_selected_area", this.selected_area);
-
+            
             // basis登録
-            let basis_store_list = await this.$axios
-                .get(`api/stores?area=${this.$route.params.area}`)
-                .then(function (res) {
-                    return res.data;
-                })
-                .catch(function (e) {
-                    console.log(e);
-                });
-            this.$store.commit("set_basis_store_list", basis_store_list);
+            this.$store.commit("set_basis_store_list", this.basis_store_list);
 
-            this.$nuxt.$emit("update_header", "store_list");
+            // this.$nuxt.$emit("update_header", "store_list");
 
-            this.store_list = basis_store_list
-
-            // this.store_list = this.$store.getters["basis_store_list"];
-            // console.log(this.basis_store_list);
-            // let that = this;
-            // console.log("created");
+            this.store_list = this.basis_store_list;
 
             //ページ数、決定
             let page_length = Math.ceil(
                 this.store_list.length / this.pages["page_size"]
             );
             this.$store.commit("set_page_length", page_length);
-            // this.pages["page_length"] = Math.ceil(
-            //     this.basis_store_list.length / this.pages["page_size"]
-            // );
 
             // 1ページ分store_list
             let sliced_store_list = this.store_list.slice(
@@ -342,7 +339,7 @@ export default {
     },
     head() {
         return {
-            title: `地域別レストラン一覧 ${this.$store.getters["selected_area"].area_name}`,
+            title: `地域別レストラン一覧 ${this.selected_area.area_name}`,
         };
     },
 };
