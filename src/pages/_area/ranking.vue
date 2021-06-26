@@ -2,7 +2,7 @@
     <div class="bg store_list_wrap">
         <v-container>
             <v-card class="ranking_head mb-10 d-flex justify-center">
-                <h1>Top20</h1>
+                <h1>レビューランキングTop20</h1>
             </v-card>
             <ShowStoreList
                 :media_data_list_by_store="media_data_list_by_store"
@@ -35,6 +35,9 @@ export default {
         };
     },
 
+    // async asyncData({ $axios, store, route }) {
+    // },
+
     async fetch({ $axios, store, route }) {
         let area_list = store.getters["area_list"];
         let selected_area = area_list.find((v) => v.id == route.params.area);
@@ -51,35 +54,27 @@ export default {
             });
     },
 
-    async asyncData({ $axios, store, route }) {
-        let basis_store_list = store.getters["basis_store_list"];
-        // ランキングにのせる店のレビュー数の最低ライン
-        let store_list = basis_store_list.filter(
-            (v) => v["total_review_count"] >= 20
-        );
-        // レート順並び替え
-        store_list.sort((x, y) => {
-            if (Number(x["total_rate"]) > Number(y["total_rate"])) {
-                return -1;
-            } else {
-                return 1;
-            }
-        });
-        // 上から20こ
-        store_list = store_list.slice(0, 20);
-
-        let selected_area = store.getters["selected_area"];
-
-        return {
-            store_list,
-            selected_area,
-        };
-    },
-
     created: async function () {
         // if (process.server) {
         if (process.client) {
-            await this.create_data(this.store_list);
+            let basis_store_list = this.$store.getters["basis_store_list"];
+            // ランキングにのせる店のレビュー数の最低ライン
+            let store_list = basis_store_list.filter(
+                (v) => v["total_review_count"] >= 20
+            );
+            // レート順並び替え
+            store_list.sort((x, y) => {
+                if (Number(x["total_rate"]) > Number(y["total_rate"])) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            });
+            // 上から20こ
+            store_list = store_list.slice(0, 20);
+
+
+            await this.create_data(store_list);
 
             console.log(
                 "media_data_list_by_store",
@@ -232,7 +227,7 @@ export default {
     },
     head() {
         return {
-            title: `地域別ランキング ${this.selected_area.area_name}`,
+            title: `地域別レストランランキング ${this.$store.getters["selected_area"].area_name}`,
         };
     },
 };
