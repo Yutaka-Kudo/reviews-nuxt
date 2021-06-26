@@ -19,7 +19,7 @@
                     class="pa-2"
                 >
                     <!-- <span v-if="area_detail.id == city.major_area"> -->
-                    <nuxt-link :to="city.id + '/ranking'">
+                    <nuxt-link :to="city.id + '/store_all'">
                         {{ city.area_name | city_name }}
                     </nuxt-link>
                     {{ city.registed }}店舗

@@ -53,17 +53,12 @@ export default {
         };
     },
 
-    // async asyncData({ $axios, $store }) {
-    //     let store_list = $store.getters["store_list"]
-    //     return{
-    //         store_list:store_list
-    //     }
+    // asyncData({ from}) {
     // },
 
     created: async function () {
         // if (process.server) {
         if (process.client) {
-            //     // console.log($store);
             //     this.store_list = this.$store.getters["store_list"];
             //     console.log("store_list",this.store_list);
             // }

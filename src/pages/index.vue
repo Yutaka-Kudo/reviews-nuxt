@@ -143,18 +143,6 @@ export default {
 
             this.update_header("set_store_list")
 
-            // let that = this;
-            // this.$axios
-            //     .get(`api/stores?area=${obj.id}`)
-            //     .then(function (res) {
-            //         that.store_list = res.data;
-            //         that.$store.commit("set_basis_store_list", res.data);
-            //         that.submit_desable_flg = false;
-            //     })
-            //     .catch(function (e) {
-            //         console.log(e);
-            //     });
-
             this.ref.focus(); // 店名入力フォームにフォーカス
         },
 

@@ -102,7 +102,7 @@ export default {
         set_listener() {
             this.$nuxt.$on("update_header", this.extend_header);
         },
-        extend_header(flg) {
+        async extend_header(flg) {
             if (flg == "index") {
                 this.searcher_seen = false;
             } else if (flg == "set_store_list") {
@@ -121,18 +121,17 @@ export default {
                 this.selected_area = this.$store.getters["selected_area"];
                 this.basis_store_list = this.$store.getters["basis_store_list"];
                 this.searcher_seen = true;
-            } else if (flg == "ranking") {
-                this.selected_area = this.$store.getters["selected_area"];
-                // let that = this;
-                // this.$axios
-                //     .get(`api/stores?area=${this.selected_area.id}`)
-                //     .then(function (res) {
-                //         that.basis_store_list = res.data;
-                //         that.$store.commit("set_basis_store_list", res.data);
-                //     })
-                //     .catch(function (e) {
-                //         console.log(e);
-                //     });
+            } else if (flg == "store_list_all") {
+                this.selected_area = await this.$axios
+                    .get(`api/area?id=${this.$route.params.area}`)
+                    .then(function (res) {
+                        console.log("ididididi",res.data[0]);
+                        return res.data[0];
+                    })
+                    .catch(function (e) {
+                        console.log(e);
+                    });
+                // this.selected_area = this.$store.getters["selected_area"];
                 this.basis_store_list = this.$store.getters["basis_store_list"];
                 this.searcher_seen = true;
             }

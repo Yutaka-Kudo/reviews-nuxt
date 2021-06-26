@@ -23,7 +23,9 @@
                 </nuxt-link>
 
                 <!-- <v-spacer /> -->
-                <span v-show="searcher_seen">{{ selected_area.area_name }}</span>
+                <span v-show="searcher_seen">{{
+                    selected_area.area_name
+                }}</span>
                 <div class="spacer_as_icon_width"></div>
             </div>
 
@@ -111,7 +113,9 @@ export default {
                 this.$store.commit("set_page_length", page_length);
 
                 if (this.$route.name == "area-ranking") {
-                    this.$router.push({ path: `/${this.selected_area.id}/store_list/` });
+                    this.$router.push({
+                        path: `/${this.selected_area.id}/store_list/`,
+                    });
                 } else {
                     location.reload();
                 }
@@ -151,7 +155,10 @@ export default {
 
                 for (var i in this.basis_store_list) {
                     // let origin_store_data = this.basis_store_list[i];
-                    let store_data = Object.assign({}, this.basis_store_list[i]); // 複製
+                    let store_data = Object.assign(
+                        {},
+                        this.basis_store_list[i]
+                    ); // 複製
                     let name = store_data.store_name;
                     let hira_trans_name = kanaToHira(name);
                     let yomigana = store_data.yomigana || "";

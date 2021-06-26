@@ -1,9 +1,7 @@
 <template>
     <div class="bg store_list_wrap">
         <v-container>
-            <v-card class="ranking_head mb-10 d-flex justify-center">
-                <h1>Top20</h1>
-            </v-card>
+            <v-card class="ranking_head mb-10 d-flex justify-center"> </v-card>
             <ShowStoreList
                 :media_data_list_by_store="media_data_list_by_store"
                 :content_list="content_list"
@@ -52,21 +50,7 @@ export default {
     },
 
     async asyncData({ $axios, store, route }) {
-        let basis_store_list = store.getters["basis_store_list"];
-        // ランキングにのせる店のレビュー数の最低ライン
-        let store_list = basis_store_list.filter(
-            (v) => v["total_review_count"] >= 20
-        );
-        // レート順並び替え
-        store_list.sort((x, y) => {
-            if (Number(x["total_rate"]) > Number(y["total_rate"])) {
-                return -1;
-            } else {
-                return 1;
-            }
-        });
-        // 上から20こ
-        store_list = store_list.slice(0, 20);
+        let store_list = store.getters["basis_store_list"];
 
         let selected_area = store.getters["selected_area"];
 
