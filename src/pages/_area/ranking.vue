@@ -32,6 +32,7 @@ export default {
             content_list: [],
             content_list_next: [],
             seen_whole: true,
+            selected_area: {},
         };
     },
 
@@ -39,25 +40,57 @@ export default {
     // },
 
     async fetch({ $axios, store, route }) {
-        let area_list = store.getters["area_list"];
-        let selected_area = area_list.find((v) => v.id == route.params.area);
-        store.commit("set_selected_area", selected_area);
-
-        await $axios
-            .get(`api/stores?area=${route.params.area}`)
-            .then(function (res) {
-                // basis登録
-                store.commit("set_basis_store_list", res.data);
-            })
-            .catch(function (e) {
-                console.log(e);
-            });
+        // await store.dispatch(`set_area_listAction`)
+        // let area_list =  await $axios.get(`api/area/`).then(function (res) {
+        //     return res.data
+        // })
+        // store.commit("set_area_list", area_list);
+        // let area_list = store.getters["area_list"];
+        // let selected_area = area_list.find((v) => v.id == route.params.area);
+        // store.commit("set_selected_area", selected_area);
+        // console.log("slelctlek", store.getters["selected_area"]);
+        // await $axios
+        //     .get(`api/stores?area=${route.params.area}`)
+        //     .then(function (res) {
+        //         // basis登録
+        //         store.commit("set_basis_store_list", res.data);
+        //     })
+        //     .catch(function (e) {
+        //         console.log(e);
+        //     });
     },
 
     created: async function () {
         // if (process.server) {
         if (process.client) {
-            let basis_store_list = this.$store.getters["basis_store_list"];
+            console.log("crecre");
+            let area_list = await this.$axios
+                .get(`api/area/`)
+                .then(function (res) {
+                    return res.data;
+                });
+            this.selected_area = area_list.find(
+                (v) => v.id == this.$route.params.area
+            );
+            this.$store.commit("set_selected_area", this.selected_area);
+
+            // basis登録
+            let basis_store_list = await this.$axios
+                .get(`api/stores?area=${this.$route.params.area}`)
+                .then(function (res) {
+                    return res.data;
+                })
+                .catch(function (e) {
+                    console.log(e);
+                });
+            this.$store.commit("set_basis_store_list", basis_store_list);
+
+            this.$nuxt.$emit("update_header", "store_list");
+
+            // this.selected_area = this.$store.getters["selected_area"];
+            console.log(this.selected_area);
+            console.log(this.$route.params);
+
             // ランキングにのせる店のレビュー数の最低ライン
             let store_list = basis_store_list.filter(
                 (v) => v["total_review_count"] >= 20
@@ -73,7 +106,6 @@ export default {
             // 上から20こ
             store_list = store_list.slice(0, 20);
 
-
             await this.create_data(store_list);
 
             console.log(
@@ -86,7 +118,7 @@ export default {
     },
 
     mounted: async function () {
-        this.$nuxt.$emit("update_header", "store_list");
+        console.log("moumoummou");
 
         console.log(this.$route.params);
     },
@@ -227,7 +259,7 @@ export default {
     },
     head() {
         return {
-            title: `地域別レストランランキング ${this.$store.getters["selected_area"].area_name}`,
+            title: `地域別レストランランキング ${this.selected_area.area_name}`,
         };
     },
 };

@@ -85,7 +85,7 @@ export default {
             rightDrawer: false,
             title: "RESTAURary",
             searcher_seen: true,
-            selected_area: "",
+            selected_area: {},
             basis_store_list: [],
         };
     },
@@ -119,7 +119,9 @@ export default {
                     });
             } else if (flg == "store_list") {
                 this.selected_area = this.$store.getters["selected_area"];
+                console.log("defa sele",this.selected_area);
                 this.basis_store_list = this.$store.getters["basis_store_list"];
+                console.log("baseisis",this.basis_store_list[0]);
                 this.searcher_seen = true;
             } else if (flg == "store_list_all") {
                 this.selected_area = await this.$axios

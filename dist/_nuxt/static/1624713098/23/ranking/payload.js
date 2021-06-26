@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/23/ranking", {data:[{}],fetch:{},mutations:[]});

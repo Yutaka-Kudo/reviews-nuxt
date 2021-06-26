@@ -47,6 +47,12 @@ export const getters = {
 }
 
 export const actions = {
+    async set_area_listAction({ commit }) {
+        let area_list = await this.$axios.get(`api/area/`).then(function (res) {
+            return res.data
+        })
+        commit(`set_area_list`,area_list)
+    }
     // countAction({ commit }) {
     //     commit('countUp')
     // }
