@@ -18,14 +18,14 @@ export default {
             lists: [],
             viewLists: [],
             pageSize: 10,
-            page_length: 0,
         };
     },
     props: {
         page_is_disabled: Boolean,
+        page_length: Number,
     },
     created:function(){
-        this.page_length = this.$store.getters["page_length"]
+        // this.page_length = this.$store.getters["page_length"]
         console.log(this.page_length);
     },
     methods: {

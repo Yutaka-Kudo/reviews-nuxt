@@ -9,6 +9,11 @@
                 :content_list="content_list"
                 :seen_whole="seen_whole"
             />
+            <Pagination
+                @page_change="page_change"
+                :page_is_disabled="page_is_disabled"
+                :page_length="page_length"
+            />
         </v-container>
     </div>
 </template>
@@ -28,11 +33,18 @@ export default {
     data() {
         return {
             media_data_list_by_store: [],
-            // media_data_list_by_store_next: [],
+            media_data_list_by_store_next: [],
             content_list: [],
             content_list_next: [],
             seen_whole: true,
             selected_area: {},
+
+            pages: {
+                page_size: 10,
+                page_length: 0,
+                now_page: 1,
+            },
+            page_is_disabled: false,
         };
     },
 
@@ -66,15 +78,14 @@ export default {
                 });
                 return {
                     // 上から20こ
-                    store_list: _store_list.slice(0, 20),
+                    // store_list: _store_list.slice(0, 20),
+                    store_list: _store_list,
                     basis_store_list: res.data,
                 };
             })
             .catch(function (e) {
                 console.log(e);
             });
-        // console.log('respo',response.store_list);
-        // console.log('respo',response.basis_store_list);
         return {
             selected_area: selected_area,
             basis_store_list: response.basis_store_list,
@@ -82,26 +93,8 @@ export default {
         };
     },
 
-    async fetch({ $axios, store, route }) {
-        // await store.dispatch(`set_area_listAction`)
-        // let area_list =  await $axios.get(`api/area/`).then(function (res) {
-        //     return res.data
-        // })
-        // store.commit("set_area_list", area_list);
-        // let area_list = store.getters["area_list"];
-        // let selected_area = area_list.find((v) => v.id == route.params.area);
-        // store.commit("set_selected_area", selected_area);
-        // console.log("slelctlek", store.getters["selected_area"]);
-        // await $axios
-        //     .get(`api/stores?area=${route.params.area}`)
-        //     .then(function (res) {
-        //         // basis登録
-        //         store.commit("set_basis_store_list", res.data);
-        //     })
-        //     .catch(function (e) {
-        //         console.log(e);
-        //     });
-    },
+    // async fetch({ $axios, store, route }) {
+    // },
 
     created: async function () {
         // if (process.server) {
@@ -114,12 +107,29 @@ export default {
             // basis登録
             this.$store.commit("set_basis_store_list", this.basis_store_list);
 
-            // this.$nuxt.$emit("update_header", "store_list");
+            this.page_is_disabled = true;
+            //ページ数、決定
+            this.page_length = Math.ceil(
+                this.store_list.length / this.pages["page_size"]
+            );
+            // this.$store.commit("set_page_length", page_length);
 
-            console.log(this.selected_area);
-            console.log(this.$route.params);
+            // 1ページ分store_list
+            let sliced_store_list = this.store_list.slice(
+                0,
+                this.pages["page_size"]
+            );
 
-            await this.create_data(this.store_list);
+            await this.create_data(sliced_store_list);
+
+            // 次ページ分
+            let sliced_store_list_next = this.store_list.slice(
+                this.pages["page_size"],
+                this.pages["page_size"] * 2
+            );
+            await this.create_data(sliced_store_list_next, true);
+
+            this.page_is_disabled = false;
 
             console.log(
                 "media_data_list_by_store",
@@ -259,6 +269,69 @@ export default {
 
                 // ローディング終了
                 media_data_temp["loading"] = false;
+            }
+        },
+        page_change: async function (page_num) {
+            // 現在のページなら機能しないように
+            if (this.pages["now_page"] != page_num) {
+                if (this.pages["now_page"] + 1 == page_num) {
+                    this.pages["now_page"] = page_num;
+                    this.page_is_disabled = true;
+
+                    this.seen_whole = false;
+                    const that = this;
+                    function func() {
+                        that.seen_whole = true;
+                    }
+                    setTimeout(func, 500);
+
+                    this.media_data_list_by_store = [
+                        ...this.media_data_list_by_store_next,
+                    ];
+                    this.content_list = [...this.content_list_next];
+
+                    console.log(this.media_data_list_by_store);
+                    console.log(this.content_list);
+                    console.log(
+                        this.media_data_list_by_store ==
+                            this.media_data_list_by_store_next
+                    );
+
+                    // 次ページ分
+                    let sliced_store_list_next = this.store_list.slice(
+                        this.pages["page_size"] * page_num,
+                        this.pages["page_size"] * (page_num + 1)
+                    );
+
+                    // 次ページ分ストック
+                    await this.create_data(sliced_store_list_next, true);
+
+                    this.page_is_disabled = false;
+                } else {
+                    this.pages["now_page"] = page_num;
+                    this.page_is_disabled = true;
+
+                    // 1ページ分store_list
+                    let sliced_store_list = this.store_list.slice(
+                        this.pages["page_size"] * (page_num - 1),
+                        this.pages["page_size"] * page_num
+                    );
+
+                    await this.create_data(sliced_store_list);
+
+                    // 次ページ分
+                    let sliced_store_list_next = this.store_list.slice(
+                        this.pages["page_size"] * page_num,
+                        this.pages["page_size"] * (page_num + 1)
+                    );
+
+                    // 次ページ分ストック
+                    await this.create_data(sliced_store_list_next, true);
+
+                    this.page_is_disabled = false;
+
+                    // console.log(JSON.stringify(this.review_obj_list));
+                }
             }
         },
     },

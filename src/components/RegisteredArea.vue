@@ -19,13 +19,11 @@
                     class="pa-2"
                 >
                     <!-- <span v-if="area_detail.id == city.major_area"> -->
-                    <nuxt-link :to="city.id + '/store_all'">
-                        {{ city.area_name | city_name }}
-                    </nuxt-link>
+                    {{ city.area_name | city_name }}
                     {{ city.registed }}店舗
                     <!-- </span> -->
                     <nuxt-link :to="city.id + '/ranking'"
-                        >口コミランキングTOP20</nuxt-link
+                        >口コミランキング</nuxt-link
                     >
                 </div>
             </div>

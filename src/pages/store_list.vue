@@ -1,6 +1,5 @@
 <template>
     <div class="bg store_list_wrap">
-        <!-- <SearchBar /> -->
         <v-container>
             <!-- <div> -->
             <!-- <Tran/> -->
@@ -14,6 +13,7 @@
             <Pagination
                 @page_change="page_change"
                 :page_is_disabled="page_is_disabled"
+                :page_length="page_length"
             />
         </v-container>
     </div>
@@ -22,15 +22,12 @@
 <script>
 import ShowStoreList from "~/components/ShowStoreList.vue";
 import Pagination from "~/components/Pagination.vue";
-// import SearchBar from "../../components/SearchBar.vue";
-import SearchBar from "@/components/SearchBar.vue";
 // import Tran from "~/components/Tran.vue";
 
 export default {
     components: {
         ShowStoreList,
         Pagination,
-        SearchBar,
         // Tran,
     },
 
@@ -59,29 +56,19 @@ export default {
     created: async function () {
         // if (process.server) {
         if (process.client) {
-            //     this.store_list = this.$store.getters["store_list"];
-            //     console.log("store_list",this.store_list);
-            // }
             // vuexにページサイズ登録ーーーーーーーーー
-            this.$store.commit("set_page_size", this.pages["page_size"]);
-
-            // console.log("parent created");
+            // this.$store.commit("set_page_size", this.pages["page_size"]);
 
             this.page_is_disabled = true;
 
             this.store_list = this.$store.getters["store_list"];
-            // console.log(this.store_list);
             // let that = this;
-            // console.log("created");
 
             //ページ数、決定
-            let page_length = Math.ceil(
+            this. page_length = Math.ceil(
                 this.store_list.length / this.pages["page_size"]
             );
-            this.$store.commit("set_page_length", page_length);
-            // this.pages["page_length"] = Math.ceil(
-            //     this.store_list.length / this.pages["page_size"]
-            // );
+            // this.$store.commit("set_page_length", page_length);
 
             // 1ページ分store_list
             let sliced_store_list = this.store_list.slice(
