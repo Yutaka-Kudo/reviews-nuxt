@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/17/store_all", {data:[{selected_area:{id:17,area_name:"東京都 渋谷",yomigana:"とうきょうと しぶや",yomi_roma:"toukyouto shibuya",registed:744,major_area:1},basis_store_list:void 0}],fetch:{},mutations:[]});

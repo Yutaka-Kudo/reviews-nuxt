@@ -37,8 +37,17 @@ export default {
     },
 
     async asyncData({ $axios, store, route }) {
+        let area_list = await $axios
+            .get("api/area/")
+            .then(function (res) {
+                return res.data;
+            })
+            .catch(function (e) {
+                console.log(e);
+            });
+
         // await store.dispatch(`set_area_listAction`);
-        let area_list = store.getters["area_list"];
+        // let area_list = store.getters["area_list"];
         let selected_area = area_list.find((v) => v.id == route.params.area);
         console.log("slelctlek", selected_area);
         // store.commit("set_selected_area", selected_area);
@@ -59,7 +68,6 @@ export default {
             basis_store_list,
         };
     },
-
 
     async fetch({ $axios, store, route }) {
         // await store.dispatch(`set_area_listAction`)
@@ -89,7 +97,7 @@ export default {
 
             // selected_area登録
             this.$store.commit("set_selected_area", this.selected_area);
-            
+
             // basis登録
             this.$store.commit("set_basis_store_list", this.basis_store_list);
 

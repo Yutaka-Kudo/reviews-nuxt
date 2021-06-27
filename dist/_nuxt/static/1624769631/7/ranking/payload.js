@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/7/ranking", {data:[{selected_area:{id:7,area_name:"千葉県 柏市",yomigana:"ちばけん かしわし",yomi_roma:"chibaken kashiwashi",registed:448,major_area:2},basis_store_list:void 0}],fetch:{},mutations:[]});

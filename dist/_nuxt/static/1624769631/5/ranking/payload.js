@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/5/ranking", {data:[{selected_area:{id:5,area_name:"埼玉県 さいたま市",yomigana:"さいたまけん さいたまし",yomi_roma:"saitamaken saitamashi",registed:613,major_area:3},basis_store_list:void 0}],fetch:{},mutations:[]});

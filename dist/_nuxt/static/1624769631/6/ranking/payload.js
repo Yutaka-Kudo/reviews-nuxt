@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/6/ranking", {data:[{selected_area:{id:6,area_name:"東京都 中目黒",yomigana:"とうきょうと なかめぐろ",yomi_roma:"toukyouto nakameguro",registed:973,major_area:1},basis_store_list:void 0}],fetch:{},mutations:[]});

@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/16/ranking", {data:[{selected_area:{id:16,area_name:"東京都 新宿",yomigana:"とうきょうと しんじゅく",yomi_roma:"toukyouto shinjuku",registed:780,major_area:1},basis_store_list:void 0}],fetch:{},mutations:[]});
