@@ -2,7 +2,7 @@
     <div class="bg store_list_wrap">
         <v-container>
             <v-card class="ranking_head mb-10 d-flex justify-center">
-                <h1>レビューランキングTop20</h1>
+                <h3>レビューランキング</h3>
             </v-card>
             <ShowStoreList
                 :media_data_list_by_store="media_data_list_by_store"
