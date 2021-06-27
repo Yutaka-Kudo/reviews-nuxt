@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/19/store_all", {data:[{selected_area:{id:19,area_name:"東京都 吉祥寺",yomigana:"とうきょうと きちじょうじ",yomi_roma:"toukyouto kichijouji",registed:1396,major_area:1},basis_store_list:void 0}],fetch:{},mutations:[]});

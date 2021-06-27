@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/22/ranking", {data:[{selected_area:{id:22,area_name:"東京都 新橋",yomigana:"とうきょうと しんばし",yomi_roma:"toukyouto shinbashi",registed:823,major_area:1},basis_store_list:void 0}],fetch:{},mutations:[]});

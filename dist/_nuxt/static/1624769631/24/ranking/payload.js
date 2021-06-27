@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/24/ranking", {data:[{selected_area:{id:24,area_name:"東京都 有楽町",yomigana:"とうきょうと ゆうらくちょう",yomi_roma:"toukyouto yuurakuchou",registed:1282,major_area:1},basis_store_list:void 0}],fetch:{},mutations:[]});

@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/35/store_all", {data:[{}],fetch:{},mutations:[]});

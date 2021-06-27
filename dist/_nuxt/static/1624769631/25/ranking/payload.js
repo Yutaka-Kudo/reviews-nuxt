@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/25/ranking", {data:[{selected_area:{id:25,area_name:"東京都 北千住",yomigana:"とうきょうと きたせんじゅ",yomi_roma:"toukyouto kitasenju",registed:653,major_area:1},basis_store_list:void 0}],fetch:{},mutations:[]});

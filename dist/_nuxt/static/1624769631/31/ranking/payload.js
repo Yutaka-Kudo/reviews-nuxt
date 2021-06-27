@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/31/ranking", {data:[{selected_area:{id:31,area_name:"東京都 上野",yomigana:"とうきょうと うえの",yomi_roma:"toukyouto ueno",registed:393,major_area:1},basis_store_list:void 0}],fetch:{},mutations:[]});

@@ -46,26 +46,39 @@ export default {
                 console.log(e);
             });
 
-        // await store.dispatch(`set_area_listAction`);
-        // let area_list = store.getters["area_list"];
         let selected_area = area_list.find((v) => v.id == route.params.area);
         console.log("slelctlek", selected_area);
-        // store.commit("set_selected_area", selected_area);
 
-        let basis_store_list = await $axios
+        let response = await $axios
             .get(`api/stores?area=${route.params.area}`)
             .then(function (res) {
-                return res.data;
-                // basis登録
-                // store.commit("set_basis_store_list", res.data);
+                // ランキングにのせる店のレビュー数の最低ライン
+                let _store_list = res.data.filter(
+                    (v) => v["total_review_count"] >= 20
+                );
+                // レート順並び替え
+                _store_list.sort((x, y) => {
+                    if (Number(x["total_rate"]) > Number(y["total_rate"])) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                });
+                return {
+                    // 上から20こ
+                    store_list: _store_list.slice(0, 20),
+                    basis_store_list: res.data,
+                };
             })
             .catch(function (e) {
                 console.log(e);
             });
-
+        // console.log('respo',response.store_list);
+        // console.log('respo',response.basis_store_list);
         return {
-            selected_area,
-            basis_store_list,
+            selected_area: selected_area,
+            basis_store_list: response.basis_store_list,
+            store_list: response.store_list,
         };
     },
 
@@ -106,22 +119,7 @@ export default {
             console.log(this.selected_area);
             console.log(this.$route.params);
 
-            // ランキングにのせる店のレビュー数の最低ライン
-            let store_list = this.basis_store_list.filter(
-                (v) => v["total_review_count"] >= 20
-            );
-            // レート順並び替え
-            store_list.sort((x, y) => {
-                if (Number(x["total_rate"]) > Number(y["total_rate"])) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            });
-            // 上から20こ
-            store_list = store_list.slice(0, 20);
-
-            await this.create_data(store_list);
+            await this.create_data(this.store_list);
 
             console.log(
                 "media_data_list_by_store",

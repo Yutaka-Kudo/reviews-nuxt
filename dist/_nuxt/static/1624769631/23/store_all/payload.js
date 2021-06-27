@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/23/store_all", {data:[{selected_area:{id:23,area_name:"東京都 六本木",yomigana:"とうきょうと ろっぽんぎ",yomi_roma:"toukyouto roppongi",registed:766,major_area:1},basis_store_list:void 0}],fetch:{},mutations:[]});

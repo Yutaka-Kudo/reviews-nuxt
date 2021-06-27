@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/4/ranking", {data:[{selected_area:{id:4,area_name:"千葉県 習志野市",yomigana:"ちばけん ならしのし",yomi_roma:"chibaken narashinoshi",registed:92,major_area:2},basis_store_list:void 0}],fetch:{},mutations:[]});
