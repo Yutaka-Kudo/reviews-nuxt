@@ -130,7 +130,7 @@
                                         'ぐるなび')
                             "
                         >
-                            {{ media_d["rate"] }}
+                            <b>{{ media_d["rate"] }}</b>
                             <RateStar class="star" :value="media_d['rate']" />
                         </span>
                         <!-- レートend -->
@@ -176,7 +176,7 @@
                                 content['media_type'] == '食べログ' ||
                                 content['media_type'] == 'ぐるなび'
                             "
-                            >{{ content["review_point"] | rate_for_star }}
+                            ><b>{{ content["review_point"] | rate_for_star }}</b>
                         </span>
                         <span
                             class="star"
@@ -208,7 +208,7 @@
                                 content['media_type'] == '食べログ' ||
                                 content['media_type'] == 'ぐるなび'
                             "
-                            >{{ content["review_point"] | rate_for_star }}
+                            ><b>{{ content["review_point"] | rate_for_star }}</b>
                         </span>
                         <span
                             class="star"

@@ -19,8 +19,10 @@
                     class="pa-2"
                 >
                     <!-- <span v-if="area_detail.id == city.major_area"> -->
-                    {{ city.area_name | city_name }}
-                    {{ city.registed }}店舗
+                    <span>
+                        {{ city.area_name | city_name }}
+                        {{ city.registed }}店舗
+                    </span>
                     <!-- </span> -->
                     <nuxt-link :to="city.id + '/ranking'"
                         >口コミランキング</nuxt-link

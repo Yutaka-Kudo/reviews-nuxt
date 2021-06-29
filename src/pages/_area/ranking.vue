@@ -66,7 +66,7 @@ export default {
             .then(function (res) {
                 // ランキングにのせる店のレビュー数の最低ライン
                 let _store_list = res.data.filter(
-                    (v) => v["total_review_count"] >= 20
+                    (v) => v["total_review_count"] >= 20 && v["total_rate"] != 0
                 );
                 // レート順並び替え
                 _store_list.sort((x, y) => {
@@ -347,6 +347,24 @@ export default {
     head() {
         return {
             title: `地域別レストランランキング ${this.selected_area.area_name}`,
+            meta: [
+                {
+                    hid: "description",
+                    name: "description",
+                    content: `${this.selected_area.area_name}エリアの飲食店の口コミ・レビューをランキング形式で表示。お近くの飲食店、気になるレストランを探したり比較できます。Google、食べログ、ぐるなび、ホットペッパー等を集計して独自のアルゴリズムでランキング。気になってるレストランの使える情報をさくっとGET！Special Thanks各グルメサイト`,
+                },
+
+                {
+                    hid: "og:title",
+                    property: "og:title",
+                    content: `地域別レストランランキング ${this.selected_area.area_name}`,
+                },
+                {
+                    hid: "og:description",
+                    property: "og:description",
+                    content: `${this.selected_area.area_name}エリアの飲食店の口コミ・レビューをランキング形式で表示。お近くの飲食店、気になるレストランを探したり比較できます。Google、食べログ、ぐるなび、ホットペッパー等を集計して独自のアルゴリズムでランキング。気になってるレストランの使える情報をさくっとGET！Special Thanks各グルメサイト`,
+                },
+            ],
         };
     },
 };
