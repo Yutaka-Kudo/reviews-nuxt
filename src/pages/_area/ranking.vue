@@ -2,7 +2,7 @@
     <div class="bg store_list_wrap">
         <v-container>
             <v-card class="ranking_head mb-10 d-flex justify-center">
-                <h3>レビューランキング</h3>
+                <h1>{{this.selected_area.area_name}}<br>レビューランキング</h1>
             </v-card>
             <ShowStoreList
                 :media_data_list_by_store="media_data_list_by_store"
@@ -351,7 +351,7 @@ export default {
                 {
                     hid: "description",
                     name: "description",
-                    content: `${this.selected_area.area_name}エリアの飲食店の口コミ・レビューをランキング形式で表示。お近くの飲食店、気になるレストランを探したり比較できます。Google、食べログ、ぐるなび、ホットペッパー等を集計して独自のアルゴリズムでランキング。気になってるレストランの使える情報をさくっとGET！Special Thanks各グルメサイト`,
+                    content: `${this.selected_area.area_name}エリアの飲食店の口コミ・レビューをランキング形式で表示。お近くの飲食店、気になるレストランを探したり比較できます。Google、食べログ、ぐるなび、ホットペッパー等を集計して独自のアルゴリズムでランキング。気になってるレストランの使える情報をさくっとGET！`,
                 },
 
                 {
@@ -362,7 +362,7 @@ export default {
                 {
                     hid: "og:description",
                     property: "og:description",
-                    content: `${this.selected_area.area_name}エリアの飲食店の口コミ・レビューをランキング形式で表示。お近くの飲食店、気になるレストランを探したり比較できます。Google、食べログ、ぐるなび、ホットペッパー等を集計して独自のアルゴリズムでランキング。気になってるレストランの使える情報をさくっとGET！Special Thanks各グルメサイト`,
+                    content: `${this.selected_area.area_name}エリアの飲食店の口コミ・レビューをランキング形式で表示。お近くの飲食店、気になるレストランを探したり比較できます。Google、食べログ、ぐるなび、ホットペッパー等を集計して独自のアルゴリズムでランキング。気になってるレストランの使える情報をさくっとGET！`,
                 },
             ],
         };

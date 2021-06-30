@@ -106,8 +106,8 @@ export default {
             // ページ戻った時にリストを保持する
             this.area_list = this.$store.getters["area_list"];
             this.store_list = this.$store.getters["basis_store_list"];
-            console.log(this.area_list);
-            console.log(this.store_list);
+            // console.log(this.area_list);
+            // console.log(this.store_list);
         }
     },
 

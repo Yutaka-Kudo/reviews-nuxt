@@ -1,6 +1,12 @@
 <template>
     <div>
-        <v-card>現在登録数</v-card>
+        <v-card class="d-flex justify-center mb-15"
+            ><h1 style="font-size: 1.6em">
+                地域別<br />口コミランキング<span style="font-size: 20px"
+                    >(現在登録数)</span
+                >
+            </h1></v-card
+        >
         <v-card
             v-for="area_detail in area_detail_list"
             :key="area_detail.id"
@@ -19,14 +25,14 @@
                     class="pa-2"
                 >
                     <!-- <span v-if="area_detail.id == city.major_area"> -->
+
                     <span>
                         {{ city.area_name | city_name }}
-                        {{ city.registed }}店舗
+                        <nuxt-link :to="city.id + '/ranking'"
+                            >({{ city.registed }}店舗)</nuxt-link
+                        >
                     </span>
                     <!-- </span> -->
-                    <nuxt-link :to="city.id + '/ranking'"
-                        >口コミランキング</nuxt-link
-                    >
                 </div>
             </div>
         </v-card>

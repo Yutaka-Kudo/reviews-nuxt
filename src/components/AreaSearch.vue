@@ -190,7 +190,7 @@ export default {
         this.search_word = this.$store.getters["area_search_word"].length
             ? this.$store.getters["area_search_word"]
             : "";
-        console.log(this.area_list);
+        // console.log(this.area_list);
     },
 };
 </script>
