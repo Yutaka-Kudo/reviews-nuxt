@@ -150,10 +150,14 @@ export default {
 			// '/admin/**',
 		],
 		// ↓ 動的なルーティングで生成したページは明示的に宣言
-		routes: [
+		async routes() {
 			// '/kind/apple',
 			// '/kind/banana',
-		]
+			return await axios.get('https://yk-restaurant-reviews-api.cyou/api/area')
+				.then(res => {
+					return res.data.map(area => `/${area.id}/ranking`)
+				})
+		}
 	},
 
 	gtm: {
@@ -241,7 +245,7 @@ export default {
 	// 		})
 	// 	}
 	// },
-	
+
 	// pageTransition: {
 	// 	name: 'page',
 	// 	mode: 'out-in',
