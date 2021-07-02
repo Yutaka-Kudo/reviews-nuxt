@@ -26,13 +26,36 @@
                 <span v-show="searcher_seen">{{
                     selected_area.area_name
                 }}</span>
-                <div class="spacer_as_icon_width"></div>
+                <div v-show="searcher_seen " class="spacer_as_icon_width"></div>
+                <!-- v-ifだとエラー。不明 -->
+                <!-- v-show="searcher_seen" が d-flexが入ってると効かない。:classでクラス自体を操作-->
+                <div v-show="!searcher_seen">
+                    <v-form
+                        @submit.prevent="store_submit_all"
+                        class="search_box flex-grow-1 d-flex align-center"
+                        v-cloak
+                    >
+                        <span class="re-search mr-1">全店<br />検索</span>
+                        <v-text-field
+                            v-model.trim="search_word_all"
+                            label="店名"
+                            append-outer-icon="mdi-send"
+                            @click:append-outer="store_submit_all"
+                            clear-icon="mdi-close-circle"
+                            clearable
+                            dark
+                            background-color="rgba(255, 255, 255, 0.2)"
+                            hide-details
+                            v-cloak
+                        />
+                    </v-form>
+                </div>
             </div>
 
             <!-- v-ifだとエラー。不明 -->
             <!-- v-show="searcher_seen" が d-flexが入ってると効かない。:classでクラス自体を操作-->
             <transition name="appear">
-                <div v-show="searcher_seen">
+                <div v-show="searcher_seen && basis_store_list.length">
                     <v-form
                         @submit.prevent="store_submit"
                         class="search_box flex-grow-1 d-flex align-center"
@@ -90,6 +113,7 @@ export default {
             title: "RESTAURary",
 
             search_word: "",
+            search_word_all: "",
         };
     },
 
@@ -130,6 +154,17 @@ export default {
                 // } else {
                 //     this.$store.commit("set_store_list", this.f_store_list_pure);
                 // }
+            }
+        },
+        async store_submit_all(event) {
+            if (this.search_word_all.length) {
+                let store_list = await this.$axios.get(`api/stores_search?search=${this.search_word_all}`).then(function(res){
+                    return res.data
+                }).catch(function(e){
+                    console.log(e);
+                })
+                this.$store.commit("set_store_list",store_list)
+                this.$router.push({path:`/store_list`,query:{search:this.search_word_all}})
             }
         },
     },
