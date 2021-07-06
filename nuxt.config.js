@@ -22,6 +22,13 @@ export default {
 	router: {
 		// base: '/nuxt/'
 		base: baseDir,//ベースディレクトリをgenerate時に変更できるようにする
+
+		// extendRoutes(routes, resolve) {
+		// 	routes.push({
+		// 		path: '*',
+		// 		component: resolve(__dirname, 'reviews_nuxt/pages/index.vue')
+		// 	})
+		// }
 	},
 
 	// Target: https://go.nuxtjs.dev/config-target
