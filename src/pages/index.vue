@@ -1,10 +1,9 @@
 <template>
     <v-container class="index_wrap">
         <div class="description">
-            <h2>
-
-            飲食店総合評判まとめサイト
-            レストラン・居酒屋・飲食店・デリバリーの口コミ・レビューを最新順でCheck！店舗型レストランはもちろん、デリバリー専門店も検索可能。気になるお店の情報をさくっとGET！
+            <h1>飲食店総合クチコミまとめサイト</h1>
+            <h2 style="font-size:1.3em;">
+                レストラン・居酒屋・飲食店・デリバリーの口コミ・レビューを最新順でCheck！店舗型レストランはもちろん、デリバリー専門店も検索可能。気になるお店の情報をさくっとGET！
             </h2>
         </div>
         <div class="search_list_wrap">

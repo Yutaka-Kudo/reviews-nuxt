@@ -16,7 +16,9 @@
             v-cloak
         >
             <v-card-title>
-                {{ area_detail.m_area_name }}
+                <h2 style="font-size:1.3em;">
+                    {{ area_detail.m_area_name }}
+                </h2>
             </v-card-title>
             <div class="d-flex flex-wrap">
                 <div
