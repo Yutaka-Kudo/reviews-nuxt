@@ -21,11 +21,27 @@
             v-cloak
         >
             <div class="card_head d-flex flex-column align-center">
+                <span class="area">
+                    エリア：{{ media_data[0].store.area.area_name }}
+                </span>
                 <div
-                    class="head_top d-flex flex-column align-center flex-sm-row justify-sm-center"
+                    class="
+                        head_top
+                        d-flex
+                        flex-column
+                        align-center
+                        flex-sm-row
+                        justify-sm-center
+                    "
                 >
                     <v-card-title
-                        class="store_name text-h5 pb-1 pb-sm-0 d-flex flex-nowrap"
+                        class="
+                            store_name
+                            text-h5
+                            pb-1 pb-sm-0
+                            d-flex
+                            flex-nowrap
+                        "
                     >
                         <span
                             :class="{ uber_limited: media_data['uber_only'] }"
@@ -35,7 +51,12 @@
                         />
                     </v-card-title>
                     <span
-                        class="rate_num_total align-self-sm-end flex-sm-shrink-0 mr-sm-2"
+                        class="
+                            rate_num_total
+                            align-self-sm-end
+                            flex-sm-shrink-0
+                            mr-sm-2
+                        "
                         >{{
                             media_data[0].store.total_rate == "0.00"
                                 ? " -"
@@ -155,7 +176,14 @@
                 ></v-divider>
                 <v-card-text
                     v-if="content['store_id'] === media_data[0]['store']['id']"
-                    class="rev_item d-flex flex-column align-center flex-sm-row justify-sm-space-between"
+                    class="
+                        rev_item
+                        d-flex
+                        flex-column
+                        align-center
+                        flex-sm-row
+                        justify-sm-space-between
+                    "
                 >
                     <span v-if="content['seen']" class="mini_name d-sm-none">
                         {{ media_data[0].store.store_name }}
@@ -176,7 +204,9 @@
                                 content['media_type'] == '食べログ' ||
                                 content['media_type'] == 'ぐるなび'
                             "
-                            ><b>{{ content["review_point"] | rate_for_star }}</b>
+                            ><b>{{
+                                content["review_point"] | rate_for_star
+                            }}</b>
                         </span>
                         <span
                             class="star"
@@ -190,7 +220,14 @@
                         </span>
                     </v-chip>
                     <v-card
-                        class="rev_head d-none d-sm-flex flex-sm-column align-sm-center align-self-sm-start mr-3 flex-sm-shrink-0"
+                        class="
+                            rev_head
+                            d-none d-sm-flex
+                            flex-sm-column
+                            align-sm-center align-self-sm-start
+                            mr-3
+                            flex-sm-shrink-0
+                        "
                         :class="{
                             'rev_head_opened mt-6': content['seen'] == true,
                         }"
@@ -208,7 +245,9 @@
                                 content['media_type'] == '食べログ' ||
                                 content['media_type'] == 'ぐるなび'
                             "
-                            ><b>{{ content["review_point"] | rate_for_star }}</b>
+                            ><b>{{
+                                content["review_point"] | rate_for_star
+                            }}</b>
                         </span>
                         <span
                             class="star"
@@ -241,7 +280,9 @@
                                 @click="close_detail(content)"
                             >
                                 <div
-                                    class="rev_content_text rev_content_text_detail"
+                                    class="
+                                        rev_content_text rev_content_text_detail
+                                    "
                                 >
                                     {{ content["content"] | trim }}
                                 </div>
@@ -287,9 +328,8 @@ export default {
             content["seen"] = !content["seen"];
 
             // ヘッダーが降りてきたらstickyしてるやつも合わせて降ろす。
-            let rev_head_opened_elems = document.getElementsByClassName(
-                "rev_head_opened"
-            );
+            let rev_head_opened_elems =
+                document.getElementsByClassName("rev_head_opened");
             let mini_name_elems = document.getElementsByClassName("mini_name");
             const target = document.getElementsByClassName("v-app-bar")[0];
 
@@ -391,6 +431,7 @@ export default {
     content: "総合";
     font-size: 13px;
 }
+.area,
 .category {
     font-size: 13px;
 }
