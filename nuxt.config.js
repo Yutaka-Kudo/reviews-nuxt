@@ -4,7 +4,7 @@ require('dotenv').config()
 
 // meta
 const lang = 'ja'
-const siteName = 'RESTAURary 飲食店口コミ総合まとめ ~レストラリー~'
+const siteName = '飲食店口コミ総合まとめ RESTAURary ~レストラリー~'
 const siteDesc = '飲食店総合口コミまとめサイト レストラン・居酒屋・飲食店・デリバリーの口コミ・レビューを最新順でCheck！お近くのレストランはもちろん、デリバリー専門店も検索可能。気になってるお店の使える情報をさくっとGET！Special Thanks各グルメサイト'
 const siteKeywords = 'レストラン,飲食店,居酒屋,グルメ,口コミ,レビュー'
 
@@ -162,7 +162,7 @@ export default {
 			// '/kind/banana',
 			return await axios.get('https://yk-restaurant-reviews-api.cyou/api/area')
 				.then(res => {
-					return res.data.map(area => `/${area.id}/ranking`)
+					return res.data.map(area => `/${area.id}/ranking/`)
 				})
 		}
 	},
