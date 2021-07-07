@@ -24,6 +24,9 @@
                 <span class="area">
                     エリア：{{ media_data[0].store.area.area_name }}
                 </span>
+                <span class="area">
+                    {{media_data[0].store.address}}
+                </span>
                 <div
                     class="
                         head_top
