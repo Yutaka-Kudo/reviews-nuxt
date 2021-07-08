@@ -65,7 +65,7 @@ export default {
             // let that = this;
 
             //ページ数、決定
-            this. page_length = Math.ceil(
+            this.page_length = Math.ceil(
                 this.store_list.length / this.pages["page_size"]
             );
             // this.$store.commit("set_page_length", page_length);
@@ -102,7 +102,7 @@ export default {
 
     mounted() {
         this.$nuxt.$emit("update_header", "store_list");
-        
+
         console.log(this.$route.params);
     },
 
@@ -123,26 +123,29 @@ export default {
                 var store_data = sliced_store_list[i];
                 let media_data_temp = [];
 
-                let store_res = await this.$axios
-                    .get(`api/stores?id=${store_data.id}`)
-                    .catch(function (e) {
-                        console.log(e);
-                    });
+                // let store_res = await this.$axios
+                //     .get(`api/stores?id=${store_data.id}`)
+                //     .catch(function (e) {
+                //         console.log(e);
+                //     });
 
-                let res = await this.$axios
+                let md_res = await this.$axios
                     .get(`api/media_data?store=${store_data.id}`)
+                    .then(function (res) {
+                        return res.data;
+                    })
                     .catch(function (e) {
                         console.log(e);
                     });
 
-                res.data["category"] = [
-                    store_res.data[0].category1,
-                    store_res.data[0].category2,
-                    store_res.data[0].category3,
+                md_res["category"] = [
+                    md_res[0]["store"]["category1"],
+                    md_res[0]["store"]["category2"],
+                    md_res[0]["store"]["category3"],
                 ];
-                res.data["yomigana"] = store_res.data[0].yomigana;
-                res.data["loading"] = true;
-                media_data_temp = res.data;
+                // md_res["yomigana"] = store_md_res[0].yomigana;
+                md_res["loading"] = true;
+                media_data_temp = md_res;
 
                 // 成形
                 //uberOnlyフラグーーーー
@@ -177,36 +180,36 @@ export default {
                 // }
                 // console.log(JSON.stringify(this.media_data_list_by_store));
 
+                // コンテンツーーーーーーーーーー
                 let content_list_temp = [];
-                for (var media_data of media_data_temp) {
-                    // await this.$axios
-                    let res = await this.$axios
-                        // this.$axios
-                        .get(`api/reviews?media=${media_data.id}`)
-                        .catch(function (e) {
-                            console.log(e);
-                        });
-                    //本文を集める
-                    let contents = res.data.map(function (v) {
-                        if (v.content) {
-                            return {
-                                store_id: v["media"]["store"]["id"],
-                                store_name: v["media"]["store"]["store_name"],
-                                media_type:
-                                    v["media"]["media_type"]["official_name"],
-                                review_date: v["review_date"],
-                                review_point: v["review_point"],
-                                content: v["content"],
-                                seen: false,
-                            };
-                        }
+                let rev_res = await this.$axios
+                    .get(`api/reviews?media__store=${store_data.id}`)
+                    .then(function (res) {
+                        return res.data;
+                    })
+                    .catch(function (e) {
+                        console.log(e);
                     });
-                    content_list_temp.push(contents);
-                }
+                //本文を集める
+                let contents = rev_res.map(function (v) {
+                    if (v.content) {
+                        return {
+                            store_id: v["media"]["store"]["id"],
+                            store_name: v["media"]["store"]["store_name"],
+                            media_type:
+                                v["media"]["media_type"]["official_name"],
+                            review_date: v["review_date"],
+                            review_point: v["review_point"],
+                            content: v["content"],
+                            seen: false,
+                        };
+                    }
+                });
+                content_list_temp.push(contents);
 
                 // 2次元配列を1次元に＆日付け降順
-                // フラットにしてから日時順並び替え
                 content_list_temp = content_list_temp.flat(1);
+                // 日時順並び替え
                 content_list_temp.sort((x, y) => {
                     if (x["review_date"] > y["review_date"]) {
                         return -1;
@@ -298,7 +301,6 @@ export default {
                 }
             }
         },
-
     },
 
     // computed: {
@@ -316,11 +318,11 @@ export default {
         // mode: "out-in",
         mode: "",
     },
-    head(){
-        return{
-            title:"飲食店一覧"
-        }
-    }
+    head() {
+        return {
+            title: "飲食店一覧",
+        };
+    },
 };
 </script>
 
