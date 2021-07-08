@@ -346,23 +346,23 @@ export default {
     },
     head() {
         return {
-            title: `地域別レストランランキング ${this.selected_area.area_name}`,
+            title: `地域別飲食店ランキング ${this.selected_area.area_name}`,
             meta: [
                 {
                     hid: "description",
                     name: "description",
-                    content: `${this.selected_area.area_name}エリアの飲食店の口コミ・レビューをランキング形式で表示。お近くの飲食店、気になるレストランを探したり比較できます。Google、食べログ、ぐるなび、ホットペッパー等を集計して独自のアルゴリズムでランキング。気になってるレストランの使える情報をさくっとGET！`,
+                    content: `どの飲食店が人気があるか気になりませんか？${this.selected_area.area_name}エリアの飲食店のGoogle、食べログ、ぐるなび、ホットペッパー等の口コミ・レビューを集計して独自のアルゴリズムでランキング形式で表示。気になってるレストランの使える情報をさくっとGET！`,
                 },
 
                 {
                     hid: "og:title",
                     property: "og:title",
-                    content: `地域別レストランランキング ${this.selected_area.area_name}`,
+                    content: `地域別飲食店ランキング ${this.selected_area.area_name}`,
                 },
                 {
                     hid: "og:description",
                     property: "og:description",
-                    content: `${this.selected_area.area_name}エリアの飲食店の口コミ・レビューをランキング形式で表示。お近くの飲食店、気になるレストランを探したり比較できます。Google、食べログ、ぐるなび、ホットペッパー等を集計して独自のアルゴリズムでランキング。気になってるレストランの使える情報をさくっとGET！`,
+                    content: `どの飲食店が人気があるか気になりませんか？${this.selected_area.area_name}エリアの飲食店のGoogle、食べログ、ぐるなび、ホットペッパー等の口コミ・レビューを集計して独自のアルゴリズムでランキング形式で表示。気になってるレストランの使える情報をさくっとGET！`,
                 },
             ],
         };

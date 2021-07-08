@@ -4,9 +4,9 @@ require('dotenv').config()
 
 // meta
 const lang = 'ja'
-const siteName = '飲食店口コミ総合まとめ RESTAURary ~レストラリー~'
-const siteDesc = '飲食店総合口コミまとめサイト レストラン・居酒屋・飲食店・デリバリーの口コミ・レビューを最新順でCheck！お近くのレストランはもちろん、デリバリー専門店も検索可能。気になってるお店の使える情報をさくっとGET！Special Thanks各グルメサイト'
-const siteKeywords = 'レストラン,飲食店,居酒屋,グルメ,口コミ,レビュー'
+const siteName = 'RESTAURary レストラリー'
+const siteDesc = 'レストラン・居酒屋・飲食店の口コミ・レビューを各グルメサイトからまとめて最新順でCheck！お近くのレストランはもちろん、デリバリー専門店も検索可能。気になってるお店の使える情報をさくっとGET！'
+const siteKeywords = 'レストラン 口コミ,飲食店 口コミ'
 
 // OGP関連
 // path

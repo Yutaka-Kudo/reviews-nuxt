@@ -1,11 +1,11 @@
 <template>
     <div>
         <v-card class="d-flex justify-center mb-15"
-            ><h1 style="font-size: 1.6em">
+            ><h2 style="font-size: 1.6em">
                 地域別<br />口コミランキング<span style="font-size: 20px"
                     >(現在登録数)</span
                 >
-            </h1></v-card
+            </h2></v-card
         >
         <v-card
             v-for="area_detail in area_detail_list"
