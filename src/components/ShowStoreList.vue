@@ -25,7 +25,7 @@
                     エリア：{{ media_data[0].store.area.area_name }}
                 </span>
                 <span class="area">
-                    {{media_data[0].store.address}}
+                    {{ media_data[0].store.address }}
                 </span>
                 <div
                     class="
@@ -68,9 +68,9 @@
                         <RateStar :value="media_data[0].store.total_rate" />
                     </span>
                 </div>
-                <span class="category">{{
-                    media_data["category"] | category_view
-                }}</span>
+                <span class="category">
+                    {{ media_data["category"] | category_view }}
+                </span>
             </div>
 
             <div class="d-flex flex-wrap justify-sm-center">
@@ -396,8 +396,8 @@ export default {
         rate_for_star(text) {
             return Number(text).toFixed(1);
         },
-        category_view(text) {
-            return text.join(" - ");
+        category_view(list) {
+            return list.join(" - ");
         },
         Ym(text) {
             return text.slice(0, -3);

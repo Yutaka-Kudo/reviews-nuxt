@@ -2,7 +2,9 @@
     <div class="bg store_list_wrap">
         <v-container>
             <v-card class="ranking_head mb-10 d-flex justify-center">
-                <h1>{{this.selected_area.area_name}}<br>レビューランキング</h1>
+                <h1>
+                    {{ this.selected_area.area_name }}<br />レビューランキング
+                </h1>
             </v-card>
             <ShowStoreList
                 :media_data_list_by_store="media_data_list_by_store"
@@ -164,26 +166,23 @@ export default {
                 var store_data = sliced_store_list[i];
                 let media_data_temp = [];
 
-                let store_res = await this.$axios
-                    .get(`api/stores?id=${store_data.id}`)
-                    .catch(function (e) {
-                        console.log(e);
-                    });
-
-                let res = await this.$axios
+                let md_res = await this.$axios
                     .get(`api/media_data?store=${store_data.id}`)
+                    .then(function (res) {
+                        return res.data;
+                    })
                     .catch(function (e) {
                         console.log(e);
                     });
 
-                res.data["category"] = [
-                    store_res.data[0].category1,
-                    store_res.data[0].category2,
-                    store_res.data[0].category3,
+                md_res["category"] = [
+                    md_res[0]["store"]["category1"],
+                    md_res[0]["store"]["category2"],
+                    md_res[0]["store"]["category3"],
                 ];
-                res.data["yomigana"] = store_res.data[0].yomigana;
-                res.data["loading"] = true;
-                media_data_temp = res.data;
+                // md_res["yomigana"] = store_res[0].yomigana;
+                md_res["loading"] = true;
+                media_data_temp = md_res;
 
                 // 成形
                 //uberOnlyフラグーーーー
