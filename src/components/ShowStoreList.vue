@@ -2,12 +2,11 @@
     <div v-show="seen_whole">
         <!-- <transition name="list_scroll"> -->
 
-        <!-- エラー用 -->
+        <!-- 該当なし用 -->
         <div v-if="!media_data_list_by_store.length" class="get_failed">
             <b>
-                データ取得中...<br /><br />
-                画面が変わらない場合は<br />
-                ホーム画面に戻りリロードしてください
+                該当する店舗データがありません...<br /><br />
+                やり直してください<br />
             </b>
         </div>
 
