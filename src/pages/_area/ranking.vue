@@ -43,14 +43,17 @@ export default {
 
             pages: {
                 page_size: 10,
-                page_length: 0,
                 now_page: 1,
+                page_length: 0,
             },
             page_is_disabled: false,
         };
     },
 
-    async asyncData({ $axios, store, route }) {
+    async asyncData({ $axios, store, route, payload }) {
+        console.log("payloadldllllllllll");
+        console.log(payload);
+
         let area_list = await $axios
             .get("api/area/")
             .then(function (res) {
@@ -59,19 +62,19 @@ export default {
             .catch(function (e) {
                 console.log(e);
             });
-
         let selected_area = area_list.find((v) => v.id == route.params.area);
         console.log("slelctlek", selected_area);
 
-        let response = await $axios
+        let { store_list, basis_store_list } = await $axios
             .get(`api/stores?area=${route.params.area}`)
             .then(function (res) {
                 // ランキングにのせる店のレビュー数の最低ライン
-                let _store_list = res.data.filter(
+                // let store_list = payload.filter(
+                let store_list = res.data.filter(
                     (v) => v["total_review_count"] >= 20 && v["total_rate"] != 0
                 );
                 // レート順並び替え
-                _store_list.sort((x, y) => {
+                store_list.sort((x, y) => {
                     if (Number(x["total_rate"]) > Number(y["total_rate"])) {
                         return -1;
                     } else {
@@ -79,67 +82,209 @@ export default {
                     }
                 });
                 return {
-                    // 上から20こ
-                    // store_list: _store_list.slice(0, 20),
-                    store_list: _store_list,
+                    store_list,
                     basis_store_list: res.data,
                 };
-            })
-            .catch(function (e) {
-                console.log(e);
             });
+
+        // 1ページ分store_list
+        let sliced_store_list = store_list.slice(0, 10);
+        let md_list = [];
+        let rev_list = [];
+        for (var store_data of sliced_store_list) {
+            // let media_data_temp = [];
+
+            let md_res = await $axios
+                .get(`api/media_data?store=${store_data.id}`)
+                .then(function (res) {
+                    return res.data;
+                })
+                .catch(function (e) {
+                    console.log(e);
+                });
+            md_list.push(md_res);
+
+            let content_res = await $axios
+                .get(`api/reviews?media__store=${store_data.id}`)
+                .then(function (res) {
+                    return res.data;
+                })
+                .catch(function (e) {
+                    console.log(e);
+                });
+            rev_list.push(content_res);
+
+            console.log("get md & content");
+        }
+
+        // let { media_data_list_by_store, rev_list } = await create_data(
+        //     sliced_store_list
+        // );
+
+        // 次ページ分
+        let sliced_store_list_next = store_list.slice(10, 20);
+        let md_list_next = [];
+        let rev_list_next = [];
+        for (var store_data of sliced_store_list_next) {
+            // let media_data_temp = [];
+
+            let md_res = await $axios
+                .get(`api/media_data?store=${store_data.id}`)
+                .then(function (res) {
+                    return res.data;
+                })
+                .catch(function (e) {
+                    console.log(e);
+                });
+            md_list_next.push(md_res);
+
+            let content_res = await $axios
+                .get(`api/reviews?media__store=${store_data.id}`)
+                .then(function (res) {
+                    return res.data;
+                })
+                .catch(function (e) {
+                    console.log(e);
+                });
+            rev_list_next.push(content_res);
+
+            console.log("get md & content next");
+        }
+        // let { this., rev_list_next } =
+        //     await create_data(sliced_store_list_next, true);
+
         return {
             selected_area: selected_area,
-            basis_store_list: response.basis_store_list,
-            store_list: response.store_list,
+            basis_store_list,
+            store_list,
+
+            md_list,
+            md_list_next,
+            rev_list,
+            rev_list_next,
         };
     },
 
-    // async fetch({ $axios, store, route }) {
-    // },
+    fetch({ $axios, store, route }) {
+        // console.log("ふぇっちっち");
+    },
 
     created: async function () {
         // if (process.server) {
-        if (process.client) {
-            console.log("crecre");
+        // if (process.client) {
+        console.log("crecre");
 
-            // selected_area登録
-            this.$store.commit("set_selected_area", this.selected_area);
+        //ページ数、決定
+        this.page_length = Math.ceil(
+            this.store_list.length / this.pages["page_size"]
+        );
 
-            // basis登録
-            this.$store.commit("set_basis_store_list", this.basis_store_list);
+        // this.$store.commit("set_page_length", page_length);
 
-            this.page_is_disabled = true;
-            //ページ数、決定
-            this.page_length = Math.ceil(
-                this.store_list.length / this.pages["page_size"]
-            );
-            // this.$store.commit("set_page_length", page_length);
+        // selected_area登録
+        this.$store.commit("set_selected_area", this.selected_area);
 
-            // 1ページ分store_list
-            let sliced_store_list = this.store_list.slice(
-                0,
-                this.pages["page_size"]
-            );
+        // basis登録
+        this.$store.commit("set_basis_store_list", this.basis_store_list);
 
-            await this.create_data(sliced_store_list);
+        let create_media_data = function (md_list, next_flg = false) {
+            let media_data_temp = [];
+            for (var md of md_list) {
+                md["category"] = [
+                    md[0]["store"]["category1"],
+                    md[0]["store"]["category2"],
+                    md[0]["store"]["category3"],
+                ];
+                // md_res["yomigana"] = store_res[0].yomigana;
+                md = md;
 
-            // 次ページ分
-            let sliced_store_list_next = this.store_list.slice(
-                this.pages["page_size"],
-                this.pages["page_size"] * 2
-            );
-            await this.create_data(sliced_store_list_next, true);
+                // 成形
+                //uberOnlyフラグーーーー
+                md["uber_only"] =
+                    md.map((v) => v["media_type"]["media_type"]) == "uber"
+                        ? true
+                        : false; //なぜか配列同士の比較はfalseになる。
 
-            this.page_is_disabled = false;
+                // 並び替えーーーーーー
+                let junban = [
+                    "google",
+                    "tb",
+                    "hp",
+                    "gn",
+                    "retty",
+                    "uber",
+                    "demaekan",
+                    "foodpanda",
+                ];
+                md.sort(
+                    (x, y) =>
+                        junban.indexOf(x["media_type"]["media_type"]) -
+                        junban.indexOf(y["media_type"]["media_type"])
+                );
 
-            console.log(
-                "media_data_list_by_store",
-                this.media_data_list_by_store
-            );
+                media_data_temp.push(md);
+            }
+            return media_data_temp;
+        };
 
-            console.log("content_list", this.content_list);
-        }
+        this.media_data_list_by_store.push(...create_media_data(this.md_list));
+        console.log(
+            "this.media_data_list_by_store",
+            this.media_data_list_by_store
+        );
+        this.media_data_list_by_store_next.push(
+            ...create_media_data(this.md_list_next, true)
+        );
+
+        // コンテンツーーーーーーーーーー
+        let create_contents = function (rev_list, next_flg = false) {
+            let contents_temp = [];
+            for (let rev of rev_list) {
+                let contents = rev.map(function (v) {
+                    if (v.content) {
+                        return {
+                            store_id: v["media"]["store"]["id"],
+                            store_name: v["media"]["store"]["store_name"],
+                            media_type:
+                                v["media"]["media_type"]["official_name"],
+                            review_date: v["review_date"],
+                            review_point: v["review_point"],
+                            content: v["content"],
+                            seen: false,
+                        };
+                    }
+                });
+
+                // 2次元配列を1次元に＆日付け降順
+                contents = contents.flat(1);
+                // 日時順並び替え
+                contents.sort((x, y) => {
+                    if (x["review_date"] > y["review_date"]) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                });
+
+                contents_temp.push(contents.slice(0, 6));
+                contents_temp = contents_temp.flat(1);
+                if (!next_flg) {
+                    console.log("this page!!");
+                } else {
+                    console.log("next!!!");
+                }
+            }
+            return contents_temp;
+        };
+        this.content_list.push(...create_contents(this.rev_list));
+        this.content_list_next.push(
+            ...create_contents(this.rev_list_next, true)
+        );
+
+        console.log("media_data_list_by_store", this.media_data_list_by_store);
+
+        console.log("content_list", this.content_list);
+        // }
     },
 
     mounted: async function () {

@@ -239,22 +239,23 @@ export default {
 		transpile: ['gsap', 'gsap/Draggable'],
 	},
 
-	// 使えるかわからないがpayload付き
-	generate: {
-		async routes() {
-			let arealist = await axios.get('https://yk-restaurant-reviews-api.cyou/api/area')
-				.then(res => {
-					return res.data
-				})
-			let list = []
-			for (let areadata of arealist) {
-				let are = await axios.get(`https://yk-restaurant-reviews-api.cyou/api/stores?area=${areadata.id}`).then(function (res) { return res.data })
-				list.push({ route: `/${areadata.id}/ranking`, payload: are })
-			}
-			return list
+	// // 使えるかわからないがpayload付き
+	// generate: {
+	// 	async routes() {
+	// 		// let arealist = await axios.get('https://yk-restaurant-reviews-api.cyou/api/area')
+	// 		let arealist = await axios.get('https://yk-restaurant-reviews-api.cyou/api/area?id=43')
+	// 			.then(res => {
+	// 				return res.data
+	// 			})
+	// 		let list = []
+	// 		for (let areadata of arealist) {
+	// 			let are = await axios.get(`https://yk-restaurant-reviews-api.cyou/api/stores?area=${areadata.id}`).then(function (res) { return res.data })
+	// 			list.push({ route: `/${areadata.id}/ranking`, payload: are })
+	// 		}
+	// 		return list
 
-		}
-	},
+	// 	}
+	// },
 
 	// pageTransition: {
 	// 	name: 'page',
