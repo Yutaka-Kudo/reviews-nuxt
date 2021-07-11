@@ -239,23 +239,24 @@ export default {
 		transpile: ['gsap', 'gsap/Draggable'],
 	},
 
-	// // 使えるかわからないがpayload付き
-	// generate: {
-	// 	async routes() {
-	// 		// let arealist = await axios.get('https://yk-restaurant-reviews-api.cyou/api/area')
-	// 		let arealist = await axios.get('https://yk-restaurant-reviews-api.cyou/api/area?id=43')
-	// 			.then(res => {
-	// 				return res.data
-	// 			})
-	// 		let list = []
-	// 		for (let areadata of arealist) {
-	// 			let are = await axios.get(`https://yk-restaurant-reviews-api.cyou/api/stores?area=${areadata.id}`).then(function (res) { return res.data })
-	// 			list.push({ route: `/${areadata.id}/ranking`, payload: are })
-	// 		}
-	// 		return list
+	// 使えるかわからないがpayload付き
+	generate: {
+		async routes() {
+			let arealist = await axios.get('https://yk-restaurant-reviews-api.cyou/api/area')
+				// let arealist = await axios.get('https://yk-restaurant-reviews-api.cyou/api/area?id=43')
+				.then(res => res.data)
+				.catch(e => console.log(`axiosエラー in nuxt.config.js: `, e))
 
-	// 	}
-	// },
+			let payloads = []
+
+			for (let area of arealist) {
+				let stores = await axios.get(`https://yk-restaurant-reviews-api.cyou/api/stores?area=${area.id}`).then(function (res) { return res.data })
+				payloads.push({ route: `/${area.id}/ranking`, payload: {area, stores} })
+			}
+			return payloads
+
+		}
+	},
 
 	// pageTransition: {
 	// 	name: 'page',
