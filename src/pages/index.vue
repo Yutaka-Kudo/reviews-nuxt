@@ -28,7 +28,7 @@
             <!-- <template> </template> -->
         </div>
         <h2>
-            地域別<br />口コミランキング<span style="font-size: 20px"
+            地域別<br class="d-sm-none" />口コミランキング<span style="font-size: 20px"
                 >(現在登録数)</span
             >
         </h2>
