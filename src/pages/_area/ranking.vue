@@ -3,8 +3,14 @@
         <v-container>
             <v-card class="ranking_head mb-10 d-flex justify-center">
                 <h1>
-                    {{ this.selected_area.area_name }}<br />レビューランキング
+                    {{ this.selected_area.area_name | city_name }}
+                    ランキング
                 </h1>
+            </v-card>
+            <v-card class="mb-10 d-flex justify-center">
+                <h2>
+                    {{ this.selected_area.area_name }}の飲食店口コミランキング
+                </h2>
             </v-card>
             <ShowStoreList
                 :media_data_list_by_store="media_data_list_by_store"
@@ -504,6 +510,12 @@ export default {
                     // console.log(JSON.stringify(this.review_obj_list));
                 }
             }
+        },
+    },
+
+    filters: {
+        city_name(text) {
+            return text.split(" ").slice(-1)[0];
         },
     },
 

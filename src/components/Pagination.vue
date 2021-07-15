@@ -60,7 +60,7 @@ export default {
     align-items: flex-end;
     justify-content: center;
     height: 13px;
-    width: 32px;
+    width: 13px;
     background: white;
     border-radius: 4px;
 }

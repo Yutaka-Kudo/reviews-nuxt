@@ -1,12 +1,13 @@
 <template>
     <v-container class="index_wrap">
-        <div class="description">
-            <h1>飲食店総合クチコミまとめサイト</h1>
-            <h2 style="font-size:1.3em;">
+        <div class="description d-flex flex-wrap justify-center">
+            <h1>飲食店総合<br class="d-sm-none" />口コミまとめサイト</h1>
+            <p>
                 レストラン・居酒屋・飲食店の口コミ・レビューを各グルメサイトからまとめて最新順でCheck！お近くのレストランはもちろん、デリバリー専門店も検索可能。気になってるお店の使える情報をさくっとGET！
-            </h2>
+            </p>
         </div>
         <div class="search_list_wrap">
+            <h2 class="mt-7">ワード検索</h2>
             <v-container>
                 <v-row>
                     <v-col cols="12" sm="6">
@@ -26,6 +27,12 @@
             </v-container>
             <!-- <template> </template> -->
         </div>
+        <h2>
+            地域別<br />口コミランキング<span style="font-size: 20px"
+                >(現在登録数)</span
+            >
+        </h2>
+        <p class="registed_num mb-5">合計収録店舗数：{{total_registed}}</p>
         <div class="registerd_area">
             <RegisteredArea :area_detail_list="area_detail_list" />
         </div>
@@ -97,9 +104,14 @@ export default {
             area_detail_list.push(temp);
         }
 
+        let total_registed = area_list.reduce((sum, cur)=>{
+            return sum + cur["registed"]
+        },0)
+
         return {
             area_list,
             area_detail_list,
+            total_registed,
         };
     },
 
@@ -185,10 +197,24 @@ export default {
     /* height: 100%; */
 }
 .description {
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.7);
     /* border-color: rgba(255, 255, 255, 0.3); */
-    width: 88%;
+    width: 98%;
     margin: 0 auto;
+}
+h2 {
+    background-color: rgba(255, 255, 255, 0.7);
+    /* border-color: rgba(255, 255, 255, 0.3); */
+    width: fit-content;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+.registed_num {
+    background-color: rgba(255, 255, 255, 0.7);
+    /* border-color: rgba(255, 255, 255, 0.3); */
+    width: fit-content;
+    margin: 0 auto;
+    border-radius: 10px;
 }
 .search_list_wrap {
     padding-top: 10px;

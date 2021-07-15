@@ -56,7 +56,7 @@ span {
 }
 @media screen and (max-width: 960px) {
     .store_name span {
-        word-break: break-word;
+        word-break: keep-all;
     }
 }
 </style>

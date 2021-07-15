@@ -20,12 +20,19 @@
             v-cloak
         >
             <div class="card_head d-flex flex-column align-center">
-                <span class="area">
-                    エリア：{{ media_data[0].store.area.area_name }}
-                </span>
-                <span class="area">
-                    {{ media_data[0].store.address }}
-                </span>
+                <table class="area">
+                    <tbody>
+                        <tr>
+                            <th style="width:4em;">エリア：</th>
+                            <td>{{ media_data[0].store.area.area_name }}</td>
+                        </tr>
+                        <tr>
+                            <th>住所：</th>
+                            <td>{{ media_data[0].store.address }}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
                 <div
                     class="
                         head_top
@@ -48,9 +55,11 @@
                         <span
                             :class="{ uber_limited: media_data['uber_only'] }"
                         ></span>
+                        <h3>
                         <Tooltips
                             :store_name="media_data[0].store.store_name"
                         />
+                        </h3>
                     </v-card-title>
                     <span
                         class="
