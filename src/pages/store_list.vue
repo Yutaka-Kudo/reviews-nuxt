@@ -13,7 +13,7 @@
             <Pagination
                 @page_change="page_change"
                 :page_is_disabled="page_is_disabled"
-                :page_length="page_length"
+                :page_length="pages[`page_length`]"
             />
         </v-container>
     </div>
@@ -65,7 +65,7 @@ export default {
             // let that = this;
 
             //ページ数、決定
-            this.page_length = Math.ceil(
+            this.pages[`page_length`] = Math.ceil(
                 this.store_list.length / this.pages["page_size"]
             );
             // this.$store.commit("set_page_length", page_length);

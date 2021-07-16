@@ -11,7 +11,7 @@
         </div>
 
         <v-card
-            v-for="media_data in media_data_list_by_store"
+            v-for="(media_data, index) in media_data_list_by_store"
             :key="media_data.id"
             class="item mb-15"
             elevation="3"
@@ -23,14 +23,13 @@
                 <table class="area">
                     <tbody>
                         <tr>
-                            <th style="width:4em;">エリア：</th>
+                            <th style="width: 4em">エリア：</th>
                             <td>{{ media_data[0].store.area.area_name }}</td>
                         </tr>
                         <tr>
                             <th>住所：</th>
                             <td>{{ media_data[0].store.address }}</td>
                         </tr>
-
                     </tbody>
                 </table>
                 <div
@@ -43,11 +42,13 @@
                         justify-sm-center
                     "
                 >
+                    <div v-if="now_page">{{ (now_page - 1) * 10 + index + 1 }}位</div>
                     <v-card-title
                         class="
                             store_name
                             text-h5
-                            pb-1 pb-sm-0
+                            pa-1
+                            pl-sm-3
                             d-flex
                             flex-nowrap
                         "
@@ -56,9 +57,9 @@
                             :class="{ uber_limited: media_data['uber_only'] }"
                         ></span>
                         <h3>
-                        <Tooltips
-                            :store_name="media_data[0].store.store_name"
-                        />
+                            <Tooltips
+                                :store_name="media_data[0].store.store_name"
+                            />
                         </h3>
                     </v-card-title>
                     <span
@@ -331,6 +332,7 @@ export default {
         media_data_list_by_store: Array,
         content_list: Array,
         seen_whole: Boolean,
+        now_page: Number,
     },
 
     methods: {

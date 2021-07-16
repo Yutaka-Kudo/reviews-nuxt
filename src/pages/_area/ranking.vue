@@ -16,11 +16,12 @@
                 :media_data_list_by_store="media_data_list_by_store"
                 :content_list="content_list"
                 :seen_whole="seen_whole"
+                :now_page="pages['now_page']"
             />
             <Pagination
                 @page_change="page_change"
                 :page_is_disabled="page_is_disabled"
-                :page_length="page_length"
+                :page_length="pages[`page_length`]"
             />
         </v-container>
     </div>
@@ -203,7 +204,7 @@ export default {
             console.log("crecre");
 
             //ページ数、決定
-            this.page_length = Math.ceil(
+            this.pages["page_length"] = Math.ceil(
                 this.store_list.length / this.pages["page_size"]
             );
 
