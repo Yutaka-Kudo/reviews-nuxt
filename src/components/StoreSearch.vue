@@ -106,21 +106,26 @@ export default {
             } else {
                 // カタカナ → ひらがな関数
                 function kanaToHira(str) {
-                    return str
-                        .replace(/[\u30a1-\u30f6]/g, function (match) {
-                            var chr = match.charCodeAt(0) - 0x60;
-                            return String.fromCharCode(chr);
-                        })
-                        .replace(/[Ａ-Ｚａ-ｚ０-９！-～]/g, function (s) {
-                            return String.fromCharCode(
-                                s.charCodeAt(0) - 0xfee0
-                            );
-                        });
+                    return (
+                        str
+                            .replace(/[\u30a1-\u30f6]/g, function (match) {
+                                var chr = match.charCodeAt(0) - 0x60;
+                                return String.fromCharCode(chr);
+                            })
+                            // 全角 → 半角
+                            .replace(/[Ａ-Ｚａ-ｚ０-９！-～]/g, function (s) {
+                                return String.fromCharCode(
+                                    s.charCodeAt(0) - 0xfee0
+                                );
+                            })
+                            .replace(/　/g, " ")
+                            .replace(/〜/g, "~")
+                    );
                 }
 
                 const search_word_hira = kanaToHira(
-                    this.search_word.replaceAll(" ", "")
-                );
+                    this.search_word
+                ).replaceAll(" ", "");
 
                 for (var i in this.store_list) {
                     let origin_store_data = this.store_list[i];
