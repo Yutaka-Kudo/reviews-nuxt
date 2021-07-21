@@ -68,7 +68,7 @@ export default {
 
             // ランキングにのせる店のレビュー数の最低ライン
             let store_list = basis_store_list.filter(
-                (v) => v["total_review_count"] >= 20 && v["total_rate"] != 0
+                (v) => v["total_review_count"] >= 30 && v["total_rate"] != 0
             );
             // レート順並び替え
             store_list.sort((x, y) => {

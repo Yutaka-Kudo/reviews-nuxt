@@ -24,7 +24,7 @@
                     <p>
                         {{ city.area_name | city_name }}
                         <nuxt-link :to="city.id + '/ranking'"
-                            >({{ city.registed }}店舗)</nuxt-link
+                            >({{ city.registed }})</nuxt-link
                         >
                     </p>
                     <!-- </span> -->
