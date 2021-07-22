@@ -210,7 +210,7 @@ export default {
                         kanaToHira(yomigana)
                             .replaceAll(" ", "")
                             .toLowerCase()
-                            .indexOf(this.search_word.toLowerCase()) != -1
+                            .indexOf(search_word_hira.toLowerCase()) != -1
                     ) {
                         // this.f_store_list_pure.push(origin_store_data);
                         temp_list.push(store_data);
@@ -218,7 +218,7 @@ export default {
                         yomi_roma
                             .replaceAll(" ", "")
                             .toLowerCase()
-                            .indexOf(this.search_word.toLowerCase()) != -1
+                            .indexOf(search_word_hira.toLowerCase()) != -1
                     ) {
                         // this.f_store_list_pure.push(origin_store_data);
                         temp_list.push(store_data);
