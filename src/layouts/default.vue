@@ -134,7 +134,7 @@ export default {
 
 <style scoped>
 .v-application {
-    background-image: url("@/assets/img/IMG_6176.JPG");
+    background-image: url("@/assets/img/IMG_6176_2.jpeg");
     background-attachment: fixed;
     background-position: top;
 
@@ -154,7 +154,7 @@ export default {
     z-index: -1;
     width: 100vw;
     height: 100vh;
-    background: url("@/assets/img/IMG_6176.JPG") no-repeat;
+    background: url("@/assets/img/IMG_6176_2.jpeg") no-repeat;
     -webkit-background-size: cover;
     background-size: cover;
     content: "";
