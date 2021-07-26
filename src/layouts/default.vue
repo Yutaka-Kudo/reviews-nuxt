@@ -134,7 +134,7 @@ export default {
 
 <style scoped>
 .v-application {
-    background-image: url("@/assets/img/IMG_6176_2.jpeg");
+    background-image: url("@/assets/img/IMG_6176_2.JPG");
     background-attachment: fixed;
     background-position: top;
 
@@ -145,19 +145,6 @@ export default {
     /* 必須 */
     position: relative;
     z-index: 0;
-}
-
-.v-application:before {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    width: 100vw;
-    height: 100vh;
-    background: url("@/assets/img/IMG_6176_2.jpeg") no-repeat;
-    -webkit-background-size: cover;
-    background-size: cover;
-    content: "";
 }
 
 /* .v-application:before {
@@ -171,4 +158,19 @@ export default {
     background-color: rgba(0, 0, 0, 0.4);
     z-index: -1;
 } */
+
+@media screen and (max-width: 600px) {
+    .v-application:before {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        width: 100vw;
+        height: 100vh;
+        background: url("@/assets/img/IMG_6176.JPG") no-repeat;
+        -webkit-background-size: cover;
+        background-size: cover;
+        content: "";
+    }
+}
 </style>
