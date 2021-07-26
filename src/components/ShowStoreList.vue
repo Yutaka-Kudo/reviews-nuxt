@@ -434,7 +434,11 @@ export default {
 .store_name {
     overflow: hidden;
 }
-
+@media screen and (max-width: 600px) {
+    .store_name {
+        max-width: 100%;
+    }
+}
 .rate_num_total:before {
     content: "総合";
     font-size: 13px;

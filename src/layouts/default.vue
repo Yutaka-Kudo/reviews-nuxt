@@ -107,18 +107,17 @@ export default {
                 this.searcher_seen = false;
             } else if (flg == "set_store_list") {
                 // this.selected_area = this.$store.getters["selected_area"];
-
             } else if (flg == "store_list") {
                 this.selected_area = this.$store.getters["selected_area"];
-                console.log("defa sele",this.selected_area);
+                console.log("defa sele", this.selected_area);
                 this.basis_store_list = this.$store.getters["basis_store_list"];
-                console.log("baseisis",this.basis_store_list[0]);
+                console.log("baseisis", this.basis_store_list[0]);
                 this.searcher_seen = true;
             } else if (flg == "store_list_all") {
                 this.selected_area = await this.$axios
                     .get(`api/area?id=${this.$route.params.area}`)
                     .then(function (res) {
-                        console.log("ididididi",res.data[0]);
+                        console.log("ididididi", res.data[0]);
                         return res.data[0];
                     })
                     .catch(function (e) {
@@ -135,7 +134,7 @@ export default {
 
 <style scoped>
 .v-application {
-    background-image: url("@/assets/img/acquapazza.jpg");
+    background-image: url("@/assets/img/IMG_6176.JPG");
     background-attachment: fixed;
     background-position: top;
 
@@ -147,10 +146,23 @@ export default {
     position: relative;
     z-index: 0;
 }
+
 .v-application:before {
-    /* background: inherit; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    background: url("@/assets/img/IMG_6176.JPG") no-repeat;
+    -webkit-background-size: cover;
+    background-size: cover;
     content: "";
-    /* filter: blur(5px); */
+}
+
+/* .v-application:before {
+    content: "";
+    filter: blur(5px);
     position: absolute;
     top: 0px;
     right: 0px;
@@ -158,5 +170,5 @@ export default {
     left: 0px;
     background-color: rgba(0, 0, 0, 0.4);
     z-index: -1;
-}
+} */
 </style>
