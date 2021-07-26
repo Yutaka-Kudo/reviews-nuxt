@@ -42,16 +42,11 @@
                         justify-sm-center
                     "
                 >
-                    <div v-if="now_page">{{ (now_page - 1) * 10 + index + 1 }}位</div>
+                    <div v-if="now_page">
+                        {{ (now_page - 1) * 10 + index + 1 }}位
+                    </div>
                     <v-card-title
-                        class="
-                            store_name
-                            text-h5
-                            pa-1
-                            pl-sm-3
-                            d-flex
-                            flex-nowrap
-                        "
+                        class="store_name pa-1 pl-sm-3 d-flex flex-nowrap"
                     >
                         <span
                             :class="{ uber_limited: media_data['uber_only'] }"
@@ -455,7 +450,7 @@ export default {
 .rate_by_media {
     display: inline-block;
 }
-.item {
+.theme--light.v-card {
     /* will-change: animation; */
 
     /* margin-bottom: 20px; */

@@ -9,7 +9,7 @@
             v-cloak
         >
             <v-card-title>
-                <h2 style="font-size:1.3em;">
+                <h2 style="font-size: 1.3em">
                     {{ area_detail.m_area_name }}
                 </h2>
             </v-card-title>
@@ -49,7 +49,10 @@ export default {
 </script>
 
 <style scoped>
-.item {
+/* .item {
+    background-color: rgba(250, 226, 222, 0.9);
+} */
+.theme--light.v-card {
     background-color: rgba(250, 226, 222, 0.9);
 }
 </style>

@@ -36,7 +36,7 @@
             <nuxt />
             <!-- </v-container> -->
         </v-main>
-        <v-navigation-drawer
+        <!-- <v-navigation-drawer
             v-model="rightDrawer"
             :right="right"
             temporary
@@ -52,7 +52,7 @@
                     >
                 </v-list-item>
             </v-list>
-        </v-navigation-drawer>
+        </v-navigation-drawer> -->
 
         <v-footer dark :absolute="!fixed" app class="justify-space-between">
             <span>&copy; {{ new Date().getFullYear() }}</span>

@@ -28,18 +28,21 @@
             <!-- <template> </template> -->
         </div>
         <h2>
-            地域別<br class="d-sm-none" />口コミランキング<span style="font-size: 20px"
+            地域別<br class="d-sm-none" />口コミランキング<span
+                style="font-size: 20px"
                 >(現在登録数)</span
             >
         </h2>
-        <p class="registed_num mb-5">合計収録店舗数：{{total_registed}}</p>
+        <p class="registed_num mb-5">合計収録店舗数：{{ total_registed }}</p>
         <div class="registerd_area">
             <RegisteredArea :area_detail_list="area_detail_list" />
         </div>
-        <h2>
-            ランキングの順位付けについて
-        </h2>
-        <p class="registed_num mb-5">各グルメサイト(Google my business、食べログ、ぐるなび、HotPepper、UberEats 等)の口コミ、レビューの点数、件数を参考にランク付けをしています。<br>それぞれのグルメサイトの特性を加味した上でのランク付けに努めています。<br>(例：食べログは他グルメサイトと比べ、相対的に高得点がつきにくいため、このサイト内でのランキングのための点数を補正しています)<br>あくまでも製作者の勝手なランキングです。</p>
+        <h2>ランキングの順位付けについて</h2>
+        <p class="registed_num mb-5">
+            各グルメサイト(Google my
+            business、食べログ、ぐるなび、HotPepper、UberEats
+            等)の口コミ、レビューの点数、件数を参考にランク付けをしています。<br />それぞれのグルメサイトの特性を加味した上でのランク付けに努めています。<br />(例：食べログは他グルメサイトと比べ、相対的に高得点がつきにくいため、このサイト内でのランキングのための点数を補正しています)<br />あくまでも製作者の勝手なランキングです。
+        </p>
     </v-container>
 </template>
 
@@ -108,9 +111,9 @@ export default {
             area_detail_list.push(temp);
         }
 
-        let total_registed = area_list.reduce((sum, cur)=>{
-            return sum + cur["registed"]
-        },0)
+        let total_registed = area_list.reduce((sum, cur) => {
+            return sum + cur["registed"];
+        }, 0);
 
         return {
             area_list,
