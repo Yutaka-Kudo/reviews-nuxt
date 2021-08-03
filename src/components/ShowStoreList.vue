@@ -54,6 +54,7 @@
                         <h3>
                             <Tooltips
                                 :store_name="media_data[0].store.store_name"
+                                :yomi_roma="media_data[0].store.yomi_roma"
                             />
                         </h3>
                     </v-card-title>
