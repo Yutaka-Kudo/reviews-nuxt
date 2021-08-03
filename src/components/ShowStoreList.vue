@@ -51,10 +51,12 @@
                         <span
                             :class="{ uber_limited: media_data['uber_only'] }"
                         ></span>
+                        
                         <h3>
                             <Tooltips
                                 :store_name="media_data[0].store.store_name"
                                 :yomi_roma="media_data[0].store.yomi_roma"
+                                :yomigana="media_data[0].store.yomigana"
                             />
                         </h3>
                     </v-card-title>

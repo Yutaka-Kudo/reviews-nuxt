@@ -15,7 +15,7 @@
                     </span>
                 </span>
             </template>
-            <span>{{ yomi_roma }}</span>
+            <span>{{ yomigana }}<br />{{ yomi_roma }}</span>
         </v-tooltip>
     </div>
 </template>
@@ -25,6 +25,7 @@ export default {
     props: {
         store_name: String,
         yomi_roma: String,
+        yomigana: String,
     },
     filters: {
         store_name_view_xs(text) {
