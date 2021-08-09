@@ -236,7 +236,7 @@ export default {
                         // );
                     }
                 }
-                return temp_list.slice(0, 20);
+                return temp_list.slice(0, 50);
             }
         },
     },
